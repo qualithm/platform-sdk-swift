@@ -11,7 +11,7 @@ import Foundation
 open class ApiTokensAPI {
 
     /**
-     Revoke an API token
+     Revoke an API token: any in the team for an owner, otherwise the caller's own
      
      - parameter tokenId: (path)  
      - parameter apiConfiguration: The configuration for the http request.
@@ -22,7 +22,7 @@ open class ApiTokensAPI {
     }
 
     /**
-     Revoke an API token
+     Revoke an API token: any in the team for an owner, otherwise the caller's own
      - DELETE /api-tokens/{tokenId}
      - Bearer Token:
        - type: http
@@ -54,7 +54,7 @@ open class ApiTokensAPI {
     }
 
     /**
-     List the team's API tokens
+     List API tokens in this team: everyone's for an owner, otherwise the caller's own
      
      - parameter page: (query) Page number, from 1. Default 1. (optional)
      - parameter limit: (query) Items per page, 1 to 100. Default 20. (optional)
@@ -66,7 +66,7 @@ open class ApiTokensAPI {
     }
 
     /**
-     List the team's API tokens
+     List API tokens in this team: everyone's for an owner, otherwise the caller's own
      - GET /api-tokens
      - Bearer Token:
        - type: http

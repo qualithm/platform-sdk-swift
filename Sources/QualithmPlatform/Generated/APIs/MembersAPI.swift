@@ -70,7 +70,7 @@ open class MembersAPI {
     /**
      Remove a member from the team
      - DELETE /teams/{teamId}/members/{memberId}
-     - A guest can remove only themselves; a manager only guests and themselves.
+     - A viewer can remove only themselves; a manager only viewers and themselves.
      - Bearer Token:
        - type: http
        - name: apiToken
