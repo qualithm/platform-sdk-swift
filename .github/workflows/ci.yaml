@@ -72,8 +72,17 @@ jobs:
     timeout-minutes: 10
     container:
       image: swift:6.4.0-noble@sha256:31d14d727f4451f25e29bac9c42563a098c39ac66415e8bad970f48038e38aca
+    # The container runs steps under sh, and its root user doesn't own the
+    # runner's checkout, so git refuses it. bash and safe.directory make the
+    # steps behave as they do on a runner.
+    defaults:
+      run:
+        shell: bash
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - name: Trust the checkout
+        if: env.GITHUB_ACTIONS == 'true'
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
       # swift-format ships with the toolchain, so its version is the pinned
       # Swift's (Decision qualithm/pm#2236). The config is .swift-format.
       # Tracked files only, so build output and checkouts are never linted.
@@ -89,8 +98,17 @@ jobs:
     timeout-minutes: 30
     container:
       image: swift:6.4.0-noble@sha256:31d14d727f4451f25e29bac9c42563a098c39ac66415e8bad970f48038e38aca
+    # The container runs steps under sh, and its root user doesn't own the
+    # runner's checkout, so git refuses it. bash and safe.directory make the
+    # steps behave as they do on a runner.
+    defaults:
+      run:
+        shell: bash
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - name: Trust the checkout
+        if: env.GITHUB_ACTIONS == 'true'
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
       # PRs restore but never save: a PR-run cache is scoped to its merge ref,
       # which no other branch can read.
       - uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
