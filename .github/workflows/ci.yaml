@@ -81,7 +81,7 @@ jobs:
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - name: Trust the checkout
-        if: env.GITHUB_ACTIONS == 'true'
+        if: github.run_id != ''
         run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
       # swift-format ships with the toolchain, so its version is the pinned
       # Swift's (Decision qualithm/pm#2236). The config is .swift-format.
@@ -107,7 +107,7 @@ jobs:
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - name: Trust the checkout
-        if: env.GITHUB_ACTIONS == 'true'
+        if: github.run_id != ''
         run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
       # PRs restore but never save: a PR-run cache is scoped to its merge ref,
       # which no other branch can read.
