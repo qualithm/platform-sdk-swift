@@ -1,0 +1,11 @@
+# Generator options for scripts/generate (Decision qualithm/pm#2394). The
+# generator version is the image pinned in scripts/generate.
+generatorName: swift6
+inputSpec: /local/openapi.json
+outputDir: /local/.generated
+additionalProperties:
+  projectName: QualithmPlatform
+  useSPMFileStructure: true
+  responseAs: AsyncAwait
+  hashableModels: true
+  enumUnknownDefaultCase: true

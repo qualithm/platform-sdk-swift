@@ -1,0 +1,14 @@
+.DS_Store
+.env*
+/.build
+/.swiftpm
+*.xcodeproj
+xcuserdata/
+
+# Coverage artifacts
+lcov.info
+*.profraw
+*.profdata
+
+# Generator scratch output
+/.generated
