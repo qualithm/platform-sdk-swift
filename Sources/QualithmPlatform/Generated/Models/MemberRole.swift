@@ -11,7 +11,7 @@ import Foundation
 public enum MemberRole: String, Sendable, Codable, CaseIterable, CaseIterableDefaultsLast {
     case owner = "owner"
     case manager = "manager"
-    case guest = "guest"
+    case viewer = "viewer"
     case unknownDefaultOpenApi = "unknown_default_open_api"
 }
 
