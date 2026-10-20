@@ -10,21 +10,44 @@ import Foundation
 
 public struct Usage: Sendable, Codable, Hashable {
 
+    public enum Tier: String, Sendable, Codable, CaseIterable, CaseIterableDefaultsLast {
+        case free = "free"
+        case plus = "plus"
+        case pro = "pro"
+        case max = "max"
+        case unknownDefaultOpenApi = "unknown_default_open_api"
+    }
     public var deviceTotal: Int64
     /** The tier's device limit */
     public var deviceMax: Int64
     public var spaceTotal: Int64
+    public var tier: Tier
+    /** The month usage counts over: `YYYY-MM`, UTC */
+    public var month: String
+    public var limitGrace: BillingSummaryLimitGrace?
+    public var limits: BillingSummaryLimits
+    public var usage: BillingSummaryUsage
 
-    public init(deviceTotal: Int64, deviceMax: Int64, spaceTotal: Int64) {
+    public init(deviceTotal: Int64, deviceMax: Int64, spaceTotal: Int64, tier: Tier, month: String, limitGrace: BillingSummaryLimitGrace?, limits: BillingSummaryLimits, usage: BillingSummaryUsage) {
         self.deviceTotal = deviceTotal
         self.deviceMax = deviceMax
         self.spaceTotal = spaceTotal
+        self.tier = tier
+        self.month = month
+        self.limitGrace = limitGrace
+        self.limits = limits
+        self.usage = usage
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case deviceTotal
         case deviceMax
         case spaceTotal
+        case tier
+        case month
+        case limitGrace
+        case limits
+        case usage
     }
 
     // Encodable protocol methods
@@ -34,6 +57,18 @@ public struct Usage: Sendable, Codable, Hashable {
         try container.encode(deviceTotal, forKey: .deviceTotal)
         try container.encode(deviceMax, forKey: .deviceMax)
         try container.encode(spaceTotal, forKey: .spaceTotal)
+        try container.encode(tier, forKey: .tier)
+        try container.encode(month, forKey: .month)
+        try container.encode(limitGrace, forKey: .limitGrace)
+        try container.encode(limits, forKey: .limits)
+        try container.encode(usage, forKey: .usage)
     }
 }
 
+
+extension Usage: UnknownCaseCheckable {
+    public var containsUnknownDefaultOpenApiCase: Bool {
+        if tier == .unknownDefaultOpenApi { return true }
+        return false
+    }
+}

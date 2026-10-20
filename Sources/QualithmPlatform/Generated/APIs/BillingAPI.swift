@@ -11,7 +11,7 @@ import Foundation
 open class BillingAPI {
 
     /**
-     Get the workspace's plan, usage and add-ons
+     Get the workspace's plan, usage, price and add-ons
      
      - parameter apiConfiguration: The configuration for the http request.
      - returns: GetBillingSummaryResponse
@@ -21,7 +21,7 @@ open class BillingAPI {
     }
 
     /**
-     Get the workspace's plan, usage and add-ons
+     Get the workspace's plan, usage, price and add-ons
      - GET /billing/summary
      - Bearer Token:
        - type: http
