@@ -15,6 +15,42 @@ public struct ApiToken: Sendable, Codable, Hashable {
         case revoked = "revoked"
         case unknownDefaultOpenApi = "unknown_default_open_api"
     }
+    public enum Permissions: String, Sendable, Codable, CaseIterable, CaseIterableDefaultsLast {
+        case teamPeriodRead = "team.read"
+        case teamPeriodUpdate = "team.update"
+        case teamPeriodDelete = "team.delete"
+        case memberPeriodInvite = "member.invite"
+        case memberPeriodUpdate = "member.update"
+        case memberPeriodRemove = "member.remove"
+        case billingPeriodRead = "billing.read"
+        case billingPeriodManage = "billing.manage"
+        case usagePeriodRead = "usage.read"
+        case auditPeriodRead = "audit.read"
+        case tokenPeriodRead = "token.read"
+        case tokenPeriodCreate = "token.create"
+        case tokenPeriodRevoke = "token.revoke"
+        case tokenPeriodRevokeAny = "token.revoke_any"
+        case spacePeriodRead = "space.read"
+        case spacePeriodWrite = "space.write"
+        case devicePeriodRead = "device.read"
+        case devicePeriodWrite = "device.write"
+        case devicePeriodCommand = "device.command"
+        case credentialPeriodRead = "credential.read"
+        case credentialPeriodManage = "credential.manage"
+        case enrollmentPeriodRead = "enrollment.read"
+        case enrollmentPeriodManage = "enrollment.manage"
+        case authorityPeriodRead = "authority.read"
+        case authorityPeriodManage = "authority.manage"
+        case telemetryPeriodRead = "telemetry.read"
+        case capabilityPeriodRead = "capability.read"
+        case capabilityPeriodUpdate = "capability.update"
+        case dashboardPeriodRead = "dashboard.read"
+        case dashboardPeriodWrite = "dashboard.write"
+        case automationPeriodRead = "automation.read"
+        case automationPeriodWrite = "automation.write"
+        case automationPeriodRun = "automation.run"
+        case unknownDefaultOpenApi = "unknown_default_open_api"
+    }
     public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$")
     public static let accountIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$")
     public static let teamIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$")
@@ -25,6 +61,8 @@ public struct ApiToken: Sendable, Codable, Hashable {
     public var status: Status
     /** The token's role ceiling; null means the creator's current role */
     public var role: MemberRole?
+    /** What the token can do now: its creator's current role lowered to its ceiling. Listed tokens only. */
+    public var permissions: [Permissions]?
     /** ISO 8601 time */
     public var expiresAt: String?
     /** UTC time, `YYYY-MM-DD HH:MM:SS` */
@@ -34,13 +72,14 @@ public struct ApiToken: Sendable, Codable, Hashable {
     /** UTC time, `YYYY-MM-DD HH:MM:SS` */
     public var updatedAt: String
 
-    public init(id: UUID, accountId: UUID, teamId: UUID, name: String, status: Status, role: MemberRole?, expiresAt: String?, lastUsedAt: String?, createdAt: String, updatedAt: String) {
+    public init(id: UUID, accountId: UUID, teamId: UUID, name: String, status: Status, role: MemberRole?, permissions: [Permissions]? = nil, expiresAt: String?, lastUsedAt: String?, createdAt: String, updatedAt: String) {
         self.id = id
         self.accountId = accountId
         self.teamId = teamId
         self.name = name
         self.status = status
         self.role = role
+        self.permissions = permissions
         self.expiresAt = expiresAt
         self.lastUsedAt = lastUsedAt
         self.createdAt = createdAt
@@ -54,6 +93,7 @@ public struct ApiToken: Sendable, Codable, Hashable {
         case name
         case status
         case role
+        case permissions
         case expiresAt
         case lastUsedAt
         case createdAt
@@ -70,6 +110,7 @@ public struct ApiToken: Sendable, Codable, Hashable {
         try container.encode(name, forKey: .name)
         try container.encode(status, forKey: .status)
         try container.encode(role, forKey: .role)
+        try container.encodeIfPresent(permissions, forKey: .permissions)
         try container.encode(expiresAt, forKey: .expiresAt)
         try container.encode(lastUsedAt, forKey: .lastUsedAt)
         try container.encode(createdAt, forKey: .createdAt)
@@ -84,6 +125,8 @@ extension ApiToken: UnknownCaseCheckable {
     public var containsUnknownDefaultOpenApiCase: Bool {
         if status == .unknownDefaultOpenApi { return true }
         if role == .unknownDefaultOpenApi { return true }
+        
+        if permissions?.contains(.unknownDefaultOpenApi) == true { return true }
         return false
     }
 }
