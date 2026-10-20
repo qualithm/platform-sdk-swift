@@ -11,7 +11,7 @@ import Foundation
 open class UsageAPI {
 
     /**
-     Get the workspace's device and space counts
+     Get the workspace's device and space counts and its plan quota
      
      - parameter apiConfiguration: The configuration for the http request.
      - returns: GetUsageResponse
@@ -21,7 +21,7 @@ open class UsageAPI {
     }
 
     /**
-     Get the workspace's device and space counts
+     Get the workspace's device and space counts and its plan quota
      - GET /usage
      - Bearer Token:
        - type: http

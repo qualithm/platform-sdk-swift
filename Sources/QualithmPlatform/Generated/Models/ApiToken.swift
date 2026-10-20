@@ -23,6 +23,8 @@ public struct ApiToken: Sendable, Codable, Hashable {
     public var teamId: UUID
     public var name: String
     public var status: Status
+    /** The token's role ceiling; null means the creator's current role */
+    public var role: MemberRole?
     /** ISO 8601 time */
     public var expiresAt: String?
     /** UTC time, `YYYY-MM-DD HH:MM:SS` */
@@ -32,12 +34,13 @@ public struct ApiToken: Sendable, Codable, Hashable {
     /** UTC time, `YYYY-MM-DD HH:MM:SS` */
     public var updatedAt: String
 
-    public init(id: UUID, accountId: UUID, teamId: UUID, name: String, status: Status, expiresAt: String?, lastUsedAt: String?, createdAt: String, updatedAt: String) {
+    public init(id: UUID, accountId: UUID, teamId: UUID, name: String, status: Status, role: MemberRole?, expiresAt: String?, lastUsedAt: String?, createdAt: String, updatedAt: String) {
         self.id = id
         self.accountId = accountId
         self.teamId = teamId
         self.name = name
         self.status = status
+        self.role = role
         self.expiresAt = expiresAt
         self.lastUsedAt = lastUsedAt
         self.createdAt = createdAt
@@ -50,6 +53,7 @@ public struct ApiToken: Sendable, Codable, Hashable {
         case teamId
         case name
         case status
+        case role
         case expiresAt
         case lastUsedAt
         case createdAt
@@ -65,6 +69,7 @@ public struct ApiToken: Sendable, Codable, Hashable {
         try container.encode(teamId, forKey: .teamId)
         try container.encode(name, forKey: .name)
         try container.encode(status, forKey: .status)
+        try container.encode(role, forKey: .role)
         try container.encode(expiresAt, forKey: .expiresAt)
         try container.encode(lastUsedAt, forKey: .lastUsedAt)
         try container.encode(createdAt, forKey: .createdAt)
@@ -78,6 +83,7 @@ extension ApiToken: Identifiable {}
 extension ApiToken: UnknownCaseCheckable {
     public var containsUnknownDefaultOpenApiCase: Bool {
         if status == .unknownDefaultOpenApi { return true }
+        if role == .unknownDefaultOpenApi { return true }
         return false
     }
 }
