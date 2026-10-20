@@ -11,7 +11,7 @@ import Foundation
 open class WorkspaceAPI {
 
     /**
-     Get the caller's current workspace
+     Get the caller's current workspace and their effective permissions in it
      
      - parameter apiConfiguration: The configuration for the http request.
      - returns: GetWorkspaceResponse
@@ -21,7 +21,7 @@ open class WorkspaceAPI {
     }
 
     /**
-     Get the caller's current workspace
+     Get the caller's current workspace and their effective permissions in it
      - GET /workspace
      - Bearer Token:
        - type: http
