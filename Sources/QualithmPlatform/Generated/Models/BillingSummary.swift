@@ -18,32 +18,32 @@ public struct BillingSummary: Sendable, Codable, Hashable {
         case unknownDefaultOpenApi = "unknown_default_open_api"
     }
     public var tier: Tier
-    /** The plan's monthly price with add-ons, in USD */
-    public var monthlyTotal: Double
     /** The month usage counts over: `YYYY-MM`, UTC */
     public var month: String
     public var limitGrace: BillingSummaryLimitGrace?
     public var limits: BillingSummaryLimits
     public var usage: BillingSummaryUsage
+    /** The plan's monthly price with add-ons, in USD */
+    public var monthlyTotal: Double
     public var addons: BillingSummaryAddons
 
-    public init(tier: Tier, monthlyTotal: Double, month: String, limitGrace: BillingSummaryLimitGrace?, limits: BillingSummaryLimits, usage: BillingSummaryUsage, addons: BillingSummaryAddons) {
+    public init(tier: Tier, month: String, limitGrace: BillingSummaryLimitGrace?, limits: BillingSummaryLimits, usage: BillingSummaryUsage, monthlyTotal: Double, addons: BillingSummaryAddons) {
         self.tier = tier
-        self.monthlyTotal = monthlyTotal
         self.month = month
         self.limitGrace = limitGrace
         self.limits = limits
         self.usage = usage
+        self.monthlyTotal = monthlyTotal
         self.addons = addons
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case tier
-        case monthlyTotal
         case month
         case limitGrace
         case limits
         case usage
+        case monthlyTotal
         case addons
     }
 
@@ -52,11 +52,11 @@ public struct BillingSummary: Sendable, Codable, Hashable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(tier, forKey: .tier)
-        try container.encode(monthlyTotal, forKey: .monthlyTotal)
         try container.encode(month, forKey: .month)
         try container.encode(limitGrace, forKey: .limitGrace)
         try container.encode(limits, forKey: .limits)
         try container.encode(usage, forKey: .usage)
+        try container.encode(monthlyTotal, forKey: .monthlyTotal)
         try container.encode(addons, forKey: .addons)
     }
 }
