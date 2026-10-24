@@ -13,7 +13,8 @@ open class TelemetryAPI {
     /**
      Read a device metric as bucketed points
      
-     - parameter deviceId: (query) The device to read 
+     - parameter teamId: (path)  
+     - parameter deviceId: (path)  
      - parameter metric: (query) The metric to read 
      - parameter from: (query) Range start, epoch milliseconds, inclusive 
      - parameter to: (query) Range end, epoch milliseconds, exclusive 
@@ -23,18 +24,19 @@ open class TelemetryAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: ListTelemetryResponse
      */
-    open class func listTelemetry(deviceId: String, metric: String, from: String, to: String, bucket: String? = nil, agg: String? = nil, fill: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> ListTelemetryResponse {
-        return try await listTelemetryWithRequestBuilder(deviceId: deviceId, metric: metric, from: from, to: to, bucket: bucket, agg: agg, fill: fill, apiConfiguration: apiConfiguration).execute().body
+    open class func listTelemetry(teamId: UUID, deviceId: UUID, metric: String, from: String, to: String, bucket: String? = nil, agg: String? = nil, fill: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> ListTelemetryResponse {
+        return try await listTelemetryWithRequestBuilder(teamId: teamId, deviceId: deviceId, metric: metric, from: from, to: to, bucket: bucket, agg: agg, fill: fill, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Read a device metric as bucketed points
-     - GET /telemetry
+     - GET /v1/teams/{teamId}/devices/{deviceId}/telemetry
      - Bearer Token:
        - type: http
        - name: apiToken
      - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
-     - parameter deviceId: (query) The device to read 
+     - parameter teamId: (path)  
+     - parameter deviceId: (path)  
      - parameter metric: (query) The metric to read 
      - parameter from: (query) Range start, epoch milliseconds, inclusive 
      - parameter to: (query) Range end, epoch milliseconds, exclusive 
@@ -44,14 +46,19 @@ open class TelemetryAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<ListTelemetryResponse> 
      */
-    open class func listTelemetryWithRequestBuilder(deviceId: String, metric: String, from: String, to: String, bucket: String? = nil, agg: String? = nil, fill: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListTelemetryResponse> {
-        let localVariablePath = "/telemetry"
+    open class func listTelemetryWithRequestBuilder(teamId: UUID, deviceId: UUID, metric: String, from: String, to: String, bucket: String? = nil, agg: String? = nil, fill: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListTelemetryResponse> {
+        var localVariablePath = "/v1/teams/{teamId}/devices/{deviceId}/telemetry"
+        let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
+        let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{teamId}", with: teamIdPostEscape, options: .literal, range: nil)
+        let deviceIdPreEscape = "\(APIHelper.mapValueToPathItem(deviceId))"
+        let deviceIdPostEscape = deviceIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{deviceId}", with: deviceIdPostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         let localVariableQueryParameters: [String: (wrappedValue: (any Sendable)?, isExplode: Bool)] = [
-            "deviceId": (wrappedValue: deviceId.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "metric": (wrappedValue: metric.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "from": (wrappedValue: from.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "to": (wrappedValue: to.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
