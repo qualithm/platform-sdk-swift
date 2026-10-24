@@ -13,27 +13,32 @@ open class EnrollmentsAPI {
     /**
      Create a claim code for a device to enroll into a space
      
+     - parameter teamId: (path) The team the request acts on 
      - parameter createEnrollmentRequest: (body)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: CreateEnrollmentResponse
      */
-    open class func createEnrollment(createEnrollmentRequest: CreateEnrollmentRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> CreateEnrollmentResponse {
-        return try await createEnrollmentWithRequestBuilder(createEnrollmentRequest: createEnrollmentRequest, apiConfiguration: apiConfiguration).execute().body
+    open class func createEnrollment(teamId: UUID, createEnrollmentRequest: CreateEnrollmentRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> CreateEnrollmentResponse {
+        return try await createEnrollmentWithRequestBuilder(teamId: teamId, createEnrollmentRequest: createEnrollmentRequest, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Create a claim code for a device to enroll into a space
-     - POST /enrollments
+     - POST /v1/teams/{teamId}/enrollments
      - Bearer Token:
        - type: http
        - name: apiToken
      - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
+     - parameter teamId: (path) The team the request acts on 
      - parameter createEnrollmentRequest: (body)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<CreateEnrollmentResponse> 
      */
-    open class func createEnrollmentWithRequestBuilder(createEnrollmentRequest: CreateEnrollmentRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<CreateEnrollmentResponse> {
-        let localVariablePath = "/enrollments"
+    open class func createEnrollmentWithRequestBuilder(teamId: UUID, createEnrollmentRequest: CreateEnrollmentRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<CreateEnrollmentResponse> {
+        var localVariablePath = "/v1/teams/{teamId}/enrollments"
+        let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
+        let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{teamId}", with: teamIdPostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: createEnrollmentRequest, codableHelper: apiConfiguration.codableHelper)
 
@@ -53,27 +58,32 @@ open class EnrollmentsAPI {
     /**
      Revoke a pending enrollment
      
+     - parameter teamId: (path) The team the request acts on 
      - parameter enrollmentId: (path)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: DeleteEnrollmentResponse
      */
-    open class func deleteEnrollment(enrollmentId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> DeleteEnrollmentResponse {
-        return try await deleteEnrollmentWithRequestBuilder(enrollmentId: enrollmentId, apiConfiguration: apiConfiguration).execute().body
+    open class func deleteEnrollment(teamId: UUID, enrollmentId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> DeleteEnrollmentResponse {
+        return try await deleteEnrollmentWithRequestBuilder(teamId: teamId, enrollmentId: enrollmentId, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Revoke a pending enrollment
-     - DELETE /enrollments/{enrollmentId}
+     - DELETE /v1/teams/{teamId}/enrollments/{enrollmentId}
      - Bearer Token:
        - type: http
        - name: apiToken
      - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
+     - parameter teamId: (path) The team the request acts on 
      - parameter enrollmentId: (path)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<DeleteEnrollmentResponse> 
      */
-    open class func deleteEnrollmentWithRequestBuilder(enrollmentId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<DeleteEnrollmentResponse> {
-        var localVariablePath = "/enrollments/{enrollmentId}"
+    open class func deleteEnrollmentWithRequestBuilder(teamId: UUID, enrollmentId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<DeleteEnrollmentResponse> {
+        var localVariablePath = "/v1/teams/{teamId}/enrollments/{enrollmentId}"
+        let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
+        let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{teamId}", with: teamIdPostEscape, options: .literal, range: nil)
         let enrollmentIdPreEscape = "\(APIHelper.mapValueToPathItem(enrollmentId))"
         let enrollmentIdPostEscape = enrollmentIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{enrollmentId}", with: enrollmentIdPostEscape, options: .literal, range: nil)
@@ -96,29 +106,34 @@ open class EnrollmentsAPI {
     /**
      List the workspace's enrollments
      
+     - parameter teamId: (path) The team the request acts on 
      - parameter page: (query) Page number, from 1. Default 1. (optional)
      - parameter limit: (query) Items per page, 1 to 100. Default 20. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: ListEnrollmentsResponse
      */
-    open class func listEnrollments(page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> ListEnrollmentsResponse {
-        return try await listEnrollmentsWithRequestBuilder(page: page, limit: limit, apiConfiguration: apiConfiguration).execute().body
+    open class func listEnrollments(teamId: UUID, page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> ListEnrollmentsResponse {
+        return try await listEnrollmentsWithRequestBuilder(teamId: teamId, page: page, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      List the workspace's enrollments
-     - GET /enrollments
+     - GET /v1/teams/{teamId}/enrollments
      - Bearer Token:
        - type: http
        - name: apiToken
      - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
+     - parameter teamId: (path) The team the request acts on 
      - parameter page: (query) Page number, from 1. Default 1. (optional)
      - parameter limit: (query) Items per page, 1 to 100. Default 20. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<ListEnrollmentsResponse> 
      */
-    open class func listEnrollmentsWithRequestBuilder(page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListEnrollmentsResponse> {
-        let localVariablePath = "/enrollments"
+    open class func listEnrollmentsWithRequestBuilder(teamId: UUID, page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListEnrollmentsResponse> {
+        var localVariablePath = "/v1/teams/{teamId}/enrollments"
+        let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
+        let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{teamId}", with: teamIdPostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
 

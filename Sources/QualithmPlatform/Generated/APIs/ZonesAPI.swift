@@ -11,66 +11,6 @@ import Foundation
 open class ZonesAPI {
 
     /**
-     * enum for parameter zone
-     */
-    public enum Zone_listZoneSpaces: String, Sendable, CaseIterable {
-        case deFraA = "de-fra-a"
-        case sgSinA = "sg-sin-a"
-    }
-
-    /**
-     List the workspace's spaces in a zone
-     
-     - parameter zone: (path)  
-     - parameter page: (query) Page number, from 1. Default 1. (optional)
-     - parameter limit: (query) Items per page, 1 to 100. Default 20. (optional)
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: ListZoneSpacesResponse
-     */
-    open class func listZoneSpaces(zone: Zone_listZoneSpaces, page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> ListZoneSpacesResponse {
-        return try await listZoneSpacesWithRequestBuilder(zone: zone, page: page, limit: limit, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     List the workspace's spaces in a zone
-     - GET /zones/{zone}/spaces
-     - Bearer Token:
-       - type: http
-       - name: apiToken
-     - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
-     - parameter zone: (path)  
-     - parameter page: (query) Page number, from 1. Default 1. (optional)
-     - parameter limit: (query) Items per page, 1 to 100. Default 20. (optional)
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<ListZoneSpacesResponse> 
-     */
-    open class func listZoneSpacesWithRequestBuilder(zone: Zone_listZoneSpaces, page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListZoneSpacesResponse> {
-        var localVariablePath = "/zones/{zone}/spaces"
-        let zonePreEscape = "\(zone.rawValue)"
-        let zonePostEscape = zonePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{zone}", with: zonePostEscape, options: .literal, range: nil)
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        let localVariableQueryParameters: [String: (wrappedValue: (any Sendable)?, isExplode: Bool)] = [
-            "page": (wrappedValue: page?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
-            "limit": (wrappedValue: limit?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
-        ]
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryParameters)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<ListZoneSpacesResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
      List the environment's zones and their public endpoints
      
      - parameter apiConfiguration: The configuration for the http request.
@@ -82,13 +22,13 @@ open class ZonesAPI {
 
     /**
      List the environment's zones and their public endpoints
-     - GET /zones
+     - GET /v1/zones
      - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<ListZonesResponse> 
      */
     open class func listZonesWithRequestBuilder(apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListZonesResponse> {
-        let localVariablePath = "/zones"
+        let localVariablePath = "/v1/zones"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
 
