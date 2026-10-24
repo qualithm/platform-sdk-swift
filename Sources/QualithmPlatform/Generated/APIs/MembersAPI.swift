@@ -24,7 +24,7 @@ open class MembersAPI {
 
     /**
      Accept the caller's invite to the team
-     - POST /teams/{teamId}/members
+     - POST /v1/teams/{teamId}/members
      - Bearer Token:
        - type: http
        - name: apiToken
@@ -35,7 +35,7 @@ open class MembersAPI {
      - returns: RequestBuilder<CreateTeamMemberResponse> 
      */
     open class func createTeamMemberWithRequestBuilder(teamId: UUID, createTeamMemberRequest: CreateTeamMemberRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<CreateTeamMemberResponse> {
-        var localVariablePath = "/teams/{teamId}/members"
+        var localVariablePath = "/v1/teams/{teamId}/members"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{teamId}", with: teamIdPostEscape, options: .literal, range: nil)
@@ -69,7 +69,7 @@ open class MembersAPI {
 
     /**
      Remove a member from the team
-     - DELETE /teams/{teamId}/members/{memberId}
+     - DELETE /v1/teams/{teamId}/members/{memberId}
      - A viewer can remove only themselves; a manager only viewers and themselves.
      - Bearer Token:
        - type: http
@@ -81,7 +81,7 @@ open class MembersAPI {
      - returns: RequestBuilder<DeleteTeamMemberResponse> 
      */
     open class func deleteTeamMemberWithRequestBuilder(teamId: UUID, memberId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<DeleteTeamMemberResponse> {
-        var localVariablePath = "/teams/{teamId}/members/{memberId}"
+        var localVariablePath = "/v1/teams/{teamId}/members/{memberId}"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{teamId}", with: teamIdPostEscape, options: .literal, range: nil)
@@ -118,7 +118,7 @@ open class MembersAPI {
 
     /**
      Get a member of the team
-     - GET /teams/{teamId}/members/{memberId}
+     - GET /v1/teams/{teamId}/members/{memberId}
      - Bearer Token:
        - type: http
        - name: apiToken
@@ -129,7 +129,7 @@ open class MembersAPI {
      - returns: RequestBuilder<GetTeamMemberResponse> 
      */
     open class func getTeamMemberWithRequestBuilder(teamId: UUID, memberId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<GetTeamMemberResponse> {
-        var localVariablePath = "/teams/{teamId}/members/{memberId}"
+        var localVariablePath = "/v1/teams/{teamId}/members/{memberId}"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{teamId}", with: teamIdPostEscape, options: .literal, range: nil)
@@ -167,7 +167,7 @@ open class MembersAPI {
 
     /**
      List the team's active members
-     - GET /teams/{teamId}/members
+     - GET /v1/teams/{teamId}/members
      - Bearer Token:
        - type: http
        - name: apiToken
@@ -179,7 +179,7 @@ open class MembersAPI {
      - returns: RequestBuilder<ListTeamMembersResponse> 
      */
     open class func listTeamMembersWithRequestBuilder(teamId: UUID, page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListTeamMembersResponse> {
-        var localVariablePath = "/teams/{teamId}/members"
+        var localVariablePath = "/v1/teams/{teamId}/members"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{teamId}", with: teamIdPostEscape, options: .literal, range: nil)
@@ -219,7 +219,7 @@ open class MembersAPI {
 
     /**
      Change a member's role
-     - PATCH /teams/{teamId}/members/{memberId}
+     - PATCH /v1/teams/{teamId}/members/{memberId}
      - Bearer Token:
        - type: http
        - name: apiToken
@@ -231,7 +231,7 @@ open class MembersAPI {
      - returns: RequestBuilder<UpdateTeamMemberResponse> 
      */
     open class func updateTeamMemberWithRequestBuilder(teamId: UUID, memberId: UUID, updateTeamMemberRequest: UpdateTeamMemberRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<UpdateTeamMemberResponse> {
-        var localVariablePath = "/teams/{teamId}/members/{memberId}"
+        var localVariablePath = "/v1/teams/{teamId}/members/{memberId}"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{teamId}", with: teamIdPostEscape, options: .literal, range: nil)

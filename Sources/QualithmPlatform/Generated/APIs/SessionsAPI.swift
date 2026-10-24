@@ -23,7 +23,7 @@ open class SessionsAPI {
 
     /**
      Get one of the caller's live sessions
-     - GET /sessions/{sessionId}
+     - GET /v1/account/sessions/{sessionId}
      - Bearer Token:
        - type: http
        - name: apiToken
@@ -33,7 +33,7 @@ open class SessionsAPI {
      - returns: RequestBuilder<GetSessionResponse> 
      */
     open class func getSessionWithRequestBuilder(sessionId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<GetSessionResponse> {
-        var localVariablePath = "/sessions/{sessionId}"
+        var localVariablePath = "/v1/account/sessions/{sessionId}"
         let sessionIdPreEscape = "\(APIHelper.mapValueToPathItem(sessionId))"
         let sessionIdPostEscape = sessionIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{sessionId}", with: sessionIdPostEscape, options: .literal, range: nil)
@@ -68,7 +68,7 @@ open class SessionsAPI {
 
     /**
      List the caller's live sessions
-     - GET /sessions
+     - GET /v1/account/sessions
      - Bearer Token:
        - type: http
        - name: apiToken
@@ -80,7 +80,7 @@ open class SessionsAPI {
      - returns: RequestBuilder<ListSessionsResponse> 
      */
     open class func listSessionsWithRequestBuilder(thisDevice: String? = nil, page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListSessionsResponse> {
-        let localVariablePath = "/sessions"
+        let localVariablePath = "/v1/account/sessions"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
 

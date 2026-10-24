@@ -13,29 +13,34 @@ open class AuditAPI {
     /**
      List the workspace's audit trail, newest first
      
+     - parameter teamId: (path) The team the request acts on 
      - parameter page: (query) Page number, from 1. Default 1. (optional)
      - parameter limit: (query) Items per page, 1 to 100. Default 20. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: ListAuditEventsResponse
      */
-    open class func listAuditEvents(page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> ListAuditEventsResponse {
-        return try await listAuditEventsWithRequestBuilder(page: page, limit: limit, apiConfiguration: apiConfiguration).execute().body
+    open class func listAuditEvents(teamId: UUID, page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> ListAuditEventsResponse {
+        return try await listAuditEventsWithRequestBuilder(teamId: teamId, page: page, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      List the workspace's audit trail, newest first
-     - GET /audit
+     - GET /v1/teams/{teamId}/audit-events
      - Bearer Token:
        - type: http
        - name: apiToken
      - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
+     - parameter teamId: (path) The team the request acts on 
      - parameter page: (query) Page number, from 1. Default 1. (optional)
      - parameter limit: (query) Items per page, 1 to 100. Default 20. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<ListAuditEventsResponse> 
      */
-    open class func listAuditEventsWithRequestBuilder(page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListAuditEventsResponse> {
-        let localVariablePath = "/audit"
+    open class func listAuditEventsWithRequestBuilder(teamId: UUID, page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListAuditEventsResponse> {
+        var localVariablePath = "/v1/teams/{teamId}/audit-events"
+        let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
+        let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{teamId}", with: teamIdPostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
 

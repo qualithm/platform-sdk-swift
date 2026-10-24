@@ -13,27 +13,32 @@ open class ApiTokensAPI {
     /**
      Revoke an API token: any in the team for an owner, otherwise the caller's own
      
+     - parameter teamId: (path) The team the request acts on 
      - parameter tokenId: (path)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: DeleteApiTokenResponse
      */
-    open class func deleteApiToken(tokenId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> DeleteApiTokenResponse {
-        return try await deleteApiTokenWithRequestBuilder(tokenId: tokenId, apiConfiguration: apiConfiguration).execute().body
+    open class func deleteApiToken(teamId: UUID, tokenId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> DeleteApiTokenResponse {
+        return try await deleteApiTokenWithRequestBuilder(teamId: teamId, tokenId: tokenId, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Revoke an API token: any in the team for an owner, otherwise the caller's own
-     - DELETE /api-tokens/{tokenId}
+     - DELETE /v1/teams/{teamId}/api-tokens/{tokenId}
      - Bearer Token:
        - type: http
        - name: apiToken
      - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
+     - parameter teamId: (path) The team the request acts on 
      - parameter tokenId: (path)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<DeleteApiTokenResponse> 
      */
-    open class func deleteApiTokenWithRequestBuilder(tokenId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<DeleteApiTokenResponse> {
-        var localVariablePath = "/api-tokens/{tokenId}"
+    open class func deleteApiTokenWithRequestBuilder(teamId: UUID, tokenId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<DeleteApiTokenResponse> {
+        var localVariablePath = "/v1/teams/{teamId}/api-tokens/{tokenId}"
+        let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
+        let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{teamId}", with: teamIdPostEscape, options: .literal, range: nil)
         let tokenIdPreEscape = "\(APIHelper.mapValueToPathItem(tokenId))"
         let tokenIdPostEscape = tokenIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{tokenId}", with: tokenIdPostEscape, options: .literal, range: nil)
@@ -56,29 +61,34 @@ open class ApiTokensAPI {
     /**
      List API tokens in this team: everyone's for an owner, otherwise the caller's own
      
+     - parameter teamId: (path) The team the request acts on 
      - parameter page: (query) Page number, from 1. Default 1. (optional)
      - parameter limit: (query) Items per page, 1 to 100. Default 20. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: ListApiTokensResponse
      */
-    open class func listApiTokens(page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> ListApiTokensResponse {
-        return try await listApiTokensWithRequestBuilder(page: page, limit: limit, apiConfiguration: apiConfiguration).execute().body
+    open class func listApiTokens(teamId: UUID, page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> ListApiTokensResponse {
+        return try await listApiTokensWithRequestBuilder(teamId: teamId, page: page, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      List API tokens in this team: everyone's for an owner, otherwise the caller's own
-     - GET /api-tokens
+     - GET /v1/teams/{teamId}/api-tokens
      - Bearer Token:
        - type: http
        - name: apiToken
      - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
+     - parameter teamId: (path) The team the request acts on 
      - parameter page: (query) Page number, from 1. Default 1. (optional)
      - parameter limit: (query) Items per page, 1 to 100. Default 20. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<ListApiTokensResponse> 
      */
-    open class func listApiTokensWithRequestBuilder(page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListApiTokensResponse> {
-        let localVariablePath = "/api-tokens"
+    open class func listApiTokensWithRequestBuilder(teamId: UUID, page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListApiTokensResponse> {
+        var localVariablePath = "/v1/teams/{teamId}/api-tokens"
+        let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
+        let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{teamId}", with: teamIdPostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
 

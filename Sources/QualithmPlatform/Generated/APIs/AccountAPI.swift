@@ -22,7 +22,7 @@ open class AccountAPI {
 
     /**
      Get the caller's account
-     - GET /account
+     - GET /v1/account
      - Bearer Token:
        - type: http
        - name: apiToken
@@ -31,7 +31,7 @@ open class AccountAPI {
      - returns: RequestBuilder<GetAccountResponse> 
      */
     open class func getAccountWithRequestBuilder(apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<GetAccountResponse> {
-        let localVariablePath = "/account"
+        let localVariablePath = "/v1/account"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
 
@@ -60,7 +60,7 @@ open class AccountAPI {
 
     /**
      Get the caller's email preferences
-     - GET /account/communication-preferences
+     - GET /v1/account/communication-preferences
      - Bearer Token:
        - type: http
        - name: apiToken
@@ -69,7 +69,7 @@ open class AccountAPI {
      - returns: RequestBuilder<GetCommunicationPreferencesResponse> 
      */
     open class func getCommunicationPreferencesWithRequestBuilder(apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<GetCommunicationPreferencesResponse> {
-        let localVariablePath = "/account/communication-preferences"
+        let localVariablePath = "/v1/account/communication-preferences"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
 
