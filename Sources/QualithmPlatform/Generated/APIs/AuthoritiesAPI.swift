@@ -13,27 +13,32 @@ open class AuthoritiesAPI {
     /**
      Register a certificate authority
      
+     - parameter teamId: (path) The team the request acts on 
      - parameter createAuthorityRequest: (body)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: CreateAuthorityResponse
      */
-    open class func createAuthority(createAuthorityRequest: CreateAuthorityRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> CreateAuthorityResponse {
-        return try await createAuthorityWithRequestBuilder(createAuthorityRequest: createAuthorityRequest, apiConfiguration: apiConfiguration).execute().body
+    open class func createAuthority(teamId: UUID, createAuthorityRequest: CreateAuthorityRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> CreateAuthorityResponse {
+        return try await createAuthorityWithRequestBuilder(teamId: teamId, createAuthorityRequest: createAuthorityRequest, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Register a certificate authority
-     - POST /authorities
+     - POST /v1/teams/{teamId}/authorities
      - Bearer Token:
        - type: http
        - name: apiToken
      - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
+     - parameter teamId: (path) The team the request acts on 
      - parameter createAuthorityRequest: (body)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<CreateAuthorityResponse> 
      */
-    open class func createAuthorityWithRequestBuilder(createAuthorityRequest: CreateAuthorityRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<CreateAuthorityResponse> {
-        let localVariablePath = "/authorities"
+    open class func createAuthorityWithRequestBuilder(teamId: UUID, createAuthorityRequest: CreateAuthorityRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<CreateAuthorityResponse> {
+        var localVariablePath = "/v1/teams/{teamId}/authorities"
+        let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
+        let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{teamId}", with: teamIdPostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: createAuthorityRequest, codableHelper: apiConfiguration.codableHelper)
 
@@ -53,27 +58,32 @@ open class AuthoritiesAPI {
     /**
      Revoke a certificate authority and every credential it issued
      
+     - parameter teamId: (path) The team the request acts on 
      - parameter authorityId: (path)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: DeleteAuthorityResponse
      */
-    open class func deleteAuthority(authorityId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> DeleteAuthorityResponse {
-        return try await deleteAuthorityWithRequestBuilder(authorityId: authorityId, apiConfiguration: apiConfiguration).execute().body
+    open class func deleteAuthority(teamId: UUID, authorityId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> DeleteAuthorityResponse {
+        return try await deleteAuthorityWithRequestBuilder(teamId: teamId, authorityId: authorityId, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Revoke a certificate authority and every credential it issued
-     - DELETE /authorities/{authorityId}
+     - DELETE /v1/teams/{teamId}/authorities/{authorityId}
      - Bearer Token:
        - type: http
        - name: apiToken
      - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
+     - parameter teamId: (path) The team the request acts on 
      - parameter authorityId: (path)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<DeleteAuthorityResponse> 
      */
-    open class func deleteAuthorityWithRequestBuilder(authorityId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<DeleteAuthorityResponse> {
-        var localVariablePath = "/authorities/{authorityId}"
+    open class func deleteAuthorityWithRequestBuilder(teamId: UUID, authorityId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<DeleteAuthorityResponse> {
+        var localVariablePath = "/v1/teams/{teamId}/authorities/{authorityId}"
+        let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
+        let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{teamId}", with: teamIdPostEscape, options: .literal, range: nil)
         let authorityIdPreEscape = "\(APIHelper.mapValueToPathItem(authorityId))"
         let authorityIdPostEscape = authorityIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{authorityId}", with: authorityIdPostEscape, options: .literal, range: nil)
@@ -96,29 +106,34 @@ open class AuthoritiesAPI {
     /**
      List the workspace's certificate authorities
      
+     - parameter teamId: (path) The team the request acts on 
      - parameter page: (query) Page number, from 1. Default 1. (optional)
      - parameter limit: (query) Items per page, 1 to 100. Default 20. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: ListAuthoritiesResponse
      */
-    open class func listAuthorities(page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> ListAuthoritiesResponse {
-        return try await listAuthoritiesWithRequestBuilder(page: page, limit: limit, apiConfiguration: apiConfiguration).execute().body
+    open class func listAuthorities(teamId: UUID, page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> ListAuthoritiesResponse {
+        return try await listAuthoritiesWithRequestBuilder(teamId: teamId, page: page, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      List the workspace's certificate authorities
-     - GET /authorities
+     - GET /v1/teams/{teamId}/authorities
      - Bearer Token:
        - type: http
        - name: apiToken
      - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
+     - parameter teamId: (path) The team the request acts on 
      - parameter page: (query) Page number, from 1. Default 1. (optional)
      - parameter limit: (query) Items per page, 1 to 100. Default 20. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<ListAuthoritiesResponse> 
      */
-    open class func listAuthoritiesWithRequestBuilder(page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListAuthoritiesResponse> {
-        let localVariablePath = "/authorities"
+    open class func listAuthoritiesWithRequestBuilder(teamId: UUID, page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListAuthoritiesResponse> {
+        var localVariablePath = "/v1/teams/{teamId}/authorities"
+        let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
+        let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{teamId}", with: teamIdPostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
 

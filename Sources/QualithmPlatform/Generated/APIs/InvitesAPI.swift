@@ -24,7 +24,7 @@ open class InvitesAPI {
 
     /**
      Invite an account to the team by email
-     - POST /teams/{teamId}/invites
+     - POST /v1/teams/{teamId}/invites
      - Bearer Token:
        - type: http
        - name: apiToken
@@ -35,7 +35,7 @@ open class InvitesAPI {
      - returns: RequestBuilder<CreateTeamInviteResponse> 
      */
     open class func createTeamInviteWithRequestBuilder(teamId: UUID, createTeamInviteRequest: CreateTeamInviteRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<CreateTeamInviteResponse> {
-        var localVariablePath = "/teams/{teamId}/invites"
+        var localVariablePath = "/v1/teams/{teamId}/invites"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{teamId}", with: teamIdPostEscape, options: .literal, range: nil)
@@ -69,7 +69,7 @@ open class InvitesAPI {
 
     /**
      Revoke a pending invite
-     - DELETE /teams/{teamId}/invites/{inviteId}
+     - DELETE /v1/teams/{teamId}/invites/{inviteId}
      - Bearer Token:
        - type: http
        - name: apiToken
@@ -80,7 +80,7 @@ open class InvitesAPI {
      - returns: RequestBuilder<DeleteTeamInviteResponse> 
      */
     open class func deleteTeamInviteWithRequestBuilder(teamId: UUID, inviteId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<DeleteTeamInviteResponse> {
-        var localVariablePath = "/teams/{teamId}/invites/{inviteId}"
+        var localVariablePath = "/v1/teams/{teamId}/invites/{inviteId}"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{teamId}", with: teamIdPostEscape, options: .literal, range: nil)
@@ -118,7 +118,7 @@ open class InvitesAPI {
 
     /**
      List the team's pending invites
-     - GET /teams/{teamId}/invites
+     - GET /v1/teams/{teamId}/invites
      - Bearer Token:
        - type: http
        - name: apiToken
@@ -130,7 +130,7 @@ open class InvitesAPI {
      - returns: RequestBuilder<ListTeamInvitesResponse> 
      */
     open class func listTeamInvitesWithRequestBuilder(teamId: UUID, page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListTeamInvitesResponse> {
-        var localVariablePath = "/teams/{teamId}/invites"
+        var localVariablePath = "/v1/teams/{teamId}/invites"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{teamId}", with: teamIdPostEscape, options: .literal, range: nil)

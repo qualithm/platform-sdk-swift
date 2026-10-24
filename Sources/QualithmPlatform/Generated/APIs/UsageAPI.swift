@@ -13,25 +13,30 @@ open class UsageAPI {
     /**
      Get the workspace's device and space counts and its plan quota
      
+     - parameter teamId: (path) The team the request acts on 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: GetUsageResponse
      */
-    open class func getUsage(apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> GetUsageResponse {
-        return try await getUsageWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    open class func getUsage(teamId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> GetUsageResponse {
+        return try await getUsageWithRequestBuilder(teamId: teamId, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Get the workspace's device and space counts and its plan quota
-     - GET /usage
+     - GET /v1/teams/{teamId}/usage
      - Bearer Token:
        - type: http
        - name: apiToken
      - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
+     - parameter teamId: (path) The team the request acts on 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<GetUsageResponse> 
      */
-    open class func getUsageWithRequestBuilder(apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<GetUsageResponse> {
-        let localVariablePath = "/usage"
+    open class func getUsageWithRequestBuilder(teamId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<GetUsageResponse> {
+        var localVariablePath = "/v1/teams/{teamId}/usage"
+        let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
+        let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{teamId}", with: teamIdPostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
 

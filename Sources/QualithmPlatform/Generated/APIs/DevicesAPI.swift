@@ -13,27 +13,32 @@ open class DevicesAPI {
     /**
      Create a device in a space
      
+     - parameter teamId: (path) The team the request acts on 
      - parameter createDeviceRequest: (body)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: CreateDeviceResponse
      */
-    open class func createDevice(createDeviceRequest: CreateDeviceRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> CreateDeviceResponse {
-        return try await createDeviceWithRequestBuilder(createDeviceRequest: createDeviceRequest, apiConfiguration: apiConfiguration).execute().body
+    open class func createDevice(teamId: UUID, createDeviceRequest: CreateDeviceRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> CreateDeviceResponse {
+        return try await createDeviceWithRequestBuilder(teamId: teamId, createDeviceRequest: createDeviceRequest, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Create a device in a space
-     - POST /devices
+     - POST /v1/teams/{teamId}/devices
      - Bearer Token:
        - type: http
        - name: apiToken
      - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
+     - parameter teamId: (path) The team the request acts on 
      - parameter createDeviceRequest: (body)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<CreateDeviceResponse> 
      */
-    open class func createDeviceWithRequestBuilder(createDeviceRequest: CreateDeviceRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<CreateDeviceResponse> {
-        let localVariablePath = "/devices"
+    open class func createDeviceWithRequestBuilder(teamId: UUID, createDeviceRequest: CreateDeviceRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<CreateDeviceResponse> {
+        var localVariablePath = "/v1/teams/{teamId}/devices"
+        let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
+        let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{teamId}", with: teamIdPostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: createDeviceRequest, codableHelper: apiConfiguration.codableHelper)
 
@@ -53,27 +58,32 @@ open class DevicesAPI {
     /**
      Delete a device and revoke its credentials
      
+     - parameter teamId: (path) The team the request acts on 
      - parameter deviceId: (path)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: DeleteDeviceResponse
      */
-    open class func deleteDevice(deviceId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> DeleteDeviceResponse {
-        return try await deleteDeviceWithRequestBuilder(deviceId: deviceId, apiConfiguration: apiConfiguration).execute().body
+    open class func deleteDevice(teamId: UUID, deviceId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> DeleteDeviceResponse {
+        return try await deleteDeviceWithRequestBuilder(teamId: teamId, deviceId: deviceId, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Delete a device and revoke its credentials
-     - DELETE /devices/{deviceId}
+     - DELETE /v1/teams/{teamId}/devices/{deviceId}
      - Bearer Token:
        - type: http
        - name: apiToken
      - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
+     - parameter teamId: (path) The team the request acts on 
      - parameter deviceId: (path)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<DeleteDeviceResponse> 
      */
-    open class func deleteDeviceWithRequestBuilder(deviceId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<DeleteDeviceResponse> {
-        var localVariablePath = "/devices/{deviceId}"
+    open class func deleteDeviceWithRequestBuilder(teamId: UUID, deviceId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<DeleteDeviceResponse> {
+        var localVariablePath = "/v1/teams/{teamId}/devices/{deviceId}"
+        let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
+        let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{teamId}", with: teamIdPostEscape, options: .literal, range: nil)
         let deviceIdPreEscape = "\(APIHelper.mapValueToPathItem(deviceId))"
         let deviceIdPostEscape = deviceIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{deviceId}", with: deviceIdPostEscape, options: .literal, range: nil)
@@ -96,27 +106,32 @@ open class DevicesAPI {
     /**
      Get a device
      
+     - parameter teamId: (path) The team the request acts on 
      - parameter deviceId: (path)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: GetDeviceResponse
      */
-    open class func getDevice(deviceId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> GetDeviceResponse {
-        return try await getDeviceWithRequestBuilder(deviceId: deviceId, apiConfiguration: apiConfiguration).execute().body
+    open class func getDevice(teamId: UUID, deviceId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> GetDeviceResponse {
+        return try await getDeviceWithRequestBuilder(teamId: teamId, deviceId: deviceId, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Get a device
-     - GET /devices/{deviceId}
+     - GET /v1/teams/{teamId}/devices/{deviceId}
      - Bearer Token:
        - type: http
        - name: apiToken
      - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
+     - parameter teamId: (path) The team the request acts on 
      - parameter deviceId: (path)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<GetDeviceResponse> 
      */
-    open class func getDeviceWithRequestBuilder(deviceId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<GetDeviceResponse> {
-        var localVariablePath = "/devices/{deviceId}"
+    open class func getDeviceWithRequestBuilder(teamId: UUID, deviceId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<GetDeviceResponse> {
+        var localVariablePath = "/v1/teams/{teamId}/devices/{deviceId}"
+        let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
+        let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{teamId}", with: teamIdPostEscape, options: .literal, range: nil)
         let deviceIdPreEscape = "\(APIHelper.mapValueToPathItem(deviceId))"
         let deviceIdPostEscape = deviceIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{deviceId}", with: deviceIdPostEscape, options: .literal, range: nil)
@@ -137,36 +152,44 @@ open class DevicesAPI {
     }
 
     /**
-     List the workspace's devices
+     List the team's devices, optionally in one space
      
+     - parameter teamId: (path) The team the request acts on 
+     - parameter spaceId: (query) Only the devices in this space (optional)
      - parameter page: (query) Page number, from 1. Default 1. (optional)
      - parameter limit: (query) Items per page, 1 to 100. Default 20. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: ListDevicesResponse
      */
-    open class func listDevices(page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> ListDevicesResponse {
-        return try await listDevicesWithRequestBuilder(page: page, limit: limit, apiConfiguration: apiConfiguration).execute().body
+    open class func listDevices(teamId: UUID, spaceId: UUID? = nil, page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> ListDevicesResponse {
+        return try await listDevicesWithRequestBuilder(teamId: teamId, spaceId: spaceId, page: page, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     List the workspace's devices
-     - GET /devices
+     List the team's devices, optionally in one space
+     - GET /v1/teams/{teamId}/devices
      - Bearer Token:
        - type: http
        - name: apiToken
      - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
+     - parameter teamId: (path) The team the request acts on 
+     - parameter spaceId: (query) Only the devices in this space (optional)
      - parameter page: (query) Page number, from 1. Default 1. (optional)
      - parameter limit: (query) Items per page, 1 to 100. Default 20. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<ListDevicesResponse> 
      */
-    open class func listDevicesWithRequestBuilder(page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListDevicesResponse> {
-        let localVariablePath = "/devices"
+    open class func listDevicesWithRequestBuilder(teamId: UUID, spaceId: UUID? = nil, page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListDevicesResponse> {
+        var localVariablePath = "/v1/teams/{teamId}/devices"
+        let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
+        let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{teamId}", with: teamIdPostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         let localVariableQueryParameters: [String: (wrappedValue: (any Sendable)?, isExplode: Bool)] = [
+            "spaceId": (wrappedValue: spaceId?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "page": (wrappedValue: page?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "limit": (wrappedValue: limit?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
         ]
@@ -196,7 +219,7 @@ open class DevicesAPI {
 
     /**
      List the live state of a team's devices
-     - GET /teams/{teamId}/device-state
+     - GET /v1/teams/{teamId}/device-states
      - Bearer Token:
        - type: http
        - name: apiToken
@@ -206,7 +229,7 @@ open class DevicesAPI {
      - returns: RequestBuilder<ListTeamDeviceStatesResponse> 
      */
     open class func listTeamDeviceStatesWithRequestBuilder(teamId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListTeamDeviceStatesResponse> {
-        var localVariablePath = "/teams/{teamId}/device-state"
+        var localVariablePath = "/v1/teams/{teamId}/device-states"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{teamId}", with: teamIdPostEscape, options: .literal, range: nil)
@@ -229,27 +252,32 @@ open class DevicesAPI {
     /**
      Park a device so it stops connecting and counting against the plan
      
+     - parameter teamId: (path) The team the request acts on 
      - parameter deviceId: (path)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: ParkDeviceResponse
      */
-    open class func parkDevice(deviceId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> ParkDeviceResponse {
-        return try await parkDeviceWithRequestBuilder(deviceId: deviceId, apiConfiguration: apiConfiguration).execute().body
+    open class func parkDevice(teamId: UUID, deviceId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> ParkDeviceResponse {
+        return try await parkDeviceWithRequestBuilder(teamId: teamId, deviceId: deviceId, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Park a device so it stops connecting and counting against the plan
-     - POST /devices/{deviceId}/park
+     - POST /v1/teams/{teamId}/devices/{deviceId}/park
      - Bearer Token:
        - type: http
        - name: apiToken
      - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
+     - parameter teamId: (path) The team the request acts on 
      - parameter deviceId: (path)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<ParkDeviceResponse> 
      */
-    open class func parkDeviceWithRequestBuilder(deviceId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ParkDeviceResponse> {
-        var localVariablePath = "/devices/{deviceId}/park"
+    open class func parkDeviceWithRequestBuilder(teamId: UUID, deviceId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ParkDeviceResponse> {
+        var localVariablePath = "/v1/teams/{teamId}/devices/{deviceId}/park"
+        let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
+        let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{teamId}", with: teamIdPostEscape, options: .literal, range: nil)
         let deviceIdPreEscape = "\(APIHelper.mapValueToPathItem(deviceId))"
         let deviceIdPostEscape = deviceIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{deviceId}", with: deviceIdPostEscape, options: .literal, range: nil)
@@ -272,27 +300,32 @@ open class DevicesAPI {
     /**
      Return a parked device to live
      
+     - parameter teamId: (path) The team the request acts on 
      - parameter deviceId: (path)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: UnparkDeviceResponse
      */
-    open class func unparkDevice(deviceId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> UnparkDeviceResponse {
-        return try await unparkDeviceWithRequestBuilder(deviceId: deviceId, apiConfiguration: apiConfiguration).execute().body
+    open class func unparkDevice(teamId: UUID, deviceId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> UnparkDeviceResponse {
+        return try await unparkDeviceWithRequestBuilder(teamId: teamId, deviceId: deviceId, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Return a parked device to live
-     - POST /devices/{deviceId}/unpark
+     - POST /v1/teams/{teamId}/devices/{deviceId}/unpark
      - Bearer Token:
        - type: http
        - name: apiToken
      - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
+     - parameter teamId: (path) The team the request acts on 
      - parameter deviceId: (path)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<UnparkDeviceResponse> 
      */
-    open class func unparkDeviceWithRequestBuilder(deviceId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<UnparkDeviceResponse> {
-        var localVariablePath = "/devices/{deviceId}/unpark"
+    open class func unparkDeviceWithRequestBuilder(teamId: UUID, deviceId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<UnparkDeviceResponse> {
+        var localVariablePath = "/v1/teams/{teamId}/devices/{deviceId}/unpark"
+        let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
+        let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{teamId}", with: teamIdPostEscape, options: .literal, range: nil)
         let deviceIdPreEscape = "\(APIHelper.mapValueToPathItem(deviceId))"
         let deviceIdPostEscape = deviceIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{deviceId}", with: deviceIdPostEscape, options: .literal, range: nil)
@@ -315,29 +348,34 @@ open class DevicesAPI {
     /**
      Rename a device or move it to another space in the same zone
      
+     - parameter teamId: (path) The team the request acts on 
      - parameter deviceId: (path)  
      - parameter updateDeviceRequest: (body)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: UpdateDeviceResponse
      */
-    open class func updateDevice(deviceId: UUID, updateDeviceRequest: UpdateDeviceRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> UpdateDeviceResponse {
-        return try await updateDeviceWithRequestBuilder(deviceId: deviceId, updateDeviceRequest: updateDeviceRequest, apiConfiguration: apiConfiguration).execute().body
+    open class func updateDevice(teamId: UUID, deviceId: UUID, updateDeviceRequest: UpdateDeviceRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> UpdateDeviceResponse {
+        return try await updateDeviceWithRequestBuilder(teamId: teamId, deviceId: deviceId, updateDeviceRequest: updateDeviceRequest, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Rename a device or move it to another space in the same zone
-     - PATCH /devices/{deviceId}
+     - PATCH /v1/teams/{teamId}/devices/{deviceId}
      - Bearer Token:
        - type: http
        - name: apiToken
      - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
+     - parameter teamId: (path) The team the request acts on 
      - parameter deviceId: (path)  
      - parameter updateDeviceRequest: (body)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<UpdateDeviceResponse> 
      */
-    open class func updateDeviceWithRequestBuilder(deviceId: UUID, updateDeviceRequest: UpdateDeviceRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<UpdateDeviceResponse> {
-        var localVariablePath = "/devices/{deviceId}"
+    open class func updateDeviceWithRequestBuilder(teamId: UUID, deviceId: UUID, updateDeviceRequest: UpdateDeviceRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<UpdateDeviceResponse> {
+        var localVariablePath = "/v1/teams/{teamId}/devices/{deviceId}"
+        let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
+        let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{teamId}", with: teamIdPostEscape, options: .literal, range: nil)
         let deviceIdPreEscape = "\(APIHelper.mapValueToPathItem(deviceId))"
         let deviceIdPostEscape = deviceIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{deviceId}", with: deviceIdPostEscape, options: .literal, range: nil)

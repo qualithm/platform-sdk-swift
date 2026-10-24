@@ -24,7 +24,7 @@ open class RolesAPI {
 
     /**
      List the teams the caller belongs to and their role in each
-     - GET /roles
+     - GET /v1/account/memberships
      - Bearer Token:
        - type: http
        - name: apiToken
@@ -35,7 +35,7 @@ open class RolesAPI {
      - returns: RequestBuilder<ListRolesResponse> 
      */
     open class func listRolesWithRequestBuilder(page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListRolesResponse> {
-        let localVariablePath = "/roles"
+        let localVariablePath = "/v1/account/memberships"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
 
