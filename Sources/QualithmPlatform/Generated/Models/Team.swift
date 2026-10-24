@@ -10,6 +10,42 @@ import Foundation
 
 public struct Team: Sendable, Codable, Hashable {
 
+    public enum Permissions: String, Sendable, Codable, CaseIterable, CaseIterableDefaultsLast {
+        case teamPeriodRead = "team.read"
+        case teamPeriodUpdate = "team.update"
+        case teamPeriodDelete = "team.delete"
+        case memberPeriodInvite = "member.invite"
+        case memberPeriodUpdate = "member.update"
+        case memberPeriodRemove = "member.remove"
+        case billingPeriodRead = "billing.read"
+        case billingPeriodManage = "billing.manage"
+        case usagePeriodRead = "usage.read"
+        case auditPeriodRead = "audit.read"
+        case tokenPeriodRead = "token.read"
+        case tokenPeriodCreate = "token.create"
+        case tokenPeriodRevoke = "token.revoke"
+        case tokenPeriodRevokeAny = "token.revoke_any"
+        case spacePeriodRead = "space.read"
+        case spacePeriodWrite = "space.write"
+        case devicePeriodRead = "device.read"
+        case devicePeriodWrite = "device.write"
+        case devicePeriodCommand = "device.command"
+        case credentialPeriodRead = "credential.read"
+        case credentialPeriodManage = "credential.manage"
+        case enrollmentPeriodRead = "enrollment.read"
+        case enrollmentPeriodManage = "enrollment.manage"
+        case authorityPeriodRead = "authority.read"
+        case authorityPeriodManage = "authority.manage"
+        case telemetryPeriodRead = "telemetry.read"
+        case capabilityPeriodRead = "capability.read"
+        case capabilityPeriodUpdate = "capability.update"
+        case dashboardPeriodRead = "dashboard.read"
+        case dashboardPeriodWrite = "dashboard.write"
+        case automationPeriodRead = "automation.read"
+        case automationPeriodWrite = "automation.write"
+        case automationPeriodRun = "automation.run"
+        case unknownDefaultOpenApi = "unknown_default_open_api"
+    }
     public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$")
     public static let memberIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$")
     public var id: UUID
@@ -23,8 +59,10 @@ public struct Team: Sendable, Codable, Hashable {
     /** The caller's membership in this team */
     public var memberId: UUID
     public var memberRole: MemberRole
+    /** What the caller can do in this team: their role, lowered to a token's ceiling */
+    public var permissions: [Permissions]
 
-    public init(id: UUID, name: String, payload: String, createdAt: String, updatedAt: String, memberId: UUID, memberRole: MemberRole) {
+    public init(id: UUID, name: String, payload: String, createdAt: String, updatedAt: String, memberId: UUID, memberRole: MemberRole, permissions: [Permissions]) {
         self.id = id
         self.name = name
         self.payload = payload
@@ -32,6 +70,7 @@ public struct Team: Sendable, Codable, Hashable {
         self.updatedAt = updatedAt
         self.memberId = memberId
         self.memberRole = memberRole
+        self.permissions = permissions
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -42,6 +81,7 @@ public struct Team: Sendable, Codable, Hashable {
         case updatedAt
         case memberId
         case memberRole
+        case permissions
     }
 
     // Encodable protocol methods
@@ -55,6 +95,7 @@ public struct Team: Sendable, Codable, Hashable {
         try container.encode(updatedAt, forKey: .updatedAt)
         try container.encode(memberId, forKey: .memberId)
         try container.encode(memberRole, forKey: .memberRole)
+        try container.encode(permissions, forKey: .permissions)
     }
 }
 
@@ -64,6 +105,9 @@ extension Team: Identifiable {}
 extension Team: UnknownCaseCheckable {
     public var containsUnknownDefaultOpenApiCase: Bool {
         if memberRole == .unknownDefaultOpenApi { return true }
+        
+        if permissions.contains(.unknownDefaultOpenApi) { return true }
+        
         return false
     }
 }

@@ -19,7 +19,7 @@ type comes from the spec the API serves, so the client changes when the API does
 Add the package to `Package.swift`:
 
 ```swift
-.package(url: "https://github.com/qualithm/platform-sdk-swift", from: "0.1.0"),
+.package(url: "https://github.com/qualithm/platform-sdk-swift", from: "0.2.0"),
 ```
 
 Then depend on the `QualithmPlatform` product:
@@ -36,7 +36,14 @@ Create an API token in the Qualithm app, on the team page under **API tokens**, 
 import QualithmPlatform
 
 let platform = try PlatformClient(token: "<your-api-token>")
-let page = try await platform.call { try await DevicesAPI.listDevices(apiConfiguration: $0) }
+
+// An API token belongs to one team, so its team list has exactly that team.
+let teams = try await platform.call { try await TeamsAPI.listTeams(apiConfiguration: $0) }
+let teamId = teams.data.items[0].id
+
+let page = try await platform.call {
+  try await DevicesAPI.listDevices(teamId: teamId, apiConfiguration: $0)
+}
 
 for device in page.data.items {
   print(device.name)
@@ -58,11 +65,11 @@ let platform = try PlatformClient(baseURL: "https://api.qualithm.com")
 
 Each generated `…API` type is one resource group. Run its calls through `platform.call`, which
 passes your configuration as `$0`. Method names match the spec's `operationId`s. Every response is
-the API's envelope, so the result is in `data`:
+the API's envelope, so the result is in `data`. Operations on a team's resources take its `teamId`:
 
 ```swift
 let automations = try await platform.call {
-  try await AutomationsAPI.listAutomations(page: 1, limit: 50, apiConfiguration: $0)
+  try await AutomationsAPI.listAutomations(teamId: teamId, page: 1, limit: 50, apiConfiguration: $0)
 }
 ```
 
@@ -74,9 +81,11 @@ version doesn't know yet reads as `.unknownDefaultOpenApi`, and a request that g
 
 ```swift
 do {
-  _ = try await platform.call { try await DevicesAPI.getDevice(deviceId: id, apiConfiguration: $0) }
+  _ = try await platform.call {
+    try await DevicesAPI.getDevice(teamId: teamId, deviceId: id, apiConfiguration: $0)
+  }
 } catch where error.code == .notFound {
-  // the device doesn't exist, or isn't in this workspace
+  // the device doesn't exist, or isn't in this team
 }
 ```
 
@@ -91,9 +100,9 @@ swift package generate-documentation --target QualithmPlatform
 
 ## Examples
 
-| Example                                            | Description                                                |
-| -------------------------------------------------- | ---------------------------------------------------------- |
-| [`list-devices`](examples/list-devices/main.swift) | List the workspace's devices, and report a `PlatformError` |
+| Example                                            | Description                                                        |
+| -------------------------------------------------- | ------------------------------------------------------------------ |
+| [`list-devices`](examples/list-devices/main.swift) | List the devices in the token's team, and report a `PlatformError` |
 
 ```bash
 QUALITHM_API_TOKEN=<your-api-token> swift run list-devices

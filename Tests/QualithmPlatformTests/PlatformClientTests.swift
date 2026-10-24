@@ -4,6 +4,7 @@ import Testing
 
 @Suite(.serialized)
 struct PlatformClientTests {
+  let teamID = UUID(uuidString: "1C2D3E4F-5A6B-4C7D-8E9F-0A1B2C3D4E5F") ?? UUID()
   let deviceID = UUID(uuidString: "0B9F8A1E-8C1D-4B6F-9A51-2F6C1E3D4A5B") ?? UUID()
 
   func json(_ value: String) -> Data { Data(value.utf8) }
@@ -24,14 +25,18 @@ struct PlatformClientTests {
     stubSession.respond(StubAnswer(body: json(#"{"data":{"current":1,"items":[],"last":1}}"#)))
 
     let page = try await platform.call {
-      try await DevicesAPI.listDevices(page: 2, limit: 10, apiConfiguration: $0)
+      try await DevicesAPI.listDevices(teamId: teamID, page: 2, limit: 10, apiConfiguration: $0)
     }
 
     #expect(page.data.items.isEmpty)
     let request = try #require(stubSession.requests.first)
+    let devices = "https://api.qualithm.com/v1/teams/\(teamID.uuidString)/devices"
     #expect(
-      request.url?.absoluteString == "https://api.qualithm.com/devices?limit=10&page=2"
-        || request.url?.absoluteString == "https://api.qualithm.com/devices?page=2&limit=10")
+      request.url?.absoluteString.caseInsensitiveCompare("\(devices)?limit=10&page=2")
+        == .orderedSame
+        || request.url?.absoluteString.caseInsensitiveCompare("\(devices)?page=2&limit=10")
+          == .orderedSame
+    )
     #expect(request.value(forHTTPHeaderField: "Authorization") == "Bearer qmt_test")
   }
 
@@ -79,7 +84,7 @@ struct PlatformClientTests {
     stubSession.respond(answer)
     do {
       _ = try await platform.call {
-        try await DevicesAPI.getDevice(deviceId: deviceID, apiConfiguration: $0)
+        try await DevicesAPI.getDevice(teamId: teamID, deviceId: deviceID, apiConfiguration: $0)
       }
     } catch {
       return error

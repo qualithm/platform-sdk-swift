@@ -13,25 +13,30 @@ open class EventsAPI {
     /**
      Stream the team's live events
      
+     - parameter teamId: (path) The team the request acts on 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: String
      */
-    open class func streamEvents(apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> String {
-        return try await streamEventsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    open class func streamEvents(teamId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> String {
+        return try await streamEventsWithRequestBuilder(teamId: teamId, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Stream the team's live events
-     - GET /events/stream
+     - GET /v1/teams/{teamId}/events
      - Bearer Token:
        - type: http
        - name: apiToken
      - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
+     - parameter teamId: (path) The team the request acts on 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<String> 
      */
-    open class func streamEventsWithRequestBuilder(apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<String> {
-        let localVariablePath = "/events/stream"
+    open class func streamEventsWithRequestBuilder(teamId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<String> {
+        var localVariablePath = "/v1/teams/{teamId}/events"
+        let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
+        let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{teamId}", with: teamIdPostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
 
