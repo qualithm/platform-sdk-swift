@@ -19,7 +19,7 @@ type comes from the spec the API serves, so the client changes when the API does
 Add the package to `Package.swift`:
 
 ```swift
-.package(url: "https://github.com/qualithm/platform-sdk-swift", from: "0.1.0"),
+.package(url: "https://github.com/qualithm/platform-sdk-swift", from: "0.2.0"),
 ```
 
 Then depend on the `QualithmPlatform` product:
