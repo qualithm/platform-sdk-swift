@@ -23,7 +23,7 @@ open class MetaAPI {
     /**
      Get this API's OpenAPI 3.1 document
      - GET /openapi.json
-     - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
+     - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<[String: JSONValue?]> 
      */

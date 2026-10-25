@@ -10,12 +10,13 @@ import Foundation
 
 public struct QueuedCommand: Sendable, Codable, Hashable {
 
-    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$")
-    public var id: UUID
+    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^cmd_[0-9A-HJKMNP-TV-Z]{26}$")
+    /** A command ID */
+    public var id: String
     /** True when the dedup key was already used: no second command was sent */
     public var duplicate: Bool
 
-    public init(id: UUID, duplicate: Bool) {
+    public init(id: String, duplicate: Bool) {
         self.id = id
         self.duplicate = duplicate
     }

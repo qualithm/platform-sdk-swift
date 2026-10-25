@@ -18,7 +18,7 @@ open class SpacesAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: CreateSpaceResponse
      */
-    open class func createSpace(teamId: UUID, createSpaceRequest: CreateSpaceRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> CreateSpaceResponse {
+    open class func createSpace(teamId: String, createSpaceRequest: CreateSpaceRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> CreateSpaceResponse {
         return try await createSpaceWithRequestBuilder(teamId: teamId, createSpaceRequest: createSpaceRequest, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -28,13 +28,13 @@ open class SpacesAPI {
      - Bearer Token:
        - type: http
        - name: apiToken
-     - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
+     - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
      - parameter createSpaceRequest: (body)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<CreateSpaceResponse> 
      */
-    open class func createSpaceWithRequestBuilder(teamId: UUID, createSpaceRequest: CreateSpaceRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<CreateSpaceResponse> {
+    open class func createSpaceWithRequestBuilder(teamId: String, createSpaceRequest: CreateSpaceRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<CreateSpaceResponse> {
         var localVariablePath = "/v1/teams/{teamId}/spaces"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -59,11 +59,10 @@ open class SpacesAPI {
      Delete a space and its devices
      
      - parameter teamId: (path) The team the request acts on 
-     - parameter spaceId: (path)  
+     - parameter spaceId: (path) A space ID 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: DeleteSpaceResponse
      */
-    open class func deleteSpace(teamId: UUID, spaceId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> DeleteSpaceResponse {
+    open class func deleteSpace(teamId: String, spaceId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await deleteSpaceWithRequestBuilder(teamId: teamId, spaceId: spaceId, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -73,13 +72,13 @@ open class SpacesAPI {
      - Bearer Token:
        - type: http
        - name: apiToken
-     - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
+     - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
-     - parameter spaceId: (path)  
+     - parameter spaceId: (path) A space ID 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<DeleteSpaceResponse> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func deleteSpaceWithRequestBuilder(teamId: UUID, spaceId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<DeleteSpaceResponse> {
+    open class func deleteSpaceWithRequestBuilder(teamId: String, spaceId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/teams/{teamId}/spaces/{spaceId}"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -98,7 +97,7 @@ open class SpacesAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<DeleteSpaceResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -107,11 +106,11 @@ open class SpacesAPI {
      Get a space
      
      - parameter teamId: (path) The team the request acts on 
-     - parameter spaceId: (path)  
+     - parameter spaceId: (path) A space ID 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: GetSpaceResponse
      */
-    open class func getSpace(teamId: UUID, spaceId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> GetSpaceResponse {
+    open class func getSpace(teamId: String, spaceId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> GetSpaceResponse {
         return try await getSpaceWithRequestBuilder(teamId: teamId, spaceId: spaceId, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -121,13 +120,13 @@ open class SpacesAPI {
      - Bearer Token:
        - type: http
        - name: apiToken
-     - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
+     - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
-     - parameter spaceId: (path)  
+     - parameter spaceId: (path) A space ID 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<GetSpaceResponse> 
      */
-    open class func getSpaceWithRequestBuilder(teamId: UUID, spaceId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<GetSpaceResponse> {
+    open class func getSpaceWithRequestBuilder(teamId: String, spaceId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<GetSpaceResponse> {
         var localVariablePath = "/v1/teams/{teamId}/spaces/{spaceId}"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -169,7 +168,7 @@ open class SpacesAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: ListSpacesResponse
      */
-    open class func listSpaces(teamId: UUID, zone: Zone_listSpaces? = nil, page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> ListSpacesResponse {
+    open class func listSpaces(teamId: String, zone: Zone_listSpaces? = nil, page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> ListSpacesResponse {
         return try await listSpacesWithRequestBuilder(teamId: teamId, zone: zone, page: page, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -179,7 +178,7 @@ open class SpacesAPI {
      - Bearer Token:
        - type: http
        - name: apiToken
-     - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
+     - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
      - parameter zone: (query) Only the spaces in this zone (optional)
      - parameter page: (query) Page number, from 1. Default 1. (optional)
@@ -187,7 +186,7 @@ open class SpacesAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<ListSpacesResponse> 
      */
-    open class func listSpacesWithRequestBuilder(teamId: UUID, zone: Zone_listSpaces? = nil, page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListSpacesResponse> {
+    open class func listSpacesWithRequestBuilder(teamId: String, zone: Zone_listSpaces? = nil, page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListSpacesResponse> {
         var localVariablePath = "/v1/teams/{teamId}/spaces"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -218,12 +217,11 @@ open class SpacesAPI {
      Rename a space
      
      - parameter teamId: (path) The team the request acts on 
-     - parameter spaceId: (path)  
+     - parameter spaceId: (path) A space ID 
      - parameter updateSpaceRequest: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: UpdateSpaceResponse
      */
-    open class func updateSpace(teamId: UUID, spaceId: UUID, updateSpaceRequest: UpdateSpaceRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> UpdateSpaceResponse {
+    open class func updateSpace(teamId: String, spaceId: String, updateSpaceRequest: UpdateSpaceRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await updateSpaceWithRequestBuilder(teamId: teamId, spaceId: spaceId, updateSpaceRequest: updateSpaceRequest, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -233,14 +231,14 @@ open class SpacesAPI {
      - Bearer Token:
        - type: http
        - name: apiToken
-     - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
+     - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
-     - parameter spaceId: (path)  
+     - parameter spaceId: (path) A space ID 
      - parameter updateSpaceRequest: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<UpdateSpaceResponse> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func updateSpaceWithRequestBuilder(teamId: UUID, spaceId: UUID, updateSpaceRequest: UpdateSpaceRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<UpdateSpaceResponse> {
+    open class func updateSpaceWithRequestBuilder(teamId: String, spaceId: String, updateSpaceRequest: UpdateSpaceRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/teams/{teamId}/spaces/{spaceId}"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -259,7 +257,7 @@ open class SpacesAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<UpdateSpaceResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }

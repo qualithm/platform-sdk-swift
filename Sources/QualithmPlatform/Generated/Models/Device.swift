@@ -15,13 +15,16 @@ public struct Device: Sendable, Codable, Hashable {
         case production = "production"
         case unknownDefaultOpenApi = "unknown_default_open_api"
     }
-    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$")
-    public static let spaceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$")
-    public static let teamIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$")
-    public var id: UUID
-    public var spaceId: UUID
+    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^dev_[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let spaceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^spc_[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let teamIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^tm_[0-9A-HJKMNP-TV-Z]{26}$")
+    /** A device ID */
+    public var id: String
+    /** A space ID */
+    public var spaceId: String
     public var spaceName: String
-    public var teamId: UUID
+    /** A team ID */
+    public var teamId: String
     public var name: String
     /** JSON text */
     public var payload: String
@@ -34,7 +37,7 @@ public struct Device: Sendable, Codable, Hashable {
     public var level: Level?
     public var checks: [DeviceCheck]?
 
-    public init(id: UUID, spaceId: UUID, spaceName: String, teamId: UUID, name: String, payload: String, createdAt: String, updatedAt: String, parkedAt: String? = nil, level: Level? = nil, checks: [DeviceCheck]? = nil) {
+    public init(id: String, spaceId: String, spaceName: String, teamId: String, name: String, payload: String, createdAt: String, updatedAt: String, parkedAt: String? = nil, level: Level? = nil, checks: [DeviceCheck]? = nil) {
         self.id = id
         self.spaceId = spaceId
         self.spaceName = spaceName

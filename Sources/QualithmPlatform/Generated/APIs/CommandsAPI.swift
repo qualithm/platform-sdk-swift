@@ -14,12 +14,12 @@ open class CommandsAPI {
      Send a command to a device
      
      - parameter teamId: (path) The team the request acts on 
-     - parameter deviceId: (path)  
+     - parameter deviceId: (path) A device ID 
      - parameter createDeviceCommandRequest: (body)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: CreateDeviceCommandResponse
      */
-    open class func createDeviceCommand(teamId: UUID, deviceId: UUID, createDeviceCommandRequest: CreateDeviceCommandRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> CreateDeviceCommandResponse {
+    open class func createDeviceCommand(teamId: String, deviceId: String, createDeviceCommandRequest: CreateDeviceCommandRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> CreateDeviceCommandResponse {
         return try await createDeviceCommandWithRequestBuilder(teamId: teamId, deviceId: deviceId, createDeviceCommandRequest: createDeviceCommandRequest, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -29,14 +29,14 @@ open class CommandsAPI {
      - Bearer Token:
        - type: http
        - name: apiToken
-     - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
+     - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
-     - parameter deviceId: (path)  
+     - parameter deviceId: (path) A device ID 
      - parameter createDeviceCommandRequest: (body)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<CreateDeviceCommandResponse> 
      */
-    open class func createDeviceCommandWithRequestBuilder(teamId: UUID, deviceId: UUID, createDeviceCommandRequest: CreateDeviceCommandRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<CreateDeviceCommandResponse> {
+    open class func createDeviceCommandWithRequestBuilder(teamId: String, deviceId: String, createDeviceCommandRequest: CreateDeviceCommandRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<CreateDeviceCommandResponse> {
         var localVariablePath = "/v1/teams/{teamId}/devices/{deviceId}/commands"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -64,13 +64,13 @@ open class CommandsAPI {
      List a device's recent command deliveries
      
      - parameter teamId: (path) The team the request acts on 
-     - parameter deviceId: (path)  
+     - parameter deviceId: (path) A device ID 
      - parameter page: (query) Page number, from 1. Default 1. (optional)
      - parameter limit: (query) Items per page, 1 to 100. Default 20. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: ListDeviceCommandsResponse
      */
-    open class func listDeviceCommands(teamId: UUID, deviceId: UUID, page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> ListDeviceCommandsResponse {
+    open class func listDeviceCommands(teamId: String, deviceId: String, page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> ListDeviceCommandsResponse {
         return try await listDeviceCommandsWithRequestBuilder(teamId: teamId, deviceId: deviceId, page: page, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -80,15 +80,15 @@ open class CommandsAPI {
      - Bearer Token:
        - type: http
        - name: apiToken
-     - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
+     - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
-     - parameter deviceId: (path)  
+     - parameter deviceId: (path) A device ID 
      - parameter page: (query) Page number, from 1. Default 1. (optional)
      - parameter limit: (query) Items per page, 1 to 100. Default 20. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<ListDeviceCommandsResponse> 
      */
-    open class func listDeviceCommandsWithRequestBuilder(teamId: UUID, deviceId: UUID, page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListDeviceCommandsResponse> {
+    open class func listDeviceCommandsWithRequestBuilder(teamId: String, deviceId: String, page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListDeviceCommandsResponse> {
         var localVariablePath = "/v1/teams/{teamId}/devices/{deviceId}/commands"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""

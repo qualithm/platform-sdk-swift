@@ -10,11 +10,11 @@ import Foundation
 
 public struct CreateTeamMemberRequest: Sendable, Codable, Hashable {
 
-    public static let inviteIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$")
+    public static let inviteIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^mem_[0-9A-HJKMNP-TV-Z]{26}$")
     /** The invite to accept */
-    public var inviteId: UUID
+    public var inviteId: String
 
-    public init(inviteId: UUID) {
+    public init(inviteId: String) {
         self.inviteId = inviteId
     }
 

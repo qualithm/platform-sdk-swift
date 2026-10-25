@@ -46,9 +46,10 @@ public struct Team: Sendable, Codable, Hashable {
         case automationPeriodRun = "automation.run"
         case unknownDefaultOpenApi = "unknown_default_open_api"
     }
-    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$")
-    public static let memberIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$")
-    public var id: UUID
+    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^tm_[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let memberIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^mem_[0-9A-HJKMNP-TV-Z]{26}$")
+    /** A team ID */
+    public var id: String
     public var name: String
     /** The team's settings: a JSON object, encoded as a string */
     public var payload: String
@@ -57,12 +58,12 @@ public struct Team: Sendable, Codable, Hashable {
     /** UTC time, `YYYY-MM-DD HH:MM:SS` */
     public var updatedAt: String
     /** The caller's membership in this team */
-    public var memberId: UUID
+    public var memberId: String
     public var memberRole: MemberRole
     /** What the caller can do in this team: their role, lowered to a token's ceiling */
     public var permissions: [Permissions]
 
-    public init(id: UUID, name: String, payload: String, createdAt: String, updatedAt: String, memberId: UUID, memberRole: MemberRole, permissions: [Permissions]) {
+    public init(id: String, name: String, payload: String, createdAt: String, updatedAt: String, memberId: String, memberRole: MemberRole, permissions: [Permissions]) {
         self.id = id
         self.name = name
         self.payload = payload

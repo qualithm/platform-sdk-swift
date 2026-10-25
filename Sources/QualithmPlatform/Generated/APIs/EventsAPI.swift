@@ -15,9 +15,8 @@ open class EventsAPI {
      
      - parameter teamId: (path) The team the request acts on 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: String
      */
-    open class func streamEvents(teamId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> String {
+    open class func streamEvents(teamId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await streamEventsWithRequestBuilder(teamId: teamId, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -27,12 +26,12 @@ open class EventsAPI {
      - Bearer Token:
        - type: http
        - name: apiToken
-     - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
+     - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<String> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func streamEventsWithRequestBuilder(teamId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<String> {
+    open class func streamEventsWithRequestBuilder(teamId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/teams/{teamId}/events"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -48,7 +47,7 @@ open class EventsAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<String>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
