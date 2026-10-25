@@ -10,10 +10,12 @@ import Foundation
 
 public struct DeviceState: Sendable, Codable, Hashable {
 
-    public static let deviceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$")
-    public static let spaceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$")
-    public var deviceId: UUID
-    public var spaceId: UUID
+    public static let deviceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^dev_[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let spaceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^spc_[0-9A-HJKMNP-TV-Z]{26}$")
+    /** A device ID */
+    public var deviceId: String
+    /** A space ID */
+    public var spaceId: String
     /** Whether the device was seen within the offline window */
     public var online: Bool
     /** Last sighting, epoch milliseconds */
@@ -21,7 +23,7 @@ public struct DeviceState: Sendable, Codable, Hashable {
     /** The device's current metrics */
     public var metrics: [String: Double]
 
-    public init(deviceId: UUID, spaceId: UUID, online: Bool, lastSeenAt: Double, metrics: [String: Double]) {
+    public init(deviceId: String, spaceId: String, online: Bool, lastSeenAt: Double, metrics: [String: Double]) {
         self.deviceId = deviceId
         self.spaceId = spaceId
         self.online = online

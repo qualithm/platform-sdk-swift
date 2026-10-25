@@ -17,7 +17,7 @@ open class BillingAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: GetBillingSummaryResponse
      */
-    open class func getBillingSummary(teamId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> GetBillingSummaryResponse {
+    open class func getBillingSummary(teamId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> GetBillingSummaryResponse {
         return try await getBillingSummaryWithRequestBuilder(teamId: teamId, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -27,12 +27,12 @@ open class BillingAPI {
      - Bearer Token:
        - type: http
        - name: apiToken
-     - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
+     - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<GetBillingSummaryResponse> 
      */
-    open class func getBillingSummaryWithRequestBuilder(teamId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<GetBillingSummaryResponse> {
+    open class func getBillingSummaryWithRequestBuilder(teamId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<GetBillingSummaryResponse> {
         var localVariablePath = "/v1/teams/{teamId}/billing/summary"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -62,7 +62,7 @@ open class BillingAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: ListInvoicesResponse
      */
-    open class func listInvoices(teamId: UUID, page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> ListInvoicesResponse {
+    open class func listInvoices(teamId: String, page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> ListInvoicesResponse {
         return try await listInvoicesWithRequestBuilder(teamId: teamId, page: page, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -72,14 +72,14 @@ open class BillingAPI {
      - Bearer Token:
        - type: http
        - name: apiToken
-     - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
+     - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
      - parameter page: (query) Page number, from 1. Default 1. (optional)
      - parameter limit: (query) Items per page, 1 to 100. Default 20. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<ListInvoicesResponse> 
      */
-    open class func listInvoicesWithRequestBuilder(teamId: UUID, page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListInvoicesResponse> {
+    open class func listInvoicesWithRequestBuilder(teamId: String, page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListInvoicesResponse> {
         var localVariablePath = "/v1/teams/{teamId}/invoices"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -113,7 +113,7 @@ open class BillingAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: PreviewTierChangeResponse
      */
-    open class func previewTierChange(teamId: UUID, previewTierChangeRequest: PreviewTierChangeRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> PreviewTierChangeResponse {
+    open class func previewTierChange(teamId: String, previewTierChangeRequest: PreviewTierChangeRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> PreviewTierChangeResponse {
         return try await previewTierChangeWithRequestBuilder(teamId: teamId, previewTierChangeRequest: previewTierChangeRequest, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -123,13 +123,13 @@ open class BillingAPI {
      - Bearer Token:
        - type: http
        - name: apiToken
-     - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
+     - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
      - parameter previewTierChangeRequest: (body)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<PreviewTierChangeResponse> 
      */
-    open class func previewTierChangeWithRequestBuilder(teamId: UUID, previewTierChangeRequest: PreviewTierChangeRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<PreviewTierChangeResponse> {
+    open class func previewTierChangeWithRequestBuilder(teamId: String, previewTierChangeRequest: PreviewTierChangeRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<PreviewTierChangeResponse> {
         var localVariablePath = "/v1/teams/{teamId}/billing/tier/preview"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""

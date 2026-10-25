@@ -10,10 +10,11 @@ import Foundation
 
 public struct CreateDeviceRequest: Sendable, Codable, Hashable {
 
-    public static let spaceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$")
-    public var spaceId: UUID
+    public static let spaceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^spc_[0-9A-HJKMNP-TV-Z]{26}$")
+    /** A space ID */
+    public var spaceId: String
 
-    public init(spaceId: UUID) {
+    public init(spaceId: String) {
         self.spaceId = spaceId
     }
 

@@ -12,15 +12,23 @@ public struct ApiError: Sendable, Codable, Hashable {
 
     public var message: String
     public var code: ApiErrorCode
+    /** The `Request-Id` this response carried; quote it */
+    public var requestId: String
+    /** Each field that failed validation. Validation errors only. */
+    public var details: [ApiErrorDetailsInner]?
 
-    public init(message: String, code: ApiErrorCode) {
+    public init(message: String, code: ApiErrorCode, requestId: String, details: [ApiErrorDetailsInner]? = nil) {
         self.message = message
         self.code = code
+        self.requestId = requestId
+        self.details = details
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case message
         case code
+        case requestId
+        case details
     }
 
     // Encodable protocol methods
@@ -29,6 +37,8 @@ public struct ApiError: Sendable, Codable, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(message, forKey: .message)
         try container.encode(code, forKey: .code)
+        try container.encode(requestId, forKey: .requestId)
+        try container.encodeIfPresent(details, forKey: .details)
     }
 }
 

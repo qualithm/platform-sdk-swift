@@ -10,13 +10,15 @@ import Foundation
 
 public struct Dashboard: Sendable, Codable, Hashable {
 
-    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$")
-    public static let teamIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$")
-    public static let spaceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$")
-    public var id: UUID
-    public var teamId: UUID
-    /** The space it is scoped to; null for team-wide */
-    public var spaceId: UUID?
+    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^dash_[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let teamIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^tm_[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let spaceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^spc_[0-9A-HJKMNP-TV-Z]{26}$")
+    /** A dashboard ID */
+    public var id: String
+    /** A team ID */
+    public var teamId: String
+    /** A space ID */
+    public var spaceId: String?
     public var spaceName: String?
     public var name: String
     public var payload: [DashboardWidget]
@@ -25,7 +27,7 @@ public struct Dashboard: Sendable, Codable, Hashable {
     /** ISO 8601 time */
     public var updatedAt: String
 
-    public init(id: UUID, teamId: UUID, spaceId: UUID?, spaceName: String?, name: String, payload: [DashboardWidget], createdAt: String, updatedAt: String) {
+    public init(id: String, teamId: String, spaceId: String?, spaceName: String?, name: String, payload: [DashboardWidget], createdAt: String, updatedAt: String) {
         self.id = id
         self.teamId = teamId
         self.spaceId = spaceId

@@ -13,11 +13,11 @@ open class SessionsAPI {
     /**
      Get one of the caller's live sessions
      
-     - parameter sessionId: (path)  
+     - parameter sessionId: (path) A session ID 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: GetSessionResponse
      */
-    open class func getSession(sessionId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> GetSessionResponse {
+    open class func getSession(sessionId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> GetSessionResponse {
         return try await getSessionWithRequestBuilder(sessionId: sessionId, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -27,12 +27,12 @@ open class SessionsAPI {
      - Bearer Token:
        - type: http
        - name: apiToken
-     - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
-     - parameter sessionId: (path)  
+     - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
+     - parameter sessionId: (path) A session ID 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<GetSessionResponse> 
      */
-    open class func getSessionWithRequestBuilder(sessionId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<GetSessionResponse> {
+    open class func getSessionWithRequestBuilder(sessionId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<GetSessionResponse> {
         var localVariablePath = "/v1/account/sessions/{sessionId}"
         let sessionIdPreEscape = "\(APIHelper.mapValueToPathItem(sessionId))"
         let sessionIdPostEscape = sessionIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -72,7 +72,7 @@ open class SessionsAPI {
      - Bearer Token:
        - type: http
        - name: apiToken
-     - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
+     - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter thisDevice: (query) &#x60;true&#x60; to list only the session making the request (optional)
      - parameter page: (query) Page number, from 1. Default 1. (optional)
      - parameter limit: (query) Items per page, 1 to 100. Default 20. (optional)

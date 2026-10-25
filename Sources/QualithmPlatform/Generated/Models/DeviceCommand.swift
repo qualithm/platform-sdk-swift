@@ -22,10 +22,12 @@ public struct DeviceCommand: Sendable, Codable, Hashable {
         case failed = "failed"
         case unknownDefaultOpenApi = "unknown_default_open_api"
     }
-    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$")
-    public static let deviceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$")
-    public var id: UUID
-    public var deviceId: UUID
+    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^cmd_[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let deviceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^dev_[0-9A-HJKMNP-TV-Z]{26}$")
+    /** A command ID */
+    public var id: String
+    /** A device ID */
+    public var deviceId: String
     public var source: Source
     public var topic: String
     public var status: Status
@@ -35,7 +37,7 @@ public struct DeviceCommand: Sendable, Codable, Hashable {
     /** ISO 8601 time */
     public var settledAt: String?
 
-    public init(id: UUID, deviceId: UUID, source: Source, topic: String, status: Status, lastError: String?, enqueuedAt: String, settledAt: String?) {
+    public init(id: String, deviceId: String, source: Source, topic: String, status: Status, lastError: String?, enqueuedAt: String, settledAt: String?) {
         self.id = id
         self.deviceId = deviceId
         self.source = source

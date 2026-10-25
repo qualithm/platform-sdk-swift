@@ -10,16 +10,13 @@ import Foundation
 
 public struct ListEnrollmentsResponse: Sendable, Codable, Hashable {
 
-    public var message: String?
     public var data: EnrollmentPage
 
-    public init(message: String? = nil, data: EnrollmentPage) {
-        self.message = message
+    public init(data: EnrollmentPage) {
         self.data = data
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
-        case message
         case data
     }
 
@@ -27,7 +24,6 @@ public struct ListEnrollmentsResponse: Sendable, Codable, Hashable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encodeIfPresent(message, forKey: .message)
         try container.encode(data, forKey: .data)
     }
 }

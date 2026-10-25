@@ -10,13 +10,15 @@ import Foundation
 
 public struct Automation: Sendable, Codable, Hashable {
 
-    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$")
-    public static let teamIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$")
-    public static let spaceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$")
-    public var id: UUID
-    public var teamId: UUID
-    /** Null for a team-wide automation */
-    public var spaceId: UUID?
+    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^aut_[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let teamIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^tm_[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let spaceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^spc_[0-9A-HJKMNP-TV-Z]{26}$")
+    /** An automation ID */
+    public var id: String
+    /** A team ID */
+    public var teamId: String
+    /** A space ID */
+    public var spaceId: String?
     public var spaceName: String?
     public var name: String
     public var enabled: Bool
@@ -28,7 +30,7 @@ public struct Automation: Sendable, Codable, Hashable {
     /** On a single read of a template-built automation: true when its chain no longer matches its template */
     public var templateDrift: Bool?
 
-    public init(id: UUID, teamId: UUID, spaceId: UUID?, spaceName: String?, name: String, enabled: Bool, payload: AutomationPayload, createdAt: String, updatedAt: String, templateDrift: Bool? = nil) {
+    public init(id: String, teamId: String, spaceId: String?, spaceName: String?, name: String, enabled: Bool, payload: AutomationPayload, createdAt: String, updatedAt: String, templateDrift: Bool? = nil) {
         self.id = id
         self.teamId = teamId
         self.spaceId = spaceId

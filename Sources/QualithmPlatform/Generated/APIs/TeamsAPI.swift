@@ -27,7 +27,7 @@ open class TeamsAPI {
      - Bearer Token:
        - type: http
        - name: apiToken
-     - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
+     - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<CreateTeamResponse> 
      */
@@ -52,11 +52,10 @@ open class TeamsAPI {
     /**
      Delete the team with its spaces, devices and memberships
      
-     - parameter teamId: (path)  
+     - parameter teamId: (path) A team ID 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: DeleteTeamResponse
      */
-    open class func deleteTeam(teamId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> DeleteTeamResponse {
+    open class func deleteTeam(teamId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await deleteTeamWithRequestBuilder(teamId: teamId, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -66,12 +65,12 @@ open class TeamsAPI {
      - Bearer Token:
        - type: http
        - name: apiToken
-     - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
-     - parameter teamId: (path)  
+     - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
+     - parameter teamId: (path) A team ID 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<DeleteTeamResponse> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func deleteTeamWithRequestBuilder(teamId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<DeleteTeamResponse> {
+    open class func deleteTeamWithRequestBuilder(teamId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/teams/{teamId}"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -87,7 +86,7 @@ open class TeamsAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<DeleteTeamResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -95,11 +94,11 @@ open class TeamsAPI {
     /**
      Get one of the caller's teams, with their role and permissions in it
      
-     - parameter teamId: (path)  
+     - parameter teamId: (path) A team ID 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: GetTeamResponse
      */
-    open class func getTeam(teamId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> GetTeamResponse {
+    open class func getTeam(teamId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> GetTeamResponse {
         return try await getTeamWithRequestBuilder(teamId: teamId, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -109,12 +108,12 @@ open class TeamsAPI {
      - Bearer Token:
        - type: http
        - name: apiToken
-     - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
-     - parameter teamId: (path)  
+     - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
+     - parameter teamId: (path) A team ID 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<GetTeamResponse> 
      */
-    open class func getTeamWithRequestBuilder(teamId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<GetTeamResponse> {
+    open class func getTeamWithRequestBuilder(teamId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<GetTeamResponse> {
         var localVariablePath = "/v1/teams/{teamId}"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -153,7 +152,7 @@ open class TeamsAPI {
      - Bearer Token:
        - type: http
        - name: apiToken
-     - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
+     - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter page: (query) Page number, from 1. Default 1. (optional)
      - parameter limit: (query) Items per page, 1 to 100. Default 20. (optional)
      - parameter apiConfiguration: The configuration for the http request.
@@ -185,12 +184,11 @@ open class TeamsAPI {
     /**
      Rename the team
      
-     - parameter teamId: (path)  
+     - parameter teamId: (path) A team ID 
      - parameter updateTeamRequest: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: UpdateTeamResponse
      */
-    open class func updateTeam(teamId: UUID, updateTeamRequest: UpdateTeamRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> UpdateTeamResponse {
+    open class func updateTeam(teamId: String, updateTeamRequest: UpdateTeamRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await updateTeamWithRequestBuilder(teamId: teamId, updateTeamRequest: updateTeamRequest, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -200,13 +198,13 @@ open class TeamsAPI {
      - Bearer Token:
        - type: http
        - name: apiToken
-     - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
-     - parameter teamId: (path)  
+     - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
+     - parameter teamId: (path) A team ID 
      - parameter updateTeamRequest: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<UpdateTeamResponse> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func updateTeamWithRequestBuilder(teamId: UUID, updateTeamRequest: UpdateTeamRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<UpdateTeamResponse> {
+    open class func updateTeamWithRequestBuilder(teamId: String, updateTeamRequest: UpdateTeamRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/teams/{teamId}"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -222,7 +220,7 @@ open class TeamsAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<UpdateTeamResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }

@@ -18,17 +18,19 @@ public struct Capability: Sendable, Codable, Hashable {
         case sensor = "sensor"
         case unknownDefaultOpenApi = "unknown_default_open_api"
     }
-    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$")
-    public static let deviceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$")
-    public var id: UUID
-    public var deviceId: UUID
+    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^cap_[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let deviceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^dev_[0-9A-HJKMNP-TV-Z]{26}$")
+    /** A capability ID */
+    public var id: String
+    /** A device ID */
+    public var deviceId: String
     public var key: String
     public var type: ModelType
     public var config: [String: JSONValue?]
     public var name: String?
     public var tags: [String]
 
-    public init(id: UUID, deviceId: UUID, key: String, type: ModelType, config: [String: JSONValue?], name: String?, tags: [String]) {
+    public init(id: String, deviceId: String, key: String, type: ModelType, config: [String: JSONValue?], name: String?, tags: [String]) {
         self.id = id
         self.deviceId = deviceId
         self.key = key
