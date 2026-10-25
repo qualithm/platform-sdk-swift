@@ -13,8 +13,8 @@ open class TelemetryAPI {
     /**
      Read a device metric as bucketed points
      
-     - parameter teamId: (path)  
-     - parameter deviceId: (path)  
+     - parameter teamId: (path) A team ID 
+     - parameter deviceId: (path) A device ID 
      - parameter metric: (query) The metric to read 
      - parameter from: (query) Range start, epoch milliseconds, inclusive 
      - parameter to: (query) Range end, epoch milliseconds, exclusive 
@@ -24,7 +24,7 @@ open class TelemetryAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: ListTelemetryResponse
      */
-    open class func listTelemetry(teamId: UUID, deviceId: UUID, metric: String, from: String, to: String, bucket: String? = nil, agg: String? = nil, fill: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> ListTelemetryResponse {
+    open class func listTelemetry(teamId: String, deviceId: String, metric: String, from: String, to: String, bucket: String? = nil, agg: String? = nil, fill: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> ListTelemetryResponse {
         return try await listTelemetryWithRequestBuilder(teamId: teamId, deviceId: deviceId, metric: metric, from: from, to: to, bucket: bucket, agg: agg, fill: fill, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -34,9 +34,9 @@ open class TelemetryAPI {
      - Bearer Token:
        - type: http
        - name: apiToken
-     - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
-     - parameter teamId: (path)  
-     - parameter deviceId: (path)  
+     - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
+     - parameter teamId: (path) A team ID 
+     - parameter deviceId: (path) A device ID 
      - parameter metric: (query) The metric to read 
      - parameter from: (query) Range start, epoch milliseconds, inclusive 
      - parameter to: (query) Range end, epoch milliseconds, exclusive 
@@ -46,7 +46,7 @@ open class TelemetryAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<ListTelemetryResponse> 
      */
-    open class func listTelemetryWithRequestBuilder(teamId: UUID, deviceId: UUID, metric: String, from: String, to: String, bucket: String? = nil, agg: String? = nil, fill: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListTelemetryResponse> {
+    open class func listTelemetryWithRequestBuilder(teamId: String, deviceId: String, metric: String, from: String, to: String, bucket: String? = nil, agg: String? = nil, fill: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListTelemetryResponse> {
         var localVariablePath = "/v1/teams/{teamId}/devices/{deviceId}/telemetry"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""

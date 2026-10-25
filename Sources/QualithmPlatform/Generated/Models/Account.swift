@@ -10,8 +10,9 @@ import Foundation
 
 public struct Account: Sendable, Codable, Hashable {
 
-    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$")
-    public var id: UUID
+    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^acc_[0-9A-HJKMNP-TV-Z]{26}$")
+    /** An account ID */
+    public var id: String
     public var email: String
     public var name: String
     /** The account's settings: a JSON object, encoded as a string */
@@ -21,7 +22,7 @@ public struct Account: Sendable, Codable, Hashable {
     /** UTC time, `YYYY-MM-DD HH:MM:SS` */
     public var updatedAt: String
 
-    public init(id: UUID, email: String, name: String, payload: String, createdAt: String, updatedAt: String) {
+    public init(id: String, email: String, name: String, payload: String, createdAt: String, updatedAt: String) {
         self.id = id
         self.email = email
         self.name = name

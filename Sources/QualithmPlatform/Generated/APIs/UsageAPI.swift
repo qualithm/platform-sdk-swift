@@ -17,7 +17,7 @@ open class UsageAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: GetUsageResponse
      */
-    open class func getUsage(teamId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> GetUsageResponse {
+    open class func getUsage(teamId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> GetUsageResponse {
         return try await getUsageWithRequestBuilder(teamId: teamId, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -27,12 +27,12 @@ open class UsageAPI {
      - Bearer Token:
        - type: http
        - name: apiToken
-     - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
+     - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<GetUsageResponse> 
      */
-    open class func getUsageWithRequestBuilder(teamId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<GetUsageResponse> {
+    open class func getUsageWithRequestBuilder(teamId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<GetUsageResponse> {
         var localVariablePath = "/v1/teams/{teamId}/usage"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""

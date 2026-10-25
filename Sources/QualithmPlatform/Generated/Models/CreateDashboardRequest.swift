@@ -10,8 +10,9 @@ import Foundation
 
 public struct CreateDashboardRequest: Sendable, Codable, Hashable {
 
+    public static let spaceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^spc_[0-9A-HJKMNP-TV-Z]{26}$")
     public var name: String
-    /** A space id to scope the dashboard to; null or empty for team-wide */
+    /** A space ID */
     public var spaceId: String?
     /** The widgets; null or absent for none */
     public var payload: [DashboardWidget]?

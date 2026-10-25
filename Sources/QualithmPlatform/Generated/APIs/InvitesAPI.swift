@@ -13,12 +13,12 @@ open class InvitesAPI {
     /**
      Invite an account to the team by email
      
-     - parameter teamId: (path)  
+     - parameter teamId: (path) A team ID 
      - parameter createTeamInviteRequest: (body)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: CreateTeamInviteResponse
      */
-    open class func createTeamInvite(teamId: UUID, createTeamInviteRequest: CreateTeamInviteRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> CreateTeamInviteResponse {
+    open class func createTeamInvite(teamId: String, createTeamInviteRequest: CreateTeamInviteRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> CreateTeamInviteResponse {
         return try await createTeamInviteWithRequestBuilder(teamId: teamId, createTeamInviteRequest: createTeamInviteRequest, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -28,13 +28,13 @@ open class InvitesAPI {
      - Bearer Token:
        - type: http
        - name: apiToken
-     - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
-     - parameter teamId: (path)  
+     - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
+     - parameter teamId: (path) A team ID 
      - parameter createTeamInviteRequest: (body)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<CreateTeamInviteResponse> 
      */
-    open class func createTeamInviteWithRequestBuilder(teamId: UUID, createTeamInviteRequest: CreateTeamInviteRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<CreateTeamInviteResponse> {
+    open class func createTeamInviteWithRequestBuilder(teamId: String, createTeamInviteRequest: CreateTeamInviteRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<CreateTeamInviteResponse> {
         var localVariablePath = "/v1/teams/{teamId}/invites"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -58,12 +58,12 @@ open class InvitesAPI {
     /**
      Revoke a pending invite
      
-     - parameter teamId: (path)  
-     - parameter inviteId: (path)  
+     - parameter teamId: (path) A team ID 
+     - parameter inviteId: (path) A member ID 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: DeleteTeamInviteResponse
+     - returns: Void
      */
-    open class func deleteTeamInvite(teamId: UUID, inviteId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> DeleteTeamInviteResponse {
+    open class func deleteTeamInvite(teamId: String, inviteId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await deleteTeamInviteWithRequestBuilder(teamId: teamId, inviteId: inviteId, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -73,13 +73,13 @@ open class InvitesAPI {
      - Bearer Token:
        - type: http
        - name: apiToken
-     - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
-     - parameter teamId: (path)  
-     - parameter inviteId: (path)  
+     - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
+     - parameter teamId: (path) A team ID 
+     - parameter inviteId: (path) A member ID 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<DeleteTeamInviteResponse> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func deleteTeamInviteWithRequestBuilder(teamId: UUID, inviteId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<DeleteTeamInviteResponse> {
+    open class func deleteTeamInviteWithRequestBuilder(teamId: String, inviteId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/teams/{teamId}/invites/{inviteId}"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -98,7 +98,7 @@ open class InvitesAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<DeleteTeamInviteResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -106,13 +106,13 @@ open class InvitesAPI {
     /**
      List the team's pending invites
      
-     - parameter teamId: (path)  
+     - parameter teamId: (path) A team ID 
      - parameter page: (query) Page number, from 1. Default 1. (optional)
      - parameter limit: (query) Items per page, 1 to 100. Default 20. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: ListTeamInvitesResponse
      */
-    open class func listTeamInvites(teamId: UUID, page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> ListTeamInvitesResponse {
+    open class func listTeamInvites(teamId: String, page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> ListTeamInvitesResponse {
         return try await listTeamInvitesWithRequestBuilder(teamId: teamId, page: page, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -122,14 +122,14 @@ open class InvitesAPI {
      - Bearer Token:
        - type: http
        - name: apiToken
-     - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
-     - parameter teamId: (path)  
+     - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
+     - parameter teamId: (path) A team ID 
      - parameter page: (query) Page number, from 1. Default 1. (optional)
      - parameter limit: (query) Items per page, 1 to 100. Default 20. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<ListTeamInvitesResponse> 
      */
-    open class func listTeamInvitesWithRequestBuilder(teamId: UUID, page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListTeamInvitesResponse> {
+    open class func listTeamInvitesWithRequestBuilder(teamId: String, page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListTeamInvitesResponse> {
         var localVariablePath = "/v1/teams/{teamId}/invites"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""

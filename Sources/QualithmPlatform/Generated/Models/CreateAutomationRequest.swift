@@ -10,8 +10,9 @@ import Foundation
 
 public struct CreateAutomationRequest: Sendable, Codable, Hashable {
 
+    public static let spaceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^spc_[0-9A-HJKMNP-TV-Z]{26}$")
     public var name: String
-    /** A space id; null, empty or absent for a team-wide automation */
+    /** A space ID */
     public var spaceId: String?
     public var payload: CreateAutomationRequestPayload
 

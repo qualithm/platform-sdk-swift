@@ -18,7 +18,7 @@ open class EnrollmentsAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: CreateEnrollmentResponse
      */
-    open class func createEnrollment(teamId: UUID, createEnrollmentRequest: CreateEnrollmentRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> CreateEnrollmentResponse {
+    open class func createEnrollment(teamId: String, createEnrollmentRequest: CreateEnrollmentRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> CreateEnrollmentResponse {
         return try await createEnrollmentWithRequestBuilder(teamId: teamId, createEnrollmentRequest: createEnrollmentRequest, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -28,13 +28,13 @@ open class EnrollmentsAPI {
      - Bearer Token:
        - type: http
        - name: apiToken
-     - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
+     - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
      - parameter createEnrollmentRequest: (body)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<CreateEnrollmentResponse> 
      */
-    open class func createEnrollmentWithRequestBuilder(teamId: UUID, createEnrollmentRequest: CreateEnrollmentRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<CreateEnrollmentResponse> {
+    open class func createEnrollmentWithRequestBuilder(teamId: String, createEnrollmentRequest: CreateEnrollmentRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<CreateEnrollmentResponse> {
         var localVariablePath = "/v1/teams/{teamId}/enrollments"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -59,11 +59,11 @@ open class EnrollmentsAPI {
      Revoke a pending enrollment
      
      - parameter teamId: (path) The team the request acts on 
-     - parameter enrollmentId: (path)  
+     - parameter enrollmentId: (path) An enrollment ID 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: DeleteEnrollmentResponse
+     - returns: Void
      */
-    open class func deleteEnrollment(teamId: UUID, enrollmentId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> DeleteEnrollmentResponse {
+    open class func deleteEnrollment(teamId: String, enrollmentId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await deleteEnrollmentWithRequestBuilder(teamId: teamId, enrollmentId: enrollmentId, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -73,13 +73,13 @@ open class EnrollmentsAPI {
      - Bearer Token:
        - type: http
        - name: apiToken
-     - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
+     - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
-     - parameter enrollmentId: (path)  
+     - parameter enrollmentId: (path) An enrollment ID 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<DeleteEnrollmentResponse> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func deleteEnrollmentWithRequestBuilder(teamId: UUID, enrollmentId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<DeleteEnrollmentResponse> {
+    open class func deleteEnrollmentWithRequestBuilder(teamId: String, enrollmentId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/teams/{teamId}/enrollments/{enrollmentId}"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -98,7 +98,7 @@ open class EnrollmentsAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<DeleteEnrollmentResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -112,7 +112,7 @@ open class EnrollmentsAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: ListEnrollmentsResponse
      */
-    open class func listEnrollments(teamId: UUID, page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> ListEnrollmentsResponse {
+    open class func listEnrollments(teamId: String, page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> ListEnrollmentsResponse {
         return try await listEnrollmentsWithRequestBuilder(teamId: teamId, page: page, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -122,14 +122,14 @@ open class EnrollmentsAPI {
      - Bearer Token:
        - type: http
        - name: apiToken
-     - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
+     - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
      - parameter page: (query) Page number, from 1. Default 1. (optional)
      - parameter limit: (query) Items per page, 1 to 100. Default 20. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<ListEnrollmentsResponse> 
      */
-    open class func listEnrollmentsWithRequestBuilder(teamId: UUID, page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListEnrollmentsResponse> {
+    open class func listEnrollmentsWithRequestBuilder(teamId: String, page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListEnrollmentsResponse> {
         var localVariablePath = "/v1/teams/{teamId}/enrollments"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""

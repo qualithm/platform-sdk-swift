@@ -10,6 +10,7 @@ import Foundation
 
 public struct UpdateDeviceRequest: Sendable, Codable, Hashable {
 
+    public static let spaceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^spc_[0-9A-HJKMNP-TV-Z]{26}$")
     public var name: String?
     /** A space in the device's zone */
     public var spaceId: String?

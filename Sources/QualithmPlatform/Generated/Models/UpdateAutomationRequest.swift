@@ -11,8 +11,9 @@ import Foundation
 /** At least one of name, spaceId, payload or template */
 public struct UpdateAutomationRequest: Sendable, Codable, Hashable {
 
+    public static let spaceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^spc_[0-9A-HJKMNP-TV-Z]{26}$")
     public var name: String?
-    /** A space id; null or empty clears the scope */
+    /** A space ID */
     public var spaceId: String?
     public var payload: UpdateAutomationRequestPayload?
     /** A template id to re-expand the chain from; exclusive with `payload` */

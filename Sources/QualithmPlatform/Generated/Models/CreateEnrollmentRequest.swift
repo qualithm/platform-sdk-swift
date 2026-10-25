@@ -10,15 +10,16 @@ import Foundation
 
 public struct CreateEnrollmentRequest: Sendable, Codable, Hashable {
 
-    public static let spaceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$")
+    public static let spaceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^spc_[0-9A-HJKMNP-TV-Z]{26}$")
     public static let expiresInMinutesRule = NumericRule<Int>(minimum: 1, exclusiveMinimum: false, maximum: 525600, exclusiveMaximum: false, multipleOf: nil)
-    public var spaceId: UUID
+    /** A space ID */
+    public var spaceId: String
     /** Up to 64 characters */
     public var label: String?
     /** How long the code can be claimed. Default 1440 (24 hours). */
     public var expiresInMinutes: Int?
 
-    public init(spaceId: UUID, label: String? = nil, expiresInMinutes: Int? = nil) {
+    public init(spaceId: String, label: String? = nil, expiresInMinutes: Int? = nil) {
         self.spaceId = spaceId
         self.label = label
         self.expiresInMinutes = expiresInMinutes

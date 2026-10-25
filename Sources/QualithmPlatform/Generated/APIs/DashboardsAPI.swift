@@ -18,7 +18,7 @@ open class DashboardsAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: CreateDashboardResponse
      */
-    open class func createDashboard(teamId: UUID, createDashboardRequest: CreateDashboardRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> CreateDashboardResponse {
+    open class func createDashboard(teamId: String, createDashboardRequest: CreateDashboardRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> CreateDashboardResponse {
         return try await createDashboardWithRequestBuilder(teamId: teamId, createDashboardRequest: createDashboardRequest, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -28,13 +28,13 @@ open class DashboardsAPI {
      - Bearer Token:
        - type: http
        - name: apiToken
-     - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
+     - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
      - parameter createDashboardRequest: (body)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<CreateDashboardResponse> 
      */
-    open class func createDashboardWithRequestBuilder(teamId: UUID, createDashboardRequest: CreateDashboardRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<CreateDashboardResponse> {
+    open class func createDashboardWithRequestBuilder(teamId: String, createDashboardRequest: CreateDashboardRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<CreateDashboardResponse> {
         var localVariablePath = "/v1/teams/{teamId}/dashboards"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -59,11 +59,11 @@ open class DashboardsAPI {
      Delete a dashboard
      
      - parameter teamId: (path) The team the request acts on 
-     - parameter dashboardId: (path)  
+     - parameter dashboardId: (path) A dashboard ID 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: DeleteDashboardResponse
+     - returns: Void
      */
-    open class func deleteDashboard(teamId: UUID, dashboardId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> DeleteDashboardResponse {
+    open class func deleteDashboard(teamId: String, dashboardId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await deleteDashboardWithRequestBuilder(teamId: teamId, dashboardId: dashboardId, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -73,13 +73,13 @@ open class DashboardsAPI {
      - Bearer Token:
        - type: http
        - name: apiToken
-     - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
+     - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
-     - parameter dashboardId: (path)  
+     - parameter dashboardId: (path) A dashboard ID 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<DeleteDashboardResponse> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func deleteDashboardWithRequestBuilder(teamId: UUID, dashboardId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<DeleteDashboardResponse> {
+    open class func deleteDashboardWithRequestBuilder(teamId: String, dashboardId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/teams/{teamId}/dashboards/{dashboardId}"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -98,7 +98,7 @@ open class DashboardsAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<DeleteDashboardResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -107,11 +107,11 @@ open class DashboardsAPI {
      Get a dashboard
      
      - parameter teamId: (path) The team the request acts on 
-     - parameter dashboardId: (path)  
+     - parameter dashboardId: (path) A dashboard ID 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: GetDashboardResponse
      */
-    open class func getDashboard(teamId: UUID, dashboardId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> GetDashboardResponse {
+    open class func getDashboard(teamId: String, dashboardId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> GetDashboardResponse {
         return try await getDashboardWithRequestBuilder(teamId: teamId, dashboardId: dashboardId, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -121,13 +121,13 @@ open class DashboardsAPI {
      - Bearer Token:
        - type: http
        - name: apiToken
-     - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
+     - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
-     - parameter dashboardId: (path)  
+     - parameter dashboardId: (path) A dashboard ID 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<GetDashboardResponse> 
      */
-    open class func getDashboardWithRequestBuilder(teamId: UUID, dashboardId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<GetDashboardResponse> {
+    open class func getDashboardWithRequestBuilder(teamId: String, dashboardId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<GetDashboardResponse> {
         var localVariablePath = "/v1/teams/{teamId}/dashboards/{dashboardId}"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -160,7 +160,7 @@ open class DashboardsAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: ListDashboardsResponse
      */
-    open class func listDashboards(teamId: UUID, page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> ListDashboardsResponse {
+    open class func listDashboards(teamId: String, page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> ListDashboardsResponse {
         return try await listDashboardsWithRequestBuilder(teamId: teamId, page: page, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -170,14 +170,14 @@ open class DashboardsAPI {
      - Bearer Token:
        - type: http
        - name: apiToken
-     - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
+     - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
      - parameter page: (query) Page number, from 1. Default 1. (optional)
      - parameter limit: (query) Items per page, 1 to 100. Default 20. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<ListDashboardsResponse> 
      */
-    open class func listDashboardsWithRequestBuilder(teamId: UUID, page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListDashboardsResponse> {
+    open class func listDashboardsWithRequestBuilder(teamId: String, page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListDashboardsResponse> {
         var localVariablePath = "/v1/teams/{teamId}/dashboards"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -207,12 +207,12 @@ open class DashboardsAPI {
      Update a dashboard
      
      - parameter teamId: (path) The team the request acts on 
-     - parameter dashboardId: (path)  
+     - parameter dashboardId: (path) A dashboard ID 
      - parameter updateDashboardRequest: (body)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: UpdateDashboardResponse
      */
-    open class func updateDashboard(teamId: UUID, dashboardId: UUID, updateDashboardRequest: UpdateDashboardRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> UpdateDashboardResponse {
+    open class func updateDashboard(teamId: String, dashboardId: String, updateDashboardRequest: UpdateDashboardRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> UpdateDashboardResponse {
         return try await updateDashboardWithRequestBuilder(teamId: teamId, dashboardId: dashboardId, updateDashboardRequest: updateDashboardRequest, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -222,14 +222,14 @@ open class DashboardsAPI {
      - Bearer Token:
        - type: http
        - name: apiToken
-     - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
+     - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
-     - parameter dashboardId: (path)  
+     - parameter dashboardId: (path) A dashboard ID 
      - parameter updateDashboardRequest: (body)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<UpdateDashboardResponse> 
      */
-    open class func updateDashboardWithRequestBuilder(teamId: UUID, dashboardId: UUID, updateDashboardRequest: UpdateDashboardRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<UpdateDashboardResponse> {
+    open class func updateDashboardWithRequestBuilder(teamId: String, dashboardId: String, updateDashboardRequest: UpdateDashboardRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<UpdateDashboardResponse> {
         var localVariablePath = "/v1/teams/{teamId}/dashboards/{dashboardId}"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""

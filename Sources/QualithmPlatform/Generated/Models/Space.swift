@@ -10,10 +10,12 @@ import Foundation
 
 public struct Space: Sendable, Codable, Hashable {
 
-    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$")
-    public static let teamIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$")
-    public var id: UUID
-    public var teamId: UUID
+    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^spc_[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let teamIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^tm_[0-9A-HJKMNP-TV-Z]{26}$")
+    /** A space ID */
+    public var id: String
+    /** A team ID */
+    public var teamId: String
     public var name: String
     /** JSON text */
     public var payload: String
@@ -25,7 +27,7 @@ public struct Space: Sendable, Codable, Hashable {
     /** The space's live devices. Absent when listing a zone's spaces. */
     public var deviceTotal: Int64?
 
-    public init(id: UUID, teamId: UUID, name: String, payload: String, zone: ZoneId, createdAt: String, updatedAt: String, deviceTotal: Int64? = nil) {
+    public init(id: String, teamId: String, name: String, payload: String, zone: ZoneId, createdAt: String, updatedAt: String, deviceTotal: Int64? = nil) {
         self.id = id
         self.teamId = teamId
         self.name = name
