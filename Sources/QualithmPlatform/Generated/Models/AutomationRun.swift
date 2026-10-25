@@ -26,10 +26,12 @@ public struct AutomationRun: Sendable, Codable, Hashable {
         case limited = "limited"
         case unknownDefaultOpenApi = "unknown_default_open_api"
     }
-    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$")
-    public static let automationIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$")
-    public var id: UUID
-    public var automationId: UUID
+    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^run_[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let automationIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^aut_[0-9A-HJKMNP-TV-Z]{26}$")
+    /** An automation run ID */
+    public var id: String
+    /** An automation ID */
+    public var automationId: String
     public var triggerType: TriggerType
     public var status: Status
     public var steps: [AutomationRunStep]
@@ -39,7 +41,7 @@ public struct AutomationRun: Sendable, Codable, Hashable {
     /** ISO 8601 time */
     public var executedAt: String?
 
-    public init(id: UUID, automationId: UUID, triggerType: TriggerType, status: Status, steps: [AutomationRunStep], lastError: String?, triggeredAt: String, executedAt: String?) {
+    public init(id: String, automationId: String, triggerType: TriggerType, status: Status, steps: [AutomationRunStep], lastError: String?, triggeredAt: String, executedAt: String?) {
         self.id = id
         self.automationId = automationId
         self.triggerType = triggerType

@@ -14,6 +14,7 @@ public enum ApiErrorCode: String, Sendable, Codable, CaseIterable, CaseIterableD
     case forbidden = "forbidden"
     case notFound = "not_found"
     case conflict = "conflict"
+    case preconditionFailed = "precondition_failed"
     case unsupportedMediaType = "unsupported_media_type"
     case unprocessableEntity = "unprocessable_entity"
     case failedDependency = "failed_dependency"

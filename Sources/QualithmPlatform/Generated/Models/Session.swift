@@ -10,10 +10,12 @@ import Foundation
 
 public struct Session: Sendable, Codable, Hashable {
 
-    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$")
-    public static let accountIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$")
-    public var id: UUID
-    public var accountId: UUID
+    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^ses_[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let accountIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^acc_[0-9A-HJKMNP-TV-Z]{26}$")
+    /** A session ID */
+    public var id: String
+    /** An account ID */
+    public var accountId: String
     public var userAgent: String
     public var ipAddress: String
     /** Whether the session passed MFA */
@@ -29,7 +31,7 @@ public struct Session: Sendable, Codable, Hashable {
     /** UTC time, `YYYY-MM-DD HH:MM:SS` */
     public var revokedAt: String?
 
-    public init(id: UUID, accountId: UUID, userAgent: String, ipAddress: String, mfaVerified: Bool, thisDevice: Bool, createdAt: String, lastUsedAt: String, expiresAt: String, revokedAt: String?) {
+    public init(id: String, accountId: String, userAgent: String, ipAddress: String, mfaVerified: Bool, thisDevice: Bool, createdAt: String, lastUsedAt: String, expiresAt: String, revokedAt: String?) {
         self.id = id
         self.accountId = accountId
         self.userAgent = userAgent

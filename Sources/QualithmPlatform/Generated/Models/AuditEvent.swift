@@ -16,24 +16,29 @@ public struct AuditEvent: Sendable, Codable, Hashable {
         case system = "system"
         case unknownDefaultOpenApi = "unknown_default_open_api"
     }
-    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$")
-    public static let teamIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$")
-    public var id: UUID
-    public var teamId: UUID
+    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^evt_[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let teamIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^tm_[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let actorIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:acc|tok|evt|auth|aut|cmpn|cap|cmd|cred|dash|dev|eml|enr|inv|doc|mem|otp|plan|psh|sub|run|ses|spc|dgst|sev|tm|tev|upt|use|wks)_[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let targetIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:acc|tok|evt|auth|aut|cmpn|cap|cmd|cred|dash|dev|eml|enr|inv|doc|mem|otp|plan|psh|sub|run|ses|spc|dgst|sev|tm|tev|upt|use|wks)_[0-9A-HJKMNP-TV-Z]{26}$")
+    /** An audit event ID */
+    public var id: String
+    /** A team ID */
+    public var teamId: String
     public var actorKind: ActorKind
-    /** The member or device that acted; null for the system */
+    /** An ID of any type */
     public var actorId: String?
     /** Dot-namespaced action, e.g. `device.claim` */
     public var action: String
     /** What the action acted on, e.g. `device` */
     public var targetKind: String
+    /** An ID of any type */
     public var targetId: String
     /** Non-sensitive context for the action */
     public var metadata: JSONValue?
     /** ISO 8601 time */
     public var occurredAt: String
 
-    public init(id: UUID, teamId: UUID, actorKind: ActorKind, actorId: String?, action: String, targetKind: String, targetId: String, metadata: JSONValue?, occurredAt: String) {
+    public init(id: String, teamId: String, actorKind: ActorKind, actorId: String?, action: String, targetKind: String, targetId: String, metadata: JSONValue?, occurredAt: String) {
         self.id = id
         self.teamId = teamId
         self.actorKind = actorKind

@@ -14,12 +14,12 @@ open class CredentialsAPI {
      Issue a client certificate for a device from its CSR
      
      - parameter teamId: (path) The team the request acts on 
-     - parameter deviceId: (path)  
+     - parameter deviceId: (path) A device ID 
      - parameter createDeviceCertificateRequest: (body)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: CreateDeviceCertificateResponse
      */
-    open class func createDeviceCertificate(teamId: UUID, deviceId: UUID, createDeviceCertificateRequest: CreateDeviceCertificateRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> CreateDeviceCertificateResponse {
+    open class func createDeviceCertificate(teamId: String, deviceId: String, createDeviceCertificateRequest: CreateDeviceCertificateRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> CreateDeviceCertificateResponse {
         return try await createDeviceCertificateWithRequestBuilder(teamId: teamId, deviceId: deviceId, createDeviceCertificateRequest: createDeviceCertificateRequest, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -29,14 +29,14 @@ open class CredentialsAPI {
      - Bearer Token:
        - type: http
        - name: apiToken
-     - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
+     - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
-     - parameter deviceId: (path)  
+     - parameter deviceId: (path) A device ID 
      - parameter createDeviceCertificateRequest: (body)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<CreateDeviceCertificateResponse> 
      */
-    open class func createDeviceCertificateWithRequestBuilder(teamId: UUID, deviceId: UUID, createDeviceCertificateRequest: CreateDeviceCertificateRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<CreateDeviceCertificateResponse> {
+    open class func createDeviceCertificateWithRequestBuilder(teamId: String, deviceId: String, createDeviceCertificateRequest: CreateDeviceCertificateRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<CreateDeviceCertificateResponse> {
         var localVariablePath = "/v1/teams/{teamId}/devices/{deviceId}/credentials/cert"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -64,12 +64,12 @@ open class CredentialsAPI {
      Mint a token credential for a device
      
      - parameter teamId: (path) The team the request acts on 
-     - parameter deviceId: (path)  
+     - parameter deviceId: (path) A device ID 
      - parameter createDeviceCredentialRequest: (body)  (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: CreateDeviceCredentialResponse
      */
-    open class func createDeviceCredential(teamId: UUID, deviceId: UUID, createDeviceCredentialRequest: CreateDeviceCredentialRequest? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> CreateDeviceCredentialResponse {
+    open class func createDeviceCredential(teamId: String, deviceId: String, createDeviceCredentialRequest: CreateDeviceCredentialRequest? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> CreateDeviceCredentialResponse {
         return try await createDeviceCredentialWithRequestBuilder(teamId: teamId, deviceId: deviceId, createDeviceCredentialRequest: createDeviceCredentialRequest, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -79,14 +79,14 @@ open class CredentialsAPI {
      - Bearer Token:
        - type: http
        - name: apiToken
-     - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
+     - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
-     - parameter deviceId: (path)  
+     - parameter deviceId: (path) A device ID 
      - parameter createDeviceCredentialRequest: (body)  (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<CreateDeviceCredentialResponse> 
      */
-    open class func createDeviceCredentialWithRequestBuilder(teamId: UUID, deviceId: UUID, createDeviceCredentialRequest: CreateDeviceCredentialRequest? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<CreateDeviceCredentialResponse> {
+    open class func createDeviceCredentialWithRequestBuilder(teamId: String, deviceId: String, createDeviceCredentialRequest: CreateDeviceCredentialRequest? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<CreateDeviceCredentialResponse> {
         var localVariablePath = "/v1/teams/{teamId}/devices/{deviceId}/credentials"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -114,12 +114,11 @@ open class CredentialsAPI {
      Revoke a device's credential
      
      - parameter teamId: (path) The team the request acts on 
-     - parameter deviceId: (path)  
-     - parameter credentialId: (path)  
+     - parameter deviceId: (path) A device ID 
+     - parameter credentialId: (path) A credential ID 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: DeleteDeviceCredentialResponse
      */
-    open class func deleteDeviceCredential(teamId: UUID, deviceId: UUID, credentialId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> DeleteDeviceCredentialResponse {
+    open class func deleteDeviceCredential(teamId: String, deviceId: String, credentialId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await deleteDeviceCredentialWithRequestBuilder(teamId: teamId, deviceId: deviceId, credentialId: credentialId, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -129,14 +128,14 @@ open class CredentialsAPI {
      - Bearer Token:
        - type: http
        - name: apiToken
-     - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
+     - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
-     - parameter deviceId: (path)  
-     - parameter credentialId: (path)  
+     - parameter deviceId: (path) A device ID 
+     - parameter credentialId: (path) A credential ID 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<DeleteDeviceCredentialResponse> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func deleteDeviceCredentialWithRequestBuilder(teamId: UUID, deviceId: UUID, credentialId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<DeleteDeviceCredentialResponse> {
+    open class func deleteDeviceCredentialWithRequestBuilder(teamId: String, deviceId: String, credentialId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/teams/{teamId}/devices/{deviceId}/credentials/{credentialId}"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -158,7 +157,7 @@ open class CredentialsAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<DeleteDeviceCredentialResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -167,11 +166,11 @@ open class CredentialsAPI {
      List a device's credentials
      
      - parameter teamId: (path) The team the request acts on 
-     - parameter deviceId: (path)  
+     - parameter deviceId: (path) A device ID 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: ListDeviceCredentialsResponse
      */
-    open class func listDeviceCredentials(teamId: UUID, deviceId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> ListDeviceCredentialsResponse {
+    open class func listDeviceCredentials(teamId: String, deviceId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> ListDeviceCredentialsResponse {
         return try await listDeviceCredentialsWithRequestBuilder(teamId: teamId, deviceId: deviceId, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -181,13 +180,13 @@ open class CredentialsAPI {
      - Bearer Token:
        - type: http
        - name: apiToken
-     - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
+     - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
-     - parameter deviceId: (path)  
+     - parameter deviceId: (path) A device ID 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<ListDeviceCredentialsResponse> 
      */
-    open class func listDeviceCredentialsWithRequestBuilder(teamId: UUID, deviceId: UUID, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListDeviceCredentialsResponse> {
+    open class func listDeviceCredentialsWithRequestBuilder(teamId: String, deviceId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListDeviceCredentialsResponse> {
         var localVariablePath = "/v1/teams/{teamId}/devices/{deviceId}/credentials"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -215,14 +214,14 @@ open class CredentialsAPI {
      Rotate a device's token credential
      
      - parameter teamId: (path) The team the request acts on 
-     - parameter deviceId: (path)  
-     - parameter credentialId: (path)  
+     - parameter deviceId: (path) A device ID 
+     - parameter credentialId: (path) A credential ID 
      - parameter revoke: (query) &#x60;true&#x60; revokes the old credential now; otherwise it stays active until it expires (optional)
      - parameter rotateDeviceCredentialRequest: (body)  (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RotateDeviceCredentialResponse
      */
-    open class func rotateDeviceCredential(teamId: UUID, deviceId: UUID, credentialId: UUID, revoke: String? = nil, rotateDeviceCredentialRequest: RotateDeviceCredentialRequest? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> RotateDeviceCredentialResponse {
+    open class func rotateDeviceCredential(teamId: String, deviceId: String, credentialId: String, revoke: String? = nil, rotateDeviceCredentialRequest: RotateDeviceCredentialRequest? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> RotateDeviceCredentialResponse {
         return try await rotateDeviceCredentialWithRequestBuilder(teamId: teamId, deviceId: deviceId, credentialId: credentialId, revoke: revoke, rotateDeviceCredentialRequest: rotateDeviceCredentialRequest, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -232,16 +231,16 @@ open class CredentialsAPI {
      - Bearer Token:
        - type: http
        - name: apiToken
-     - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
+     - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
-     - parameter deviceId: (path)  
-     - parameter credentialId: (path)  
+     - parameter deviceId: (path) A device ID 
+     - parameter credentialId: (path) A credential ID 
      - parameter revoke: (query) &#x60;true&#x60; revokes the old credential now; otherwise it stays active until it expires (optional)
      - parameter rotateDeviceCredentialRequest: (body)  (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<RotateDeviceCredentialResponse> 
      */
-    open class func rotateDeviceCredentialWithRequestBuilder(teamId: UUID, deviceId: UUID, credentialId: UUID, revoke: String? = nil, rotateDeviceCredentialRequest: RotateDeviceCredentialRequest? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<RotateDeviceCredentialResponse> {
+    open class func rotateDeviceCredentialWithRequestBuilder(teamId: String, deviceId: String, credentialId: String, revoke: String? = nil, rotateDeviceCredentialRequest: RotateDeviceCredentialRequest? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<RotateDeviceCredentialResponse> {
         var localVariablePath = "/v1/teams/{teamId}/devices/{deviceId}/credentials/{credentialId}/rotate"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""

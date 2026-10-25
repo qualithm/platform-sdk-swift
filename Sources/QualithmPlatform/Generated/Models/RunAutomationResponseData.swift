@@ -10,11 +10,11 @@ import Foundation
 
 public struct RunAutomationResponseData: Sendable, Codable, Hashable {
 
-    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$")
+    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^run_[0-9A-HJKMNP-TV-Z]{26}$")
     /** The queued run's id */
-    public var id: UUID
+    public var id: String
 
-    public init(id: UUID) {
+    public init(id: String) {
         self.id = id
     }
 

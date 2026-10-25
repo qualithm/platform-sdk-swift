@@ -20,14 +20,16 @@ public struct Credential: Sendable, Codable, Hashable {
         case revoked = "revoked"
         case unknownDefaultOpenApi = "unknown_default_open_api"
     }
-    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$")
-    public static let deviceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$")
-    public static let authorityIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$")
-    public static let rotatedFromRule = StringRule(minLength: nil, maxLength: nil, pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$")
-    public var id: UUID
-    public var deviceId: UUID
-    /** The authority that issued a cert credential */
-    public var authorityId: UUID?
+    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^cred_[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let deviceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^dev_[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let authorityIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^auth_[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let rotatedFromRule = StringRule(minLength: nil, maxLength: nil, pattern: "^cred_[0-9A-HJKMNP-TV-Z]{26}$")
+    /** A credential ID */
+    public var id: String
+    /** A device ID */
+    public var deviceId: String
+    /** A device authority ID */
+    public var authorityId: String?
     public var kind: Kind
     /** SHA-256 of a cert credential's certificate */
     public var certFingerprint: String?
@@ -38,8 +40,8 @@ public struct Credential: Sendable, Codable, Hashable {
     public var expiresAt: String?
     /** UTC time, `YYYY-MM-DD HH:MM:SS` */
     public var lastUsedAt: String?
-    /** The credential this one replaced on rotation */
-    public var rotatedFrom: UUID?
+    /** A credential ID */
+    public var rotatedFrom: String?
     /** JSON text */
     public var payload: String
     /** UTC time, `YYYY-MM-DD HH:MM:SS` */
@@ -47,7 +49,7 @@ public struct Credential: Sendable, Codable, Hashable {
     /** UTC time, `YYYY-MM-DD HH:MM:SS` */
     public var updatedAt: String
 
-    public init(id: UUID, deviceId: UUID, authorityId: UUID?, kind: Kind, certFingerprint: String?, certSubject: String?, label: String, status: Status, expiresAt: String?, lastUsedAt: String?, rotatedFrom: UUID?, payload: String, createdAt: String, updatedAt: String) {
+    public init(id: String, deviceId: String, authorityId: String?, kind: Kind, certFingerprint: String?, certSubject: String?, label: String, status: Status, expiresAt: String?, lastUsedAt: String?, rotatedFrom: String?, payload: String, createdAt: String, updatedAt: String) {
         self.id = id
         self.deviceId = deviceId
         self.authorityId = authorityId

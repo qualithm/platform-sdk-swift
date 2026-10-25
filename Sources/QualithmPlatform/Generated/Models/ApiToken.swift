@@ -51,12 +51,15 @@ public struct ApiToken: Sendable, Codable, Hashable {
         case automationPeriodRun = "automation.run"
         case unknownDefaultOpenApi = "unknown_default_open_api"
     }
-    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$")
-    public static let accountIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$")
-    public static let teamIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$")
-    public var id: UUID
-    public var accountId: UUID
-    public var teamId: UUID
+    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^tok_[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let accountIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^acc_[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let teamIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^tm_[0-9A-HJKMNP-TV-Z]{26}$")
+    /** An API token ID */
+    public var id: String
+    /** An account ID */
+    public var accountId: String
+    /** A team ID */
+    public var teamId: String
     public var name: String
     public var status: Status
     /** The token's role ceiling; null means the creator's current role */
@@ -72,7 +75,7 @@ public struct ApiToken: Sendable, Codable, Hashable {
     /** UTC time, `YYYY-MM-DD HH:MM:SS` */
     public var updatedAt: String
 
-    public init(id: UUID, accountId: UUID, teamId: UUID, name: String, status: Status, role: MemberRole?, permissions: [Permissions]? = nil, expiresAt: String?, lastUsedAt: String?, createdAt: String, updatedAt: String) {
+    public init(id: String, accountId: String, teamId: String, name: String, status: Status, role: MemberRole?, permissions: [Permissions]? = nil, expiresAt: String?, lastUsedAt: String?, createdAt: String, updatedAt: String) {
         self.id = id
         self.accountId = accountId
         self.teamId = teamId

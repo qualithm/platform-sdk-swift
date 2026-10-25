@@ -23,7 +23,7 @@ open class ZonesAPI {
     /**
      List the environment's zones and their public endpoints
      - GET /v1/zones
-     - responseHeaders: [RateLimit(String), RateLimit-Policy(String)]
+     - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<ListZonesResponse> 
      */

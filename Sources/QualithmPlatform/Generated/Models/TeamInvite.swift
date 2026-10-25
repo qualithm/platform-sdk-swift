@@ -14,13 +14,15 @@ public struct TeamInvite: Sendable, Codable, Hashable {
         case invited = "invited"
         case unknownDefaultOpenApi = "unknown_default_open_api"
     }
-    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$")
-    public static let accountIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$")
-    public static let teamIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$")
+    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^mem_[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let accountIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^acc_[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let teamIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^tm_[0-9A-HJKMNP-TV-Z]{26}$")
     /** The invite's id: the invited membership's id */
-    public var id: UUID
-    public var accountId: UUID
-    public var teamId: UUID
+    public var id: String
+    /** An account ID */
+    public var accountId: String
+    /** A team ID */
+    public var teamId: String
     public var role: MemberRole
     public var status: Status
     /** UTC time, `YYYY-MM-DD HH:MM:SS` */
@@ -32,7 +34,7 @@ public struct TeamInvite: Sendable, Codable, Hashable {
     /** Absent in the create response */
     public var teamName: String?
 
-    public init(id: UUID, accountId: UUID, teamId: UUID, role: MemberRole, status: Status, createdAt: String, updatedAt: String, accountEmail: String, accountName: String, teamName: String? = nil) {
+    public init(id: String, accountId: String, teamId: String, role: MemberRole, status: Status, createdAt: String, updatedAt: String, accountEmail: String, accountName: String, teamName: String? = nil) {
         self.id = id
         self.accountId = accountId
         self.teamId = teamId

@@ -10,10 +10,12 @@ import Foundation
 
 public struct Invoice: Sendable, Codable, Hashable {
 
-    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$")
-    public static let teamIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$")
-    public var id: UUID
-    public var teamId: UUID
+    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^inv_[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let teamIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^tm_[0-9A-HJKMNP-TV-Z]{26}$")
+    /** An invoice ID */
+    public var id: String
+    /** A team ID */
+    public var teamId: String
     public var status: String
     /** The invoice total in minor units */
     public var totalC: Int64?
@@ -25,7 +27,7 @@ public struct Invoice: Sendable, Codable, Hashable {
     /** UTC time, `YYYY-MM-DD HH:MM:SS` */
     public var updatedAt: String
 
-    public init(id: UUID, teamId: UUID, status: String, totalC: Int64?, currency: String?, payload: String, createdAt: String, updatedAt: String) {
+    public init(id: String, teamId: String, status: String, totalC: Int64?, currency: String?, payload: String, createdAt: String, updatedAt: String) {
         self.id = id
         self.teamId = teamId
         self.status = status

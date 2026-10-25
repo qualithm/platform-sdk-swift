@@ -16,16 +16,20 @@ public struct Enrollment: Sendable, Codable, Hashable {
         case revoked = "revoked"
         case unknownDefaultOpenApi = "unknown_default_open_api"
     }
-    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$")
-    public static let teamIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$")
-    public static let spaceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$")
-    public static let claimedDeviceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$")
-    public var id: UUID
-    public var teamId: UUID
-    public var spaceId: UUID
+    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^enr_[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let teamIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^tm_[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let spaceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^spc_[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let claimedDeviceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^dev_[0-9A-HJKMNP-TV-Z]{26}$")
+    /** An enrollment ID */
+    public var id: String
+    /** A team ID */
+    public var teamId: String
+    /** A space ID */
+    public var spaceId: String
     public var label: String
     public var status: Status
-    public var claimedDeviceId: UUID?
+    /** A device ID */
+    public var claimedDeviceId: String?
     /** UTC time, `YYYY-MM-DD HH:MM:SS` */
     public var claimedAt: String?
     /** ISO 8601 time */
@@ -37,7 +41,7 @@ public struct Enrollment: Sendable, Codable, Hashable {
     /** UTC time, `YYYY-MM-DD HH:MM:SS` */
     public var updatedAt: String
 
-    public init(id: UUID, teamId: UUID, spaceId: UUID, label: String, status: Status, claimedDeviceId: UUID?, claimedAt: String?, expiresAt: String, payload: String, createdAt: String, updatedAt: String) {
+    public init(id: String, teamId: String, spaceId: String, label: String, status: Status, claimedDeviceId: String?, claimedAt: String?, expiresAt: String, payload: String, createdAt: String, updatedAt: String) {
         self.id = id
         self.teamId = teamId
         self.spaceId = spaceId
