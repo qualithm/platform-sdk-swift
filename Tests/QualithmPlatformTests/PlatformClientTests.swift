@@ -4,8 +4,8 @@ import Testing
 
 @Suite(.serialized)
 struct PlatformClientTests {
-  let teamID = UUID(uuidString: "1C2D3E4F-5A6B-4C7D-8E9F-0A1B2C3D4E5F") ?? UUID()
-  let deviceID = UUID(uuidString: "0B9F8A1E-8C1D-4B6F-9A51-2F6C1E3D4A5B") ?? UUID()
+  let teamID = "tm_01JAYQ4T7Z9K3M5N8P2R6S0V1W"
+  let deviceID = "dev_01JAYQ4T7Z9K3M5N8P2R6S0V1W"
 
   func json(_ value: String) -> Data { Data(value.utf8) }
 
@@ -30,7 +30,7 @@ struct PlatformClientTests {
 
     #expect(page.data.items.isEmpty)
     let request = try #require(stubSession.requests.first)
-    let devices = "https://api.qualithm.com/v1/teams/\(teamID.uuidString)/devices"
+    let devices = "https://api.qualithm.com/v1/teams/\(teamID)/devices"
     #expect(
       request.url?.absoluteString.caseInsensitiveCompare("\(devices)?limit=10&page=2")
         == .orderedSame

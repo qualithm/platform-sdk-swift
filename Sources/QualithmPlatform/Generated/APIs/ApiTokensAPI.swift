@@ -16,7 +16,6 @@ open class ApiTokensAPI {
      - parameter teamId: (path) The team the request acts on 
      - parameter tokenId: (path) An API token ID 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
      */
     open class func deleteApiToken(teamId: String, tokenId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await deleteApiTokenWithRequestBuilder(teamId: teamId, tokenId: tokenId, apiConfiguration: apiConfiguration).execute().body

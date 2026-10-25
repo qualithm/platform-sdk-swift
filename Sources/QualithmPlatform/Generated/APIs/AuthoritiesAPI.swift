@@ -61,7 +61,6 @@ open class AuthoritiesAPI {
      - parameter teamId: (path) The team the request acts on 
      - parameter authorityId: (path) A device authority ID 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
      */
     open class func deleteAuthority(teamId: String, authorityId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await deleteAuthorityWithRequestBuilder(teamId: teamId, authorityId: authorityId, apiConfiguration: apiConfiguration).execute().body

@@ -61,7 +61,6 @@ open class SpacesAPI {
      - parameter teamId: (path) The team the request acts on 
      - parameter spaceId: (path) A space ID 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
      */
     open class func deleteSpace(teamId: String, spaceId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await deleteSpaceWithRequestBuilder(teamId: teamId, spaceId: spaceId, apiConfiguration: apiConfiguration).execute().body
@@ -221,7 +220,6 @@ open class SpacesAPI {
      - parameter spaceId: (path) A space ID 
      - parameter updateSpaceRequest: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
      */
     open class func updateSpace(teamId: String, spaceId: String, updateSpaceRequest: UpdateSpaceRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await updateSpaceWithRequestBuilder(teamId: teamId, spaceId: spaceId, updateSpaceRequest: updateSpaceRequest, apiConfiguration: apiConfiguration).execute().body

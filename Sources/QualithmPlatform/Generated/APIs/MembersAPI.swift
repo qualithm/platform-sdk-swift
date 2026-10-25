@@ -61,7 +61,6 @@ open class MembersAPI {
      - parameter teamId: (path) A team ID 
      - parameter memberId: (path) A member ID 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
      */
     open class func deleteTeamMember(teamId: String, memberId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await deleteTeamMemberWithRequestBuilder(teamId: teamId, memberId: memberId, apiConfiguration: apiConfiguration).execute().body
@@ -211,7 +210,6 @@ open class MembersAPI {
      - parameter memberId: (path) A member ID 
      - parameter updateTeamMemberRequest: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
      */
     open class func updateTeamMember(teamId: String, memberId: String, updateTeamMemberRequest: UpdateTeamMemberRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await updateTeamMemberWithRequestBuilder(teamId: teamId, memberId: memberId, updateTeamMemberRequest: updateTeamMemberRequest, apiConfiguration: apiConfiguration).execute().body

@@ -61,7 +61,6 @@ open class DashboardsAPI {
      - parameter teamId: (path) The team the request acts on 
      - parameter dashboardId: (path) A dashboard ID 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
      */
     open class func deleteDashboard(teamId: String, dashboardId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await deleteDashboardWithRequestBuilder(teamId: teamId, dashboardId: dashboardId, apiConfiguration: apiConfiguration).execute().body

@@ -19,6 +19,10 @@ rm -rf .generated
 # fails the DocC build.
 f="$OUT/Infrastructure/JSONDataEncoding.swift"
 sed 's|/// - parameter urlRequest: The request|/// - parameter request: The request|' "$f" > "$f.tmp" && mv "$f.tmp" "$f"
+# It also documents a return value on methods that return Void, which DocC rejects.
+find "$OUT/APIs" -name '*.swift' | while read -r f; do
+  grep -v '^ *- returns: Void$' "$f" > "$f.tmp" && mv "$f.tmp" "$f"
+done
 # Generated code follows the generator's style, not the repo's.
 find "$OUT" -name '*.swift' | sort | while read -r f; do
   { echo "// swift-format-ignore-file"; cat "$f"; } > "$f.tmp" && mv "$f.tmp" "$f"

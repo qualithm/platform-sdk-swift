@@ -61,7 +61,6 @@ open class EnrollmentsAPI {
      - parameter teamId: (path) The team the request acts on 
      - parameter enrollmentId: (path) An enrollment ID 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
      */
     open class func deleteEnrollment(teamId: String, enrollmentId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await deleteEnrollmentWithRequestBuilder(teamId: teamId, enrollmentId: enrollmentId, apiConfiguration: apiConfiguration).execute().body

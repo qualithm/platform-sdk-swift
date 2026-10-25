@@ -15,7 +15,6 @@ open class EventsAPI {
      
      - parameter teamId: (path) The team the request acts on 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
      */
     open class func streamEvents(teamId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await streamEventsWithRequestBuilder(teamId: teamId, apiConfiguration: apiConfiguration).execute().body

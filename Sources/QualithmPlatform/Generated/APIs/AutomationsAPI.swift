@@ -154,7 +154,6 @@ open class AutomationsAPI {
      - parameter teamId: (path) The team the request acts on 
      - parameter automationId: (path) An automation ID 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
      */
     open class func deleteAutomation(teamId: String, automationId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await deleteAutomationWithRequestBuilder(teamId: teamId, automationId: automationId, apiConfiguration: apiConfiguration).execute().body

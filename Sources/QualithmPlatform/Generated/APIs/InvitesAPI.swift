@@ -61,7 +61,6 @@ open class InvitesAPI {
      - parameter teamId: (path) A team ID 
      - parameter inviteId: (path) A member ID 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
      */
     open class func deleteTeamInvite(teamId: String, inviteId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await deleteTeamInviteWithRequestBuilder(teamId: teamId, inviteId: inviteId, apiConfiguration: apiConfiguration).execute().body

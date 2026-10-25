@@ -54,7 +54,6 @@ open class TeamsAPI {
      
      - parameter teamId: (path) A team ID 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
      */
     open class func deleteTeam(teamId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await deleteTeamWithRequestBuilder(teamId: teamId, apiConfiguration: apiConfiguration).execute().body
@@ -188,7 +187,6 @@ open class TeamsAPI {
      - parameter teamId: (path) A team ID 
      - parameter updateTeamRequest: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
      */
     open class func updateTeam(teamId: String, updateTeamRequest: UpdateTeamRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await updateTeamWithRequestBuilder(teamId: teamId, updateTeamRequest: updateTeamRequest, apiConfiguration: apiConfiguration).execute().body

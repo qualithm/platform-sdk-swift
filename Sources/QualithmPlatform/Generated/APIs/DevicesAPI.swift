@@ -61,7 +61,6 @@ open class DevicesAPI {
      - parameter teamId: (path) The team the request acts on 
      - parameter deviceId: (path) A device ID 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
      */
     open class func deleteDevice(teamId: String, deviceId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await deleteDeviceWithRequestBuilder(teamId: teamId, deviceId: deviceId, apiConfiguration: apiConfiguration).execute().body
@@ -255,7 +254,6 @@ open class DevicesAPI {
      - parameter teamId: (path) The team the request acts on 
      - parameter deviceId: (path) A device ID 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
      */
     open class func parkDevice(teamId: String, deviceId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await parkDeviceWithRequestBuilder(teamId: teamId, deviceId: deviceId, apiConfiguration: apiConfiguration).execute().body
@@ -303,7 +301,6 @@ open class DevicesAPI {
      - parameter teamId: (path) The team the request acts on 
      - parameter deviceId: (path) A device ID 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
      */
     open class func unparkDevice(teamId: String, deviceId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await unparkDeviceWithRequestBuilder(teamId: teamId, deviceId: deviceId, apiConfiguration: apiConfiguration).execute().body
@@ -352,7 +349,6 @@ open class DevicesAPI {
      - parameter deviceId: (path) A device ID 
      - parameter updateDeviceRequest: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
      */
     open class func updateDevice(teamId: String, deviceId: String, updateDeviceRequest: UpdateDeviceRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await updateDeviceWithRequestBuilder(teamId: teamId, deviceId: deviceId, updateDeviceRequest: updateDeviceRequest, apiConfiguration: apiConfiguration).execute().body

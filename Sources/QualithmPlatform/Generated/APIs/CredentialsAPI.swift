@@ -117,7 +117,6 @@ open class CredentialsAPI {
      - parameter deviceId: (path) A device ID 
      - parameter credentialId: (path) A credential ID 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
      */
     open class func deleteDeviceCredential(teamId: String, deviceId: String, credentialId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await deleteDeviceCredentialWithRequestBuilder(teamId: teamId, deviceId: deviceId, credentialId: credentialId, apiConfiguration: apiConfiguration).execute().body
