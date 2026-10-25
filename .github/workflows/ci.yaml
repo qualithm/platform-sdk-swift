@@ -257,6 +257,47 @@ jobs:
             exit 1
           fi
   # dx:generated-drift-end
+  docs:
+    name: Docs
+    needs: changes
+    # Full tier: the API docs build only on the main hop, where a release is
+    # cut from. DocC builds each library target from its symbol graph
+    # and fails on any warning, such as a parameter the comment names wrongly.
+    if: needs.changes.outputs.code == 'true' && needs.changes.outputs.is-main == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    container:
+      image: swift:6.4.0-noble@sha256:31d14d727f4451f25e29bac9c42563a098c39ac66415e8bad970f48038e38aca
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - name: Trust the checkout
+        if: github.run_id != ''
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+      - name: Build the API docs (DocC)
+        run: |
+          set -euo pipefail
+          graphs="$RUNNER_TEMP/symbol-graphs"
+          mkdir -p "$graphs" "$RUNNER_TEMP/docs"
+          swift build -Xswiftc -emit-symbol-graph -Xswiftc -emit-symbol-graph-dir -Xswiftc "$graphs"
+          # Every directory under Sources/ is a library target; examples and
+          # tests live elsewhere. Each target's docs use only its own graphs.
+          for dir in Sources/*/; do
+            target=$(basename "$dir")
+            own="$RUNNER_TEMP/graphs-$target"
+            mkdir -p "$own"
+            cp "$graphs/$target".symbols.json "$graphs/$target"@*.symbols.json "$own/" 2>/dev/null || true
+            catalog=()
+            for docc in "$dir"*.docc; do
+              if [[ -d "$docc" ]]; then catalog=("$docc"); fi
+            done
+            docc convert "${catalog[@]}" --additional-symbol-graph-dir "$own" \
+              --fallback-display-name "$target" --fallback-bundle-identifier "$target" \
+              --output-dir "$RUNNER_TEMP/docs/$target" --warnings-as-errors
+          done
+
   image-pins:
     name: Image Pins
     # Every image reference in the repo must match the vendored dx registry
@@ -278,7 +319,7 @@ jobs:
   ci-required:
     name: CI Required
     if: always()
-    needs: [changes, lint, coverage, macos, generated-drift, image-pins]
+    needs: [changes, lint, coverage, macos, generated-drift, docs, image-pins]
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
