@@ -21,7 +21,7 @@ public struct JSONDataEncoding: Sendable {
 
     /// Creates a URL request by encoding parameters and applying them onto an existing request.
     ///
-    /// - parameter urlRequest: The request to have parameters applied.
+    /// - parameter request: The request to have parameters applied.
     /// - parameter parameters: The parameters to apply. This should have a single key/value
     ///                         pair with "jsonData" as the key and a Data object as the value.
     ///
