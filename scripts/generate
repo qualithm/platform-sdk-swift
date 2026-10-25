@@ -15,6 +15,10 @@ docker run --rm --user "$(id -u):$(id -g)" -v "$PWD:/local" "$IMAGE" \
 mkdir -p "$(dirname "$OUT")"
 mv .generated/Sources/QualithmPlatform "$OUT"
 rm -rf .generated
+# The generator documents a parameter by its local name, not its label, which
+# fails the DocC build.
+f="$OUT/Infrastructure/JSONDataEncoding.swift"
+sed 's|/// - parameter urlRequest: The request|/// - parameter request: The request|' "$f" > "$f.tmp" && mv "$f.tmp" "$f"
 # Generated code follows the generator's style, not the repo's.
 find "$OUT" -name '*.swift' | sort | while read -r f; do
   { echo "// swift-format-ignore-file"; cat "$f"; } > "$f.tmp" && mv "$f.tmp" "$f"
