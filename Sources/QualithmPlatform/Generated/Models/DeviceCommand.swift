@@ -32,12 +32,12 @@ public struct DeviceCommand: Sendable, Codable, Hashable {
     public var topic: String
     public var status: Status
     public var lastError: String?
-    /** ISO 8601 time */
-    public var enqueuedAt: String
-    /** ISO 8601 time */
-    public var settledAt: String?
+    /** UTC time, RFC 3339 */
+    public var enqueuedAt: Date
+    /** UTC time, RFC 3339 */
+    public var settledAt: Date?
 
-    public init(id: String, deviceId: String, source: Source, topic: String, status: Status, lastError: String?, enqueuedAt: String, settledAt: String?) {
+    public init(id: String, deviceId: String, source: Source, topic: String, status: Status, lastError: String?, enqueuedAt: Date, settledAt: Date?) {
         self.id = id
         self.deviceId = deviceId
         self.source = source

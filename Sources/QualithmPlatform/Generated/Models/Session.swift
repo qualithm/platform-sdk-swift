@@ -22,16 +22,16 @@ public struct Session: Sendable, Codable, Hashable {
     public var mfaVerified: Bool
     /** Whether this is the session making the request */
     public var thisDevice: Bool
-    /** UTC time, `YYYY-MM-DD HH:MM:SS` */
-    public var createdAt: String
-    /** UTC time, `YYYY-MM-DD HH:MM:SS` */
-    public var lastUsedAt: String
-    /** UTC time, `YYYY-MM-DD HH:MM:SS` */
-    public var expiresAt: String
-    /** UTC time, `YYYY-MM-DD HH:MM:SS` */
-    public var revokedAt: String?
+    /** UTC time, RFC 3339 */
+    public var createdAt: Date
+    /** UTC time, RFC 3339 */
+    public var lastUsedAt: Date
+    /** UTC time, RFC 3339 */
+    public var expiresAt: Date
+    /** UTC time, RFC 3339 */
+    public var revokedAt: Date?
 
-    public init(id: String, accountId: String, userAgent: String, ipAddress: String, mfaVerified: Bool, thisDevice: Bool, createdAt: String, lastUsedAt: String, expiresAt: String, revokedAt: String?) {
+    public init(id: String, accountId: String, userAgent: String, ipAddress: String, mfaVerified: Bool, thisDevice: Bool, createdAt: Date, lastUsedAt: Date, expiresAt: Date, revokedAt: Date?) {
         self.id = id
         self.accountId = accountId
         self.userAgent = userAgent

@@ -34,12 +34,12 @@ public struct Authority: Sendable, Codable, Hashable {
     public var status: Status
     /** JSON text */
     public var payload: String
-    /** UTC time, `YYYY-MM-DD HH:MM:SS` */
-    public var createdAt: String
-    /** UTC time, `YYYY-MM-DD HH:MM:SS` */
-    public var updatedAt: String
+    /** UTC time, RFC 3339 */
+    public var createdAt: Date
+    /** UTC time, RFC 3339 */
+    public var updatedAt: Date
 
-    public init(id: String, teamId: String, name: String, kind: Kind, certificatePem: String?, fingerprint: String?, status: Status, payload: String, createdAt: String, updatedAt: String) {
+    public init(id: String, teamId: String, name: String, kind: Kind, certificatePem: String?, fingerprint: String?, status: Status, payload: String, createdAt: Date, updatedAt: Date) {
         self.id = id
         self.teamId = teamId
         self.name = name

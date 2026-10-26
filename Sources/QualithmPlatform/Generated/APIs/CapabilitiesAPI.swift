@@ -136,11 +136,12 @@ open class CapabilitiesAPI {
      - parameter teamId: (path) The team the request acts on 
      - parameter capabilityId: (path) A capability ID 
      - parameter updateCapabilityRequest: (body)  
+     - parameter ifMatch: (header) The ETag you last read. The request is refused with 412 when the resource has changed since; omit it to apply the change regardless. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: UpdateCapabilityResponse
      */
-    open class func updateCapability(teamId: String, capabilityId: String, updateCapabilityRequest: UpdateCapabilityRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> UpdateCapabilityResponse {
-        return try await updateCapabilityWithRequestBuilder(teamId: teamId, capabilityId: capabilityId, updateCapabilityRequest: updateCapabilityRequest, apiConfiguration: apiConfiguration).execute().body
+    open class func updateCapability(teamId: String, capabilityId: String, updateCapabilityRequest: UpdateCapabilityRequest, ifMatch: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> UpdateCapabilityResponse {
+        return try await updateCapabilityWithRequestBuilder(teamId: teamId, capabilityId: capabilityId, updateCapabilityRequest: updateCapabilityRequest, ifMatch: ifMatch, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -149,14 +150,15 @@ open class CapabilitiesAPI {
      - Bearer Token:
        - type: http
        - name: apiToken
-     - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
+     - responseHeaders: [Request-Id(String), ETag(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
      - parameter capabilityId: (path) A capability ID 
      - parameter updateCapabilityRequest: (body)  
+     - parameter ifMatch: (header) The ETag you last read. The request is refused with 412 when the resource has changed since; omit it to apply the change regardless. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<UpdateCapabilityResponse> 
      */
-    open class func updateCapabilityWithRequestBuilder(teamId: String, capabilityId: String, updateCapabilityRequest: UpdateCapabilityRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<UpdateCapabilityResponse> {
+    open class func updateCapabilityWithRequestBuilder(teamId: String, capabilityId: String, updateCapabilityRequest: UpdateCapabilityRequest, ifMatch: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<UpdateCapabilityResponse> {
         var localVariablePath = "/v1/teams/{teamId}/capabilities/{capabilityId}"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -171,6 +173,7 @@ open class CapabilitiesAPI {
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/json",
+            "If-Match": ifMatch?.asParameter(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)

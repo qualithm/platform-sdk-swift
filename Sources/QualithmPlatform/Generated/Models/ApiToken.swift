@@ -66,16 +66,16 @@ public struct ApiToken: Sendable, Codable, Hashable {
     public var role: MemberRole?
     /** What the token can do now: its creator's current role lowered to its ceiling. Listed tokens only. */
     public var permissions: [Permissions]?
-    /** ISO 8601 time */
-    public var expiresAt: String?
-    /** UTC time, `YYYY-MM-DD HH:MM:SS` */
-    public var lastUsedAt: String?
-    /** UTC time, `YYYY-MM-DD HH:MM:SS` */
-    public var createdAt: String
-    /** UTC time, `YYYY-MM-DD HH:MM:SS` */
-    public var updatedAt: String
+    /** UTC time, RFC 3339 */
+    public var expiresAt: Date?
+    /** UTC time, RFC 3339 */
+    public var lastUsedAt: Date?
+    /** UTC time, RFC 3339 */
+    public var createdAt: Date
+    /** UTC time, RFC 3339 */
+    public var updatedAt: Date
 
-    public init(id: String, accountId: String, teamId: String, name: String, status: Status, role: MemberRole?, permissions: [Permissions]? = nil, expiresAt: String?, lastUsedAt: String?, createdAt: String, updatedAt: String) {
+    public init(id: String, accountId: String, teamId: String, name: String, status: Status, role: MemberRole?, permissions: [Permissions]? = nil, expiresAt: Date?, lastUsedAt: Date?, createdAt: Date, updatedAt: Date) {
         self.id = id
         self.accountId = accountId
         self.teamId = teamId

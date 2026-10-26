@@ -23,14 +23,14 @@ public struct Automation: Sendable, Codable, Hashable {
     public var name: String
     public var enabled: Bool
     public var payload: AutomationPayload
-    /** ISO 8601 time */
-    public var createdAt: String
-    /** ISO 8601 time */
-    public var updatedAt: String
+    /** UTC time, RFC 3339 */
+    public var createdAt: Date
+    /** UTC time, RFC 3339 */
+    public var updatedAt: Date
     /** On a single read of a template-built automation: true when its chain no longer matches its template */
     public var templateDrift: Bool?
 
-    public init(id: String, teamId: String, spaceId: String?, spaceName: String?, name: String, enabled: Bool, payload: AutomationPayload, createdAt: String, updatedAt: String, templateDrift: Bool? = nil) {
+    public init(id: String, teamId: String, spaceId: String?, spaceName: String?, name: String, enabled: Bool, payload: AutomationPayload, createdAt: Date, updatedAt: Date, templateDrift: Bool? = nil) {
         self.id = id
         self.teamId = teamId
         self.spaceId = spaceId

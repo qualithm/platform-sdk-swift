@@ -110,11 +110,12 @@ open class BillingAPI {
      
      - parameter teamId: (path) The team the request acts on 
      - parameter previewTierChangeRequest: (body)  
+     - parameter idempotencyKey: (header) A unique key for this request. A retry with the same key and body returns the first response instead of acting again; keys last 24 hours. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: PreviewTierChangeResponse
      */
-    open class func previewTierChange(teamId: String, previewTierChangeRequest: PreviewTierChangeRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> PreviewTierChangeResponse {
-        return try await previewTierChangeWithRequestBuilder(teamId: teamId, previewTierChangeRequest: previewTierChangeRequest, apiConfiguration: apiConfiguration).execute().body
+    open class func previewTierChange(teamId: String, previewTierChangeRequest: PreviewTierChangeRequest, idempotencyKey: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> PreviewTierChangeResponse {
+        return try await previewTierChangeWithRequestBuilder(teamId: teamId, previewTierChangeRequest: previewTierChangeRequest, idempotencyKey: idempotencyKey, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -126,10 +127,11 @@ open class BillingAPI {
      - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
      - parameter previewTierChangeRequest: (body)  
+     - parameter idempotencyKey: (header) A unique key for this request. A retry with the same key and body returns the first response instead of acting again; keys last 24 hours. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<PreviewTierChangeResponse> 
      */
-    open class func previewTierChangeWithRequestBuilder(teamId: String, previewTierChangeRequest: PreviewTierChangeRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<PreviewTierChangeResponse> {
+    open class func previewTierChangeWithRequestBuilder(teamId: String, previewTierChangeRequest: PreviewTierChangeRequest, idempotencyKey: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<PreviewTierChangeResponse> {
         var localVariablePath = "/v1/teams/{teamId}/billing/tier/preview"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -141,6 +143,7 @@ open class BillingAPI {
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/json",
+            "Idempotency-Key": idempotencyKey?.asParameter(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)

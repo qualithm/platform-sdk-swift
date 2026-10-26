@@ -15,11 +15,12 @@ open class DashboardsAPI {
      
      - parameter teamId: (path) The team the request acts on 
      - parameter createDashboardRequest: (body)  
+     - parameter idempotencyKey: (header) A unique key for this request. A retry with the same key and body returns the first response instead of acting again; keys last 24 hours. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: CreateDashboardResponse
      */
-    open class func createDashboard(teamId: String, createDashboardRequest: CreateDashboardRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> CreateDashboardResponse {
-        return try await createDashboardWithRequestBuilder(teamId: teamId, createDashboardRequest: createDashboardRequest, apiConfiguration: apiConfiguration).execute().body
+    open class func createDashboard(teamId: String, createDashboardRequest: CreateDashboardRequest, idempotencyKey: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> CreateDashboardResponse {
+        return try await createDashboardWithRequestBuilder(teamId: teamId, createDashboardRequest: createDashboardRequest, idempotencyKey: idempotencyKey, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -31,10 +32,11 @@ open class DashboardsAPI {
      - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
      - parameter createDashboardRequest: (body)  
+     - parameter idempotencyKey: (header) A unique key for this request. A retry with the same key and body returns the first response instead of acting again; keys last 24 hours. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<CreateDashboardResponse> 
      */
-    open class func createDashboardWithRequestBuilder(teamId: String, createDashboardRequest: CreateDashboardRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<CreateDashboardResponse> {
+    open class func createDashboardWithRequestBuilder(teamId: String, createDashboardRequest: CreateDashboardRequest, idempotencyKey: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<CreateDashboardResponse> {
         var localVariablePath = "/v1/teams/{teamId}/dashboards"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -46,6 +48,7 @@ open class DashboardsAPI {
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/json",
+            "Idempotency-Key": idempotencyKey?.asParameter(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
@@ -60,10 +63,11 @@ open class DashboardsAPI {
      
      - parameter teamId: (path) The team the request acts on 
      - parameter dashboardId: (path) A dashboard ID 
+     - parameter ifMatch: (header) The ETag you last read. The request is refused with 412 when the resource has changed since; omit it to apply the change regardless. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      */
-    open class func deleteDashboard(teamId: String, dashboardId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await deleteDashboardWithRequestBuilder(teamId: teamId, dashboardId: dashboardId, apiConfiguration: apiConfiguration).execute().body
+    open class func deleteDashboard(teamId: String, dashboardId: String, ifMatch: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await deleteDashboardWithRequestBuilder(teamId: teamId, dashboardId: dashboardId, ifMatch: ifMatch, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -75,10 +79,11 @@ open class DashboardsAPI {
      - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
      - parameter dashboardId: (path) A dashboard ID 
+     - parameter ifMatch: (header) The ETag you last read. The request is refused with 412 when the resource has changed since; omit it to apply the change regardless. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
-    open class func deleteDashboardWithRequestBuilder(teamId: String, dashboardId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func deleteDashboardWithRequestBuilder(teamId: String, dashboardId: String, ifMatch: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/teams/{teamId}/dashboards/{dashboardId}"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -92,7 +97,7 @@ open class DashboardsAPI {
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
+            "If-Match": ifMatch?.asParameter(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
@@ -120,7 +125,7 @@ open class DashboardsAPI {
      - Bearer Token:
        - type: http
        - name: apiToken
-     - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
+     - responseHeaders: [Request-Id(String), ETag(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
      - parameter dashboardId: (path) A dashboard ID 
      - parameter apiConfiguration: The configuration for the http request.
@@ -208,11 +213,12 @@ open class DashboardsAPI {
      - parameter teamId: (path) The team the request acts on 
      - parameter dashboardId: (path) A dashboard ID 
      - parameter updateDashboardRequest: (body)  
+     - parameter ifMatch: (header) The ETag you last read. The request is refused with 412 when the resource has changed since; omit it to apply the change regardless. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: UpdateDashboardResponse
      */
-    open class func updateDashboard(teamId: String, dashboardId: String, updateDashboardRequest: UpdateDashboardRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> UpdateDashboardResponse {
-        return try await updateDashboardWithRequestBuilder(teamId: teamId, dashboardId: dashboardId, updateDashboardRequest: updateDashboardRequest, apiConfiguration: apiConfiguration).execute().body
+    open class func updateDashboard(teamId: String, dashboardId: String, updateDashboardRequest: UpdateDashboardRequest, ifMatch: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> UpdateDashboardResponse {
+        return try await updateDashboardWithRequestBuilder(teamId: teamId, dashboardId: dashboardId, updateDashboardRequest: updateDashboardRequest, ifMatch: ifMatch, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -221,14 +227,15 @@ open class DashboardsAPI {
      - Bearer Token:
        - type: http
        - name: apiToken
-     - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
+     - responseHeaders: [Request-Id(String), ETag(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
      - parameter dashboardId: (path) A dashboard ID 
      - parameter updateDashboardRequest: (body)  
+     - parameter ifMatch: (header) The ETag you last read. The request is refused with 412 when the resource has changed since; omit it to apply the change regardless. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<UpdateDashboardResponse> 
      */
-    open class func updateDashboardWithRequestBuilder(teamId: String, dashboardId: String, updateDashboardRequest: UpdateDashboardRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<UpdateDashboardResponse> {
+    open class func updateDashboardWithRequestBuilder(teamId: String, dashboardId: String, updateDashboardRequest: UpdateDashboardRequest, ifMatch: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<UpdateDashboardResponse> {
         var localVariablePath = "/v1/teams/{teamId}/dashboards/{dashboardId}"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -243,6 +250,7 @@ open class DashboardsAPI {
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/json",
+            "If-Match": ifMatch?.asParameter(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)

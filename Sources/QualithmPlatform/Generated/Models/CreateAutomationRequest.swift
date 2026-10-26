@@ -8,24 +8,33 @@
 
 import Foundation
 
+/** A name, and either a payload or a template */
 public struct CreateAutomationRequest: Sendable, Codable, Hashable {
 
     public static let spaceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^spc_[0-9A-HJKMNP-TV-Z]{26}$")
     public var name: String
     /** A space ID */
     public var spaceId: String?
-    public var payload: CreateAutomationRequestPayload
+    public var payload: CreateAutomationRequestPayload?
+    /** A template id to expand the chain from; exclusive with `payload` */
+    public var template: String?
+    /** The template's slot values, keyed by slot name; used with `template` */
+    public var params: JSONValue?
 
-    public init(name: String, spaceId: String? = nil, payload: CreateAutomationRequestPayload) {
+    public init(name: String, spaceId: String? = nil, payload: CreateAutomationRequestPayload? = nil, template: String? = nil, params: JSONValue? = nil) {
         self.name = name
         self.spaceId = spaceId
         self.payload = payload
+        self.template = template
+        self.params = params
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case name
         case spaceId
         case payload
+        case template
+        case params
     }
 
     // Encodable protocol methods
@@ -34,7 +43,9 @@ public struct CreateAutomationRequest: Sendable, Codable, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(name, forKey: .name)
         try container.encodeIfPresent(spaceId, forKey: .spaceId)
-        try container.encode(payload, forKey: .payload)
+        try container.encodeIfPresent(payload, forKey: .payload)
+        try container.encodeIfPresent(template, forKey: .template)
+        try container.encodeIfPresent(params, forKey: .params)
     }
 }
 
