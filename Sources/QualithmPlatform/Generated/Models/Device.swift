@@ -34,10 +34,12 @@ public struct Device: Sendable, Codable, Hashable {
     public var updatedAt: Date
     /** UTC time, RFC 3339 */
     public var parkedAt: Date?
+    /** Whether the device's latest session declared its capabilities before sending data; null until a session has done either */
+    public var capabilitiesDeclared: Bool?
     public var level: Level?
     public var checks: [DeviceCheck]?
 
-    public init(id: String, spaceId: String, spaceName: String, teamId: String, name: String, payload: String, createdAt: Date, updatedAt: Date, parkedAt: Date? = nil, level: Level? = nil, checks: [DeviceCheck]? = nil) {
+    public init(id: String, spaceId: String, spaceName: String, teamId: String, name: String, payload: String, createdAt: Date, updatedAt: Date, parkedAt: Date? = nil, capabilitiesDeclared: Bool? = nil, level: Level? = nil, checks: [DeviceCheck]? = nil) {
         self.id = id
         self.spaceId = spaceId
         self.spaceName = spaceName
@@ -47,6 +49,7 @@ public struct Device: Sendable, Codable, Hashable {
         self.createdAt = createdAt
         self.updatedAt = updatedAt
         self.parkedAt = parkedAt
+        self.capabilitiesDeclared = capabilitiesDeclared
         self.level = level
         self.checks = checks
     }
@@ -61,6 +64,7 @@ public struct Device: Sendable, Codable, Hashable {
         case createdAt
         case updatedAt
         case parkedAt
+        case capabilitiesDeclared
         case level
         case checks
     }
@@ -78,6 +82,7 @@ public struct Device: Sendable, Codable, Hashable {
         try container.encode(createdAt, forKey: .createdAt)
         try container.encode(updatedAt, forKey: .updatedAt)
         try container.encodeIfPresent(parkedAt, forKey: .parkedAt)
+        try container.encodeIfPresent(capabilitiesDeclared, forKey: .capabilitiesDeclared)
         try container.encodeIfPresent(level, forKey: .level)
         try container.encodeIfPresent(checks, forKey: .checks)
     }
