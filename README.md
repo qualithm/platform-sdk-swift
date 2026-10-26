@@ -2,6 +2,7 @@
 
 [![CI](https://github.com/qualithm/platform-sdk-swift/actions/workflows/ci.yaml/badge.svg)](https://github.com/qualithm/platform-sdk-swift/actions/workflows/ci.yaml)
 [![codecov](https://codecov.io/gh/qualithm/platform-sdk-swift/graph/badge.svg)](https://codecov.io/gh/qualithm/platform-sdk-swift)
+[![Swift Package Index](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fqualithm%2Fplatform-sdk-swift%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/qualithm/platform-sdk-swift)
 
 Swift client for the Qualithm Platform API, generated from its OpenAPI spec. Every operation and
 type comes from the spec the API serves, so the client changes when the API does.
