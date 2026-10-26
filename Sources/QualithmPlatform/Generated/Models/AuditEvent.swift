@@ -35,10 +35,10 @@ public struct AuditEvent: Sendable, Codable, Hashable {
     public var targetId: String
     /** Non-sensitive context for the action */
     public var metadata: JSONValue?
-    /** ISO 8601 time */
-    public var occurredAt: String
+    /** UTC time, RFC 3339 */
+    public var occurredAt: Date
 
-    public init(id: String, teamId: String, actorKind: ActorKind, actorId: String?, action: String, targetKind: String, targetId: String, metadata: JSONValue?, occurredAt: String) {
+    public init(id: String, teamId: String, actorKind: ActorKind, actorId: String?, action: String, targetKind: String, targetId: String, metadata: JSONValue?, occurredAt: Date) {
         self.id = id
         self.teamId = teamId
         self.actorKind = actorKind

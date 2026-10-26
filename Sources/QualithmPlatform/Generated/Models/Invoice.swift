@@ -17,22 +17,20 @@ public struct Invoice: Sendable, Codable, Hashable {
     /** A team ID */
     public var teamId: String
     public var status: String
-    /** The invoice total in minor units */
-    public var totalC: Int64?
-    public var currency: String?
+    /** The invoice total; null until Stripe sets it */
+    public var total: Money?
     /** The invoice detail: a JSON object, encoded as a string */
     public var payload: String
-    /** UTC time, `YYYY-MM-DD HH:MM:SS` */
-    public var createdAt: String
-    /** UTC time, `YYYY-MM-DD HH:MM:SS` */
-    public var updatedAt: String
+    /** UTC time, RFC 3339 */
+    public var createdAt: Date
+    /** UTC time, RFC 3339 */
+    public var updatedAt: Date
 
-    public init(id: String, teamId: String, status: String, totalC: Int64?, currency: String?, payload: String, createdAt: String, updatedAt: String) {
+    public init(id: String, teamId: String, status: String, total: Money?, payload: String, createdAt: Date, updatedAt: Date) {
         self.id = id
         self.teamId = teamId
         self.status = status
-        self.totalC = totalC
-        self.currency = currency
+        self.total = total
         self.payload = payload
         self.createdAt = createdAt
         self.updatedAt = updatedAt
@@ -42,8 +40,7 @@ public struct Invoice: Sendable, Codable, Hashable {
         case id
         case teamId
         case status
-        case totalC
-        case currency
+        case total
         case payload
         case createdAt
         case updatedAt
@@ -56,8 +53,7 @@ public struct Invoice: Sendable, Codable, Hashable {
         try container.encode(id, forKey: .id)
         try container.encode(teamId, forKey: .teamId)
         try container.encode(status, forKey: .status)
-        try container.encode(totalC, forKey: .totalC)
-        try container.encode(currency, forKey: .currency)
+        try container.encode(total, forKey: .total)
         try container.encode(payload, forKey: .payload)
         try container.encode(createdAt, forKey: .createdAt)
         try container.encode(updatedAt, forKey: .updatedAt)

@@ -22,12 +22,12 @@ public struct Dashboard: Sendable, Codable, Hashable {
     public var spaceName: String?
     public var name: String
     public var payload: [DashboardWidget]
-    /** ISO 8601 time */
-    public var createdAt: String
-    /** ISO 8601 time */
-    public var updatedAt: String
+    /** UTC time, RFC 3339 */
+    public var createdAt: Date
+    /** UTC time, RFC 3339 */
+    public var updatedAt: Date
 
-    public init(id: String, teamId: String, spaceId: String?, spaceName: String?, name: String, payload: [DashboardWidget], createdAt: String, updatedAt: String) {
+    public init(id: String, teamId: String, spaceId: String?, spaceName: String?, name: String, payload: [DashboardWidget], createdAt: Date, updatedAt: Date) {
         self.id = id
         self.teamId = teamId
         self.spaceId = spaceId

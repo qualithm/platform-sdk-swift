@@ -28,12 +28,12 @@ public struct TeamMembership: Sendable, Codable, Hashable {
     public var teamId: String
     public var role: MemberRole
     public var status: Status
-    /** UTC time, `YYYY-MM-DD HH:MM:SS` */
-    public var createdAt: String
-    /** UTC time, `YYYY-MM-DD HH:MM:SS` */
-    public var updatedAt: String
+    /** UTC time, RFC 3339 */
+    public var createdAt: Date
+    /** UTC time, RFC 3339 */
+    public var updatedAt: Date
 
-    public init(id: String, accountId: String, teamId: String, role: MemberRole, status: Status, createdAt: String, updatedAt: String) {
+    public init(id: String, accountId: String, teamId: String, role: MemberRole, status: Status, createdAt: Date, updatedAt: Date) {
         self.id = id
         self.accountId = accountId
         self.teamId = teamId

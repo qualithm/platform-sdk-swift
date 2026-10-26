@@ -24,17 +24,15 @@ public struct TierChangePreview: Sendable, Codable, Hashable {
     }
     public var from: From
     public var to: To
-    /** What the change bills now, in minor units; negative for a credit */
-    public var amountDue: Int64
-    public var currency: String
+    /** What the change bills now; a negative amount is a credit */
+    public var amountDue: Money
     /** When the change is billed, in Unix seconds */
     public var nextPaymentAttempt: Int64?
 
-    public init(from: From, to: To, amountDue: Int64, currency: String, nextPaymentAttempt: Int64?) {
+    public init(from: From, to: To, amountDue: Money, nextPaymentAttempt: Int64?) {
         self.from = from
         self.to = to
         self.amountDue = amountDue
-        self.currency = currency
         self.nextPaymentAttempt = nextPaymentAttempt
     }
 
@@ -42,7 +40,6 @@ public struct TierChangePreview: Sendable, Codable, Hashable {
         case from
         case to
         case amountDue
-        case currency
         case nextPaymentAttempt
     }
 
@@ -53,7 +50,6 @@ public struct TierChangePreview: Sendable, Codable, Hashable {
         try container.encode(from, forKey: .from)
         try container.encode(to, forKey: .to)
         try container.encode(amountDue, forKey: .amountDue)
-        try container.encode(currency, forKey: .currency)
         try container.encode(nextPaymentAttempt, forKey: .nextPaymentAttempt)
     }
 }

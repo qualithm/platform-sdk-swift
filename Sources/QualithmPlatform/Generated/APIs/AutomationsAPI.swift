@@ -15,11 +15,12 @@ open class AutomationsAPI {
      
      - parameter teamId: (path) The team the request acts on 
      - parameter createAutomationRequest: (body)  
+     - parameter idempotencyKey: (header) A unique key for this request. A retry with the same key and body returns the first response instead of acting again; keys last 24 hours. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: CreateAutomationResponse
      */
-    open class func createAutomation(teamId: String, createAutomationRequest: CreateAutomationRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> CreateAutomationResponse {
-        return try await createAutomationWithRequestBuilder(teamId: teamId, createAutomationRequest: createAutomationRequest, apiConfiguration: apiConfiguration).execute().body
+    open class func createAutomation(teamId: String, createAutomationRequest: CreateAutomationRequest, idempotencyKey: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> CreateAutomationResponse {
+        return try await createAutomationWithRequestBuilder(teamId: teamId, createAutomationRequest: createAutomationRequest, idempotencyKey: idempotencyKey, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -31,10 +32,11 @@ open class AutomationsAPI {
      - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
      - parameter createAutomationRequest: (body)  
+     - parameter idempotencyKey: (header) A unique key for this request. A retry with the same key and body returns the first response instead of acting again; keys last 24 hours. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<CreateAutomationResponse> 
      */
-    open class func createAutomationWithRequestBuilder(teamId: String, createAutomationRequest: CreateAutomationRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<CreateAutomationResponse> {
+    open class func createAutomationWithRequestBuilder(teamId: String, createAutomationRequest: CreateAutomationRequest, idempotencyKey: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<CreateAutomationResponse> {
         var localVariablePath = "/v1/teams/{teamId}/automations"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -46,6 +48,7 @@ open class AutomationsAPI {
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/json",
+            "Idempotency-Key": idempotencyKey?.asParameter(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
@@ -56,46 +59,51 @@ open class AutomationsAPI {
     }
 
     /**
-     Create an automation from a template
+     Start a run of an automation's chain now
      
      - parameter teamId: (path) The team the request acts on 
-     - parameter createAutomationFromTemplateRequest: (body)  
+     - parameter automationId: (path) An automation ID 
+     - parameter idempotencyKey: (header) A unique key for this request. A retry with the same key and body returns the first response instead of acting again; keys last 24 hours. (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: CreateAutomationFromTemplateResponse
+     - returns: CreateAutomationRunResponse
      */
-    open class func createAutomationFromTemplate(teamId: String, createAutomationFromTemplateRequest: CreateAutomationFromTemplateRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> CreateAutomationFromTemplateResponse {
-        return try await createAutomationFromTemplateWithRequestBuilder(teamId: teamId, createAutomationFromTemplateRequest: createAutomationFromTemplateRequest, apiConfiguration: apiConfiguration).execute().body
+    open class func createAutomationRun(teamId: String, automationId: String, idempotencyKey: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> CreateAutomationRunResponse {
+        return try await createAutomationRunWithRequestBuilder(teamId: teamId, automationId: automationId, idempotencyKey: idempotencyKey, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Create an automation from a template
-     - POST /v1/teams/{teamId}/automations/from-template
+     Start a run of an automation's chain now
+     - POST /v1/teams/{teamId}/automations/{automationId}/runs
      - Bearer Token:
        - type: http
        - name: apiToken
      - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
-     - parameter createAutomationFromTemplateRequest: (body)  
+     - parameter automationId: (path) An automation ID 
+     - parameter idempotencyKey: (header) A unique key for this request. A retry with the same key and body returns the first response instead of acting again; keys last 24 hours. (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<CreateAutomationFromTemplateResponse> 
+     - returns: RequestBuilder<CreateAutomationRunResponse> 
      */
-    open class func createAutomationFromTemplateWithRequestBuilder(teamId: String, createAutomationFromTemplateRequest: CreateAutomationFromTemplateRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<CreateAutomationFromTemplateResponse> {
-        var localVariablePath = "/v1/teams/{teamId}/automations/from-template"
+    open class func createAutomationRunWithRequestBuilder(teamId: String, automationId: String, idempotencyKey: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<CreateAutomationRunResponse> {
+        var localVariablePath = "/v1/teams/{teamId}/automations/{automationId}/runs"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{teamId}", with: teamIdPostEscape, options: .literal, range: nil)
+        let automationIdPreEscape = "\(APIHelper.mapValueToPathItem(automationId))"
+        let automationIdPostEscape = automationIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{automationId}", with: automationIdPostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: createAutomationFromTemplateRequest, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            "Idempotency-Key": idempotencyKey?.asParameter(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<CreateAutomationFromTemplateResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<CreateAutomationRunResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -105,11 +113,12 @@ open class AutomationsAPI {
      
      - parameter teamId: (path) The team the request acts on 
      - parameter automationId: (path) An automation ID 
+     - parameter idempotencyKey: (header) A unique key for this request. A retry with the same key and body returns the first response instead of acting again; keys last 24 hours. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: CreateAutomationTriggerSecretResponse
      */
-    open class func createAutomationTriggerSecret(teamId: String, automationId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> CreateAutomationTriggerSecretResponse {
-        return try await createAutomationTriggerSecretWithRequestBuilder(teamId: teamId, automationId: automationId, apiConfiguration: apiConfiguration).execute().body
+    open class func createAutomationTriggerSecret(teamId: String, automationId: String, idempotencyKey: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> CreateAutomationTriggerSecretResponse {
+        return try await createAutomationTriggerSecretWithRequestBuilder(teamId: teamId, automationId: automationId, idempotencyKey: idempotencyKey, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -121,10 +130,11 @@ open class AutomationsAPI {
      - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
      - parameter automationId: (path) An automation ID 
+     - parameter idempotencyKey: (header) A unique key for this request. A retry with the same key and body returns the first response instead of acting again; keys last 24 hours. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<CreateAutomationTriggerSecretResponse> 
      */
-    open class func createAutomationTriggerSecretWithRequestBuilder(teamId: String, automationId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<CreateAutomationTriggerSecretResponse> {
+    open class func createAutomationTriggerSecretWithRequestBuilder(teamId: String, automationId: String, idempotencyKey: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<CreateAutomationTriggerSecretResponse> {
         var localVariablePath = "/v1/teams/{teamId}/automations/{automationId}/trigger-secret"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -138,7 +148,7 @@ open class AutomationsAPI {
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
+            "Idempotency-Key": idempotencyKey?.asParameter(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
@@ -153,10 +163,11 @@ open class AutomationsAPI {
      
      - parameter teamId: (path) The team the request acts on 
      - parameter automationId: (path) An automation ID 
+     - parameter ifMatch: (header) The ETag you last read. The request is refused with 412 when the resource has changed since; omit it to apply the change regardless. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      */
-    open class func deleteAutomation(teamId: String, automationId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await deleteAutomationWithRequestBuilder(teamId: teamId, automationId: automationId, apiConfiguration: apiConfiguration).execute().body
+    open class func deleteAutomation(teamId: String, automationId: String, ifMatch: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await deleteAutomationWithRequestBuilder(teamId: teamId, automationId: automationId, ifMatch: ifMatch, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -168,10 +179,11 @@ open class AutomationsAPI {
      - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
      - parameter automationId: (path) An automation ID 
+     - parameter ifMatch: (header) The ETag you last read. The request is refused with 412 when the resource has changed since; omit it to apply the change regardless. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
-    open class func deleteAutomationWithRequestBuilder(teamId: String, automationId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func deleteAutomationWithRequestBuilder(teamId: String, automationId: String, ifMatch: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/teams/{teamId}/automations/{automationId}"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -185,7 +197,7 @@ open class AutomationsAPI {
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
+            "If-Match": ifMatch?.asParameter(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
@@ -193,102 +205,6 @@ open class AutomationsAPI {
         let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Disable an automation
-     
-     - parameter teamId: (path) The team the request acts on 
-     - parameter automationId: (path) An automation ID 
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: DisableAutomationResponse
-     */
-    open class func disableAutomation(teamId: String, automationId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> DisableAutomationResponse {
-        return try await disableAutomationWithRequestBuilder(teamId: teamId, automationId: automationId, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Disable an automation
-     - POST /v1/teams/{teamId}/automations/{automationId}/disable
-     - Bearer Token:
-       - type: http
-       - name: apiToken
-     - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
-     - parameter teamId: (path) The team the request acts on 
-     - parameter automationId: (path) An automation ID 
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<DisableAutomationResponse> 
-     */
-    open class func disableAutomationWithRequestBuilder(teamId: String, automationId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<DisableAutomationResponse> {
-        var localVariablePath = "/v1/teams/{teamId}/automations/{automationId}/disable"
-        let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
-        let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{teamId}", with: teamIdPostEscape, options: .literal, range: nil)
-        let automationIdPreEscape = "\(APIHelper.mapValueToPathItem(automationId))"
-        let automationIdPostEscape = automationIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{automationId}", with: automationIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<DisableAutomationResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Enable an automation
-     
-     - parameter teamId: (path) The team the request acts on 
-     - parameter automationId: (path) An automation ID 
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: EnableAutomationResponse
-     */
-    open class func enableAutomation(teamId: String, automationId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> EnableAutomationResponse {
-        return try await enableAutomationWithRequestBuilder(teamId: teamId, automationId: automationId, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Enable an automation
-     - POST /v1/teams/{teamId}/automations/{automationId}/enable
-     - Bearer Token:
-       - type: http
-       - name: apiToken
-     - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
-     - parameter teamId: (path) The team the request acts on 
-     - parameter automationId: (path) An automation ID 
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<EnableAutomationResponse> 
-     */
-    open class func enableAutomationWithRequestBuilder(teamId: String, automationId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<EnableAutomationResponse> {
-        var localVariablePath = "/v1/teams/{teamId}/automations/{automationId}/enable"
-        let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
-        let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{teamId}", with: teamIdPostEscape, options: .literal, range: nil)
-        let automationIdPreEscape = "\(APIHelper.mapValueToPathItem(automationId))"
-        let automationIdPostEscape = automationIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{automationId}", with: automationIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<EnableAutomationResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
@@ -309,7 +225,7 @@ open class AutomationsAPI {
      - Bearer Token:
        - type: http
        - name: apiToken
-     - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
+     - responseHeaders: [Request-Id(String), ETag(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
      - parameter automationId: (path) An automation ID 
      - parameter apiConfiguration: The configuration for the http request.
@@ -497,73 +413,27 @@ open class AutomationsAPI {
     }
 
     /**
-     Run an automation's chain now
-     
-     - parameter teamId: (path) The team the request acts on 
-     - parameter automationId: (path) An automation ID 
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RunAutomationResponse
-     */
-    open class func runAutomation(teamId: String, automationId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> RunAutomationResponse {
-        return try await runAutomationWithRequestBuilder(teamId: teamId, automationId: automationId, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Run an automation's chain now
-     - POST /v1/teams/{teamId}/automations/{automationId}/run
-     - Bearer Token:
-       - type: http
-       - name: apiToken
-     - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
-     - parameter teamId: (path) The team the request acts on 
-     - parameter automationId: (path) An automation ID 
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<RunAutomationResponse> 
-     */
-    open class func runAutomationWithRequestBuilder(teamId: String, automationId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<RunAutomationResponse> {
-        var localVariablePath = "/v1/teams/{teamId}/automations/{automationId}/run"
-        let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
-        let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{teamId}", with: teamIdPostEscape, options: .literal, range: nil)
-        let automationIdPreEscape = "\(APIHelper.mapValueToPathItem(automationId))"
-        let automationIdPostEscape = automationIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{automationId}", with: automationIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<RunAutomationResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
      Trigger a webhook automation
      
+     - parameter idempotencyKey: (header) A unique key for this request. A retry with the same key and body returns the first response instead of acting again; keys last 24 hours. (optional)
      - parameter body: (body)  (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: TriggerAutomationResponse
      */
-    open class func triggerAutomation(body: JSONValue? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> TriggerAutomationResponse {
-        return try await triggerAutomationWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func triggerAutomation(idempotencyKey: String? = nil, body: JSONValue? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> TriggerAutomationResponse {
+        return try await triggerAutomationWithRequestBuilder(idempotencyKey: idempotencyKey, body: body, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Trigger a webhook automation
      - POST /v1/automations/trigger
      - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
+     - parameter idempotencyKey: (header) A unique key for this request. A retry with the same key and body returns the first response instead of acting again; keys last 24 hours. (optional)
      - parameter body: (body)  (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<TriggerAutomationResponse> 
      */
-    open class func triggerAutomationWithRequestBuilder(body: JSONValue? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<TriggerAutomationResponse> {
+    open class func triggerAutomationWithRequestBuilder(idempotencyKey: String? = nil, body: JSONValue? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<TriggerAutomationResponse> {
         let localVariablePath = "/v1/automations/trigger"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
@@ -572,6 +442,7 @@ open class AutomationsAPI {
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/json",
+            "Idempotency-Key": idempotencyKey?.asParameter(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
@@ -587,11 +458,12 @@ open class AutomationsAPI {
      - parameter teamId: (path) The team the request acts on 
      - parameter automationId: (path) An automation ID 
      - parameter updateAutomationRequest: (body)  
+     - parameter ifMatch: (header) The ETag you last read. The request is refused with 412 when the resource has changed since; omit it to apply the change regardless. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: UpdateAutomationResponse
      */
-    open class func updateAutomation(teamId: String, automationId: String, updateAutomationRequest: UpdateAutomationRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> UpdateAutomationResponse {
-        return try await updateAutomationWithRequestBuilder(teamId: teamId, automationId: automationId, updateAutomationRequest: updateAutomationRequest, apiConfiguration: apiConfiguration).execute().body
+    open class func updateAutomation(teamId: String, automationId: String, updateAutomationRequest: UpdateAutomationRequest, ifMatch: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> UpdateAutomationResponse {
+        return try await updateAutomationWithRequestBuilder(teamId: teamId, automationId: automationId, updateAutomationRequest: updateAutomationRequest, ifMatch: ifMatch, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -600,14 +472,15 @@ open class AutomationsAPI {
      - Bearer Token:
        - type: http
        - name: apiToken
-     - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
+     - responseHeaders: [Request-Id(String), ETag(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
      - parameter automationId: (path) An automation ID 
      - parameter updateAutomationRequest: (body)  
+     - parameter ifMatch: (header) The ETag you last read. The request is refused with 412 when the resource has changed since; omit it to apply the change regardless. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<UpdateAutomationResponse> 
      */
-    open class func updateAutomationWithRequestBuilder(teamId: String, automationId: String, updateAutomationRequest: UpdateAutomationRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<UpdateAutomationResponse> {
+    open class func updateAutomationWithRequestBuilder(teamId: String, automationId: String, updateAutomationRequest: UpdateAutomationRequest, ifMatch: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<UpdateAutomationResponse> {
         var localVariablePath = "/v1/teams/{teamId}/automations/{automationId}"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -622,6 +495,7 @@ open class AutomationsAPI {
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/json",
+            "If-Match": ifMatch?.asParameter(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
