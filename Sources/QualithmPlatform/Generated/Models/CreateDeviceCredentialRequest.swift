@@ -12,10 +12,10 @@ public struct CreateDeviceCredentialRequest: Sendable, Codable, Hashable {
 
     /** Up to 64 characters */
     public var label: String?
-    /** ISO 8601 time in the future */
-    public var expiresAt: String?
+    /** A time in the future */
+    public var expiresAt: Date?
 
-    public init(label: String? = nil, expiresAt: String? = nil) {
+    public init(label: String? = nil, expiresAt: Date? = nil) {
         self.label = label
         self.expiresAt = expiresAt
     }

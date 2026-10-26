@@ -28,16 +28,16 @@ public struct Device: Sendable, Codable, Hashable {
     public var name: String
     /** JSON text */
     public var payload: String
-    /** UTC time, `YYYY-MM-DD HH:MM:SS` */
-    public var createdAt: String
-    /** UTC time, `YYYY-MM-DD HH:MM:SS` */
-    public var updatedAt: String
-    /** UTC time, `YYYY-MM-DD HH:MM:SS` */
-    public var parkedAt: String?
+    /** UTC time, RFC 3339 */
+    public var createdAt: Date
+    /** UTC time, RFC 3339 */
+    public var updatedAt: Date
+    /** UTC time, RFC 3339 */
+    public var parkedAt: Date?
     public var level: Level?
     public var checks: [DeviceCheck]?
 
-    public init(id: String, spaceId: String, spaceName: String, teamId: String, name: String, payload: String, createdAt: String, updatedAt: String, parkedAt: String? = nil, level: Level? = nil, checks: [DeviceCheck]? = nil) {
+    public init(id: String, spaceId: String, spaceName: String, teamId: String, name: String, payload: String, createdAt: Date, updatedAt: Date, parkedAt: Date? = nil, level: Level? = nil, checks: [DeviceCheck]? = nil) {
         self.id = id
         self.spaceId = spaceId
         self.spaceName = spaceName

@@ -14,15 +14,19 @@ public struct UpdateDeviceRequest: Sendable, Codable, Hashable {
     public var name: String?
     /** A space in the device's zone */
     public var spaceId: String?
+    /** A parked device can't connect and doesn't count against the plan; its credentials and history stay */
+    public var parked: Bool?
 
-    public init(name: String? = nil, spaceId: String? = nil) {
+    public init(name: String? = nil, spaceId: String? = nil, parked: Bool? = nil) {
         self.name = name
         self.spaceId = spaceId
+        self.parked = parked
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case name
         case spaceId
+        case parked
     }
 
     // Encodable protocol methods
@@ -31,6 +35,7 @@ public struct UpdateDeviceRequest: Sendable, Codable, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(name, forKey: .name)
         try container.encodeIfPresent(spaceId, forKey: .spaceId)
+        try container.encodeIfPresent(parked, forKey: .parked)
     }
 }
 

@@ -17,12 +17,12 @@ public struct Account: Sendable, Codable, Hashable {
     public var name: String
     /** The account's settings: a JSON object, encoded as a string */
     public var payload: String
-    /** UTC time, `YYYY-MM-DD HH:MM:SS` */
-    public var createdAt: String
-    /** UTC time, `YYYY-MM-DD HH:MM:SS` */
-    public var updatedAt: String
+    /** UTC time, RFC 3339 */
+    public var createdAt: Date
+    /** UTC time, RFC 3339 */
+    public var updatedAt: Date
 
-    public init(id: String, email: String, name: String, payload: String, createdAt: String, updatedAt: String) {
+    public init(id: String, email: String, name: String, payload: String, createdAt: Date, updatedAt: Date) {
         self.id = id
         self.email = email
         self.name = name

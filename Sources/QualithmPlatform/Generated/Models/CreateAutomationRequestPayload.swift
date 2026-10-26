@@ -8,6 +8,7 @@
 
 import Foundation
 
+/** The chain; exclusive with &#x60;template&#x60; */
 public struct CreateAutomationRequestPayload: Sendable, Codable, Hashable {
 
     public var trigger: AutomationTrigger

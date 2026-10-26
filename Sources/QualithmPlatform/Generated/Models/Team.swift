@@ -53,17 +53,17 @@ public struct Team: Sendable, Codable, Hashable {
     public var name: String
     /** The team's settings: a JSON object, encoded as a string */
     public var payload: String
-    /** UTC time, `YYYY-MM-DD HH:MM:SS` */
-    public var createdAt: String
-    /** UTC time, `YYYY-MM-DD HH:MM:SS` */
-    public var updatedAt: String
+    /** UTC time, RFC 3339 */
+    public var createdAt: Date
+    /** UTC time, RFC 3339 */
+    public var updatedAt: Date
     /** The caller's membership in this team */
     public var memberId: String
     public var memberRole: MemberRole
     /** What the caller can do in this team: their role, lowered to a token's ceiling */
     public var permissions: [Permissions]
 
-    public init(id: String, name: String, payload: String, createdAt: String, updatedAt: String, memberId: String, memberRole: MemberRole, permissions: [Permissions]) {
+    public init(id: String, name: String, payload: String, createdAt: Date, updatedAt: Date, memberId: String, memberRole: MemberRole, permissions: [Permissions]) {
         self.id = id
         self.name = name
         self.payload = payload

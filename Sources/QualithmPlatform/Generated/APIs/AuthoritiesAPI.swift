@@ -15,11 +15,12 @@ open class AuthoritiesAPI {
      
      - parameter teamId: (path) The team the request acts on 
      - parameter createAuthorityRequest: (body)  
+     - parameter idempotencyKey: (header) A unique key for this request. A retry with the same key and body returns the first response instead of acting again; keys last 24 hours. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: CreateAuthorityResponse
      */
-    open class func createAuthority(teamId: String, createAuthorityRequest: CreateAuthorityRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> CreateAuthorityResponse {
-        return try await createAuthorityWithRequestBuilder(teamId: teamId, createAuthorityRequest: createAuthorityRequest, apiConfiguration: apiConfiguration).execute().body
+    open class func createAuthority(teamId: String, createAuthorityRequest: CreateAuthorityRequest, idempotencyKey: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> CreateAuthorityResponse {
+        return try await createAuthorityWithRequestBuilder(teamId: teamId, createAuthorityRequest: createAuthorityRequest, idempotencyKey: idempotencyKey, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -31,10 +32,11 @@ open class AuthoritiesAPI {
      - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
      - parameter createAuthorityRequest: (body)  
+     - parameter idempotencyKey: (header) A unique key for this request. A retry with the same key and body returns the first response instead of acting again; keys last 24 hours. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<CreateAuthorityResponse> 
      */
-    open class func createAuthorityWithRequestBuilder(teamId: String, createAuthorityRequest: CreateAuthorityRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<CreateAuthorityResponse> {
+    open class func createAuthorityWithRequestBuilder(teamId: String, createAuthorityRequest: CreateAuthorityRequest, idempotencyKey: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<CreateAuthorityResponse> {
         var localVariablePath = "/v1/teams/{teamId}/authorities"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -46,6 +48,7 @@ open class AuthoritiesAPI {
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/json",
+            "Idempotency-Key": idempotencyKey?.asParameter(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)

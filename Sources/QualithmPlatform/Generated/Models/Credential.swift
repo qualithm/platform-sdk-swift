@@ -36,20 +36,20 @@ public struct Credential: Sendable, Codable, Hashable {
     public var certSubject: String?
     public var label: String
     public var status: Status
-    /** ISO 8601 time */
-    public var expiresAt: String?
-    /** UTC time, `YYYY-MM-DD HH:MM:SS` */
-    public var lastUsedAt: String?
+    /** UTC time, RFC 3339 */
+    public var expiresAt: Date?
+    /** UTC time, RFC 3339 */
+    public var lastUsedAt: Date?
     /** A credential ID */
     public var rotatedFrom: String?
     /** JSON text */
     public var payload: String
-    /** UTC time, `YYYY-MM-DD HH:MM:SS` */
-    public var createdAt: String
-    /** UTC time, `YYYY-MM-DD HH:MM:SS` */
-    public var updatedAt: String
+    /** UTC time, RFC 3339 */
+    public var createdAt: Date
+    /** UTC time, RFC 3339 */
+    public var updatedAt: Date
 
-    public init(id: String, deviceId: String, authorityId: String?, kind: Kind, certFingerprint: String?, certSubject: String?, label: String, status: Status, expiresAt: String?, lastUsedAt: String?, rotatedFrom: String?, payload: String, createdAt: String, updatedAt: String) {
+    public init(id: String, deviceId: String, authorityId: String?, kind: Kind, certFingerprint: String?, certSubject: String?, label: String, status: Status, expiresAt: Date?, lastUsedAt: Date?, rotatedFrom: String?, payload: String, createdAt: Date, updatedAt: Date) {
         self.id = id
         self.deviceId = deviceId
         self.authorityId = authorityId

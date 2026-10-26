@@ -10,10 +10,10 @@ import Foundation
 
 public struct RotateDeviceCredentialRequest: Sendable, Codable, Hashable {
 
-    /** ISO 8601 time in the future */
-    public var expiresAt: String?
+    /** A time in the future */
+    public var expiresAt: Date?
 
-    public init(expiresAt: String? = nil) {
+    public init(expiresAt: Date? = nil) {
         self.expiresAt = expiresAt
     }
 

@@ -18,12 +18,12 @@ public struct DeviceState: Sendable, Codable, Hashable {
     public var spaceId: String
     /** Whether the device was seen within the offline window */
     public var online: Bool
-    /** Last sighting, epoch milliseconds */
-    public var lastSeenAt: Double
+    /** When the device was last seen */
+    public var lastSeenAt: Date
     /** The device's current metrics */
     public var metrics: [String: Double]
 
-    public init(deviceId: String, spaceId: String, online: Bool, lastSeenAt: Double, metrics: [String: Double]) {
+    public init(deviceId: String, spaceId: String, online: Bool, lastSeenAt: Date, metrics: [String: Double]) {
         self.deviceId = deviceId
         self.spaceId = spaceId
         self.online = online

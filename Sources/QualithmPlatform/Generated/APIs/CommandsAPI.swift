@@ -16,11 +16,12 @@ open class CommandsAPI {
      - parameter teamId: (path) The team the request acts on 
      - parameter deviceId: (path) A device ID 
      - parameter createDeviceCommandRequest: (body)  
+     - parameter idempotencyKey: (header) A unique key for this request. A retry with the same key and body returns the first response instead of acting again; keys last 24 hours. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: CreateDeviceCommandResponse
      */
-    open class func createDeviceCommand(teamId: String, deviceId: String, createDeviceCommandRequest: CreateDeviceCommandRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> CreateDeviceCommandResponse {
-        return try await createDeviceCommandWithRequestBuilder(teamId: teamId, deviceId: deviceId, createDeviceCommandRequest: createDeviceCommandRequest, apiConfiguration: apiConfiguration).execute().body
+    open class func createDeviceCommand(teamId: String, deviceId: String, createDeviceCommandRequest: CreateDeviceCommandRequest, idempotencyKey: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> CreateDeviceCommandResponse {
+        return try await createDeviceCommandWithRequestBuilder(teamId: teamId, deviceId: deviceId, createDeviceCommandRequest: createDeviceCommandRequest, idempotencyKey: idempotencyKey, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -33,10 +34,11 @@ open class CommandsAPI {
      - parameter teamId: (path) The team the request acts on 
      - parameter deviceId: (path) A device ID 
      - parameter createDeviceCommandRequest: (body)  
+     - parameter idempotencyKey: (header) A unique key for this request. A retry with the same key and body returns the first response instead of acting again; keys last 24 hours. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<CreateDeviceCommandResponse> 
      */
-    open class func createDeviceCommandWithRequestBuilder(teamId: String, deviceId: String, createDeviceCommandRequest: CreateDeviceCommandRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<CreateDeviceCommandResponse> {
+    open class func createDeviceCommandWithRequestBuilder(teamId: String, deviceId: String, createDeviceCommandRequest: CreateDeviceCommandRequest, idempotencyKey: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<CreateDeviceCommandResponse> {
         var localVariablePath = "/v1/teams/{teamId}/devices/{deviceId}/commands"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -51,6 +53,7 @@ open class CommandsAPI {
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/json",
+            "Idempotency-Key": idempotencyKey?.asParameter(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
