@@ -21,12 +21,12 @@ public struct RoleAssignment: Sendable, Codable, Hashable {
     public var teamId: String
     public var teamName: String
     public var role: MemberRole
-    /** UTC time, `YYYY-MM-DD HH:MM:SS` */
-    public var createdAt: String
-    /** UTC time, `YYYY-MM-DD HH:MM:SS` */
-    public var updatedAt: String
+    /** UTC time, RFC 3339 */
+    public var createdAt: Date
+    /** UTC time, RFC 3339 */
+    public var updatedAt: Date
 
-    public init(id: String, accountId: String, teamId: String, teamName: String, role: MemberRole, createdAt: String, updatedAt: String) {
+    public init(id: String, accountId: String, teamId: String, teamName: String, role: MemberRole, createdAt: Date, updatedAt: Date) {
         self.id = id
         self.accountId = accountId
         self.teamId = teamId

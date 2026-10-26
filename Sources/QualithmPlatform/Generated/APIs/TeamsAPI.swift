@@ -13,11 +13,12 @@ open class TeamsAPI {
     /**
      Create a team with the caller as owner
      
+     - parameter idempotencyKey: (header) A unique key for this request. A retry with the same key and body returns the first response instead of acting again; keys last 24 hours. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: CreateTeamResponse
      */
-    open class func createTeam(apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> CreateTeamResponse {
-        return try await createTeamWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    open class func createTeam(idempotencyKey: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> CreateTeamResponse {
+        return try await createTeamWithRequestBuilder(idempotencyKey: idempotencyKey, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -28,10 +29,11 @@ open class TeamsAPI {
        - type: http
        - name: apiToken
      - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
+     - parameter idempotencyKey: (header) A unique key for this request. A retry with the same key and body returns the first response instead of acting again; keys last 24 hours. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<CreateTeamResponse> 
      */
-    open class func createTeamWithRequestBuilder(apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<CreateTeamResponse> {
+    open class func createTeamWithRequestBuilder(idempotencyKey: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<CreateTeamResponse> {
         let localVariablePath = "/v1/teams"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -39,7 +41,7 @@ open class TeamsAPI {
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
+            "Idempotency-Key": idempotencyKey?.asParameter(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
@@ -53,10 +55,11 @@ open class TeamsAPI {
      Delete the team with its spaces, devices and memberships
      
      - parameter teamId: (path) A team ID 
+     - parameter ifMatch: (header) The ETag you last read. The request is refused with 412 when the resource has changed since; omit it to apply the change regardless. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      */
-    open class func deleteTeam(teamId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await deleteTeamWithRequestBuilder(teamId: teamId, apiConfiguration: apiConfiguration).execute().body
+    open class func deleteTeam(teamId: String, ifMatch: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await deleteTeamWithRequestBuilder(teamId: teamId, ifMatch: ifMatch, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -67,10 +70,11 @@ open class TeamsAPI {
        - name: apiToken
      - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) A team ID 
+     - parameter ifMatch: (header) The ETag you last read. The request is refused with 412 when the resource has changed since; omit it to apply the change regardless. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
-    open class func deleteTeamWithRequestBuilder(teamId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func deleteTeamWithRequestBuilder(teamId: String, ifMatch: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/teams/{teamId}"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -81,7 +85,7 @@ open class TeamsAPI {
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
+            "If-Match": ifMatch?.asParameter(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
@@ -108,7 +112,7 @@ open class TeamsAPI {
      - Bearer Token:
        - type: http
        - name: apiToken
-     - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
+     - responseHeaders: [Request-Id(String), ETag(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) A team ID 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<GetTeamResponse> 
@@ -186,10 +190,11 @@ open class TeamsAPI {
      
      - parameter teamId: (path) A team ID 
      - parameter updateTeamRequest: (body)  
+     - parameter ifMatch: (header) The ETag you last read. The request is refused with 412 when the resource has changed since; omit it to apply the change regardless. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      */
-    open class func updateTeam(teamId: String, updateTeamRequest: UpdateTeamRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await updateTeamWithRequestBuilder(teamId: teamId, updateTeamRequest: updateTeamRequest, apiConfiguration: apiConfiguration).execute().body
+    open class func updateTeam(teamId: String, updateTeamRequest: UpdateTeamRequest, ifMatch: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await updateTeamWithRequestBuilder(teamId: teamId, updateTeamRequest: updateTeamRequest, ifMatch: ifMatch, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -198,13 +203,14 @@ open class TeamsAPI {
      - Bearer Token:
        - type: http
        - name: apiToken
-     - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
+     - responseHeaders: [Request-Id(String), ETag(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) A team ID 
      - parameter updateTeamRequest: (body)  
+     - parameter ifMatch: (header) The ETag you last read. The request is refused with 412 when the resource has changed since; omit it to apply the change regardless. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
-    open class func updateTeamWithRequestBuilder(teamId: String, updateTeamRequest: UpdateTeamRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func updateTeamWithRequestBuilder(teamId: String, updateTeamRequest: UpdateTeamRequest, ifMatch: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/teams/{teamId}"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -216,6 +222,7 @@ open class TeamsAPI {
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/json",
+            "If-Match": ifMatch?.asParameter(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)

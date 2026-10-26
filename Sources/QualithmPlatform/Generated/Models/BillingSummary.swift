@@ -23,11 +23,11 @@ public struct BillingSummary: Sendable, Codable, Hashable {
     public var limitGrace: BillingSummaryLimitGrace?
     public var limits: BillingSummaryLimits
     public var usage: BillingSummaryUsage
-    /** The plan's monthly price with add-ons, in USD */
-    public var monthlyTotal: Double
+    /** The plan's monthly price with add-ons */
+    public var monthlyTotal: Money
     public var addons: BillingSummaryAddons
 
-    public init(tier: Tier, month: String, limitGrace: BillingSummaryLimitGrace?, limits: BillingSummaryLimits, usage: BillingSummaryUsage, monthlyTotal: Double, addons: BillingSummaryAddons) {
+    public init(tier: Tier, month: String, limitGrace: BillingSummaryLimitGrace?, limits: BillingSummaryLimits, usage: BillingSummaryUsage, monthlyTotal: Money, addons: BillingSummaryAddons) {
         self.tier = tier
         self.month = month
         self.limitGrace = limitGrace

@@ -20,15 +20,15 @@ public struct TeamMember: Sendable, Codable, Hashable {
     /** A team ID */
     public var teamId: String
     public var role: MemberRole
-    /** UTC time, `YYYY-MM-DD HH:MM:SS` */
-    public var createdAt: String
-    /** UTC time, `YYYY-MM-DD HH:MM:SS` */
-    public var updatedAt: String
+    /** UTC time, RFC 3339 */
+    public var createdAt: Date
+    /** UTC time, RFC 3339 */
+    public var updatedAt: Date
     public var accountEmail: String
     public var accountName: String
     public var teamName: String
 
-    public init(id: String, accountId: String, teamId: String, role: MemberRole, createdAt: String, updatedAt: String, accountEmail: String, accountName: String, teamName: String) {
+    public init(id: String, accountId: String, teamId: String, role: MemberRole, createdAt: Date, updatedAt: Date, accountEmail: String, accountName: String, teamName: String) {
         self.id = id
         self.accountId = accountId
         self.teamId = teamId

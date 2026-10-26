@@ -15,11 +15,12 @@ open class EnrollmentsAPI {
      
      - parameter teamId: (path) The team the request acts on 
      - parameter createEnrollmentRequest: (body)  
+     - parameter idempotencyKey: (header) A unique key for this request. A retry with the same key and body returns the first response instead of acting again; keys last 24 hours. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: CreateEnrollmentResponse
      */
-    open class func createEnrollment(teamId: String, createEnrollmentRequest: CreateEnrollmentRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> CreateEnrollmentResponse {
-        return try await createEnrollmentWithRequestBuilder(teamId: teamId, createEnrollmentRequest: createEnrollmentRequest, apiConfiguration: apiConfiguration).execute().body
+    open class func createEnrollment(teamId: String, createEnrollmentRequest: CreateEnrollmentRequest, idempotencyKey: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> CreateEnrollmentResponse {
+        return try await createEnrollmentWithRequestBuilder(teamId: teamId, createEnrollmentRequest: createEnrollmentRequest, idempotencyKey: idempotencyKey, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -31,10 +32,11 @@ open class EnrollmentsAPI {
      - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
      - parameter createEnrollmentRequest: (body)  
+     - parameter idempotencyKey: (header) A unique key for this request. A retry with the same key and body returns the first response instead of acting again; keys last 24 hours. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<CreateEnrollmentResponse> 
      */
-    open class func createEnrollmentWithRequestBuilder(teamId: String, createEnrollmentRequest: CreateEnrollmentRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<CreateEnrollmentResponse> {
+    open class func createEnrollmentWithRequestBuilder(teamId: String, createEnrollmentRequest: CreateEnrollmentRequest, idempotencyKey: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<CreateEnrollmentResponse> {
         var localVariablePath = "/v1/teams/{teamId}/enrollments"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -46,6 +48,7 @@ open class EnrollmentsAPI {
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/json",
+            "Idempotency-Key": idempotencyKey?.asParameter(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)

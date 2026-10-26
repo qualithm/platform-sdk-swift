@@ -15,11 +15,12 @@ open class InvitesAPI {
      
      - parameter teamId: (path) A team ID 
      - parameter createTeamInviteRequest: (body)  
+     - parameter idempotencyKey: (header) A unique key for this request. A retry with the same key and body returns the first response instead of acting again; keys last 24 hours. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: CreateTeamInviteResponse
      */
-    open class func createTeamInvite(teamId: String, createTeamInviteRequest: CreateTeamInviteRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> CreateTeamInviteResponse {
-        return try await createTeamInviteWithRequestBuilder(teamId: teamId, createTeamInviteRequest: createTeamInviteRequest, apiConfiguration: apiConfiguration).execute().body
+    open class func createTeamInvite(teamId: String, createTeamInviteRequest: CreateTeamInviteRequest, idempotencyKey: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> CreateTeamInviteResponse {
+        return try await createTeamInviteWithRequestBuilder(teamId: teamId, createTeamInviteRequest: createTeamInviteRequest, idempotencyKey: idempotencyKey, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -31,10 +32,11 @@ open class InvitesAPI {
      - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) A team ID 
      - parameter createTeamInviteRequest: (body)  
+     - parameter idempotencyKey: (header) A unique key for this request. A retry with the same key and body returns the first response instead of acting again; keys last 24 hours. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<CreateTeamInviteResponse> 
      */
-    open class func createTeamInviteWithRequestBuilder(teamId: String, createTeamInviteRequest: CreateTeamInviteRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<CreateTeamInviteResponse> {
+    open class func createTeamInviteWithRequestBuilder(teamId: String, createTeamInviteRequest: CreateTeamInviteRequest, idempotencyKey: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<CreateTeamInviteResponse> {
         var localVariablePath = "/v1/teams/{teamId}/invites"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -46,6 +48,7 @@ open class InvitesAPI {
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/json",
+            "Idempotency-Key": idempotencyKey?.asParameter(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)

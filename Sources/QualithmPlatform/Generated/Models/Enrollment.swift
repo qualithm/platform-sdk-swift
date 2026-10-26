@@ -30,18 +30,18 @@ public struct Enrollment: Sendable, Codable, Hashable {
     public var status: Status
     /** A device ID */
     public var claimedDeviceId: String?
-    /** UTC time, `YYYY-MM-DD HH:MM:SS` */
-    public var claimedAt: String?
-    /** ISO 8601 time */
-    public var expiresAt: String
+    /** UTC time, RFC 3339 */
+    public var claimedAt: Date?
+    /** UTC time, RFC 3339 */
+    public var expiresAt: Date
     /** JSON text */
     public var payload: String
-    /** UTC time, `YYYY-MM-DD HH:MM:SS` */
-    public var createdAt: String
-    /** UTC time, `YYYY-MM-DD HH:MM:SS` */
-    public var updatedAt: String
+    /** UTC time, RFC 3339 */
+    public var createdAt: Date
+    /** UTC time, RFC 3339 */
+    public var updatedAt: Date
 
-    public init(id: String, teamId: String, spaceId: String, label: String, status: Status, claimedDeviceId: String?, claimedAt: String?, expiresAt: String, payload: String, createdAt: String, updatedAt: String) {
+    public init(id: String, teamId: String, spaceId: String, label: String, status: Status, claimedDeviceId: String?, claimedAt: Date?, expiresAt: Date, payload: String, createdAt: Date, updatedAt: Date) {
         self.id = id
         self.teamId = teamId
         self.spaceId = spaceId

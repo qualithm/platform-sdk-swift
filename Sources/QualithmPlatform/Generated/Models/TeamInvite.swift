@@ -25,16 +25,16 @@ public struct TeamInvite: Sendable, Codable, Hashable {
     public var teamId: String
     public var role: MemberRole
     public var status: Status
-    /** UTC time, `YYYY-MM-DD HH:MM:SS` */
-    public var createdAt: String
-    /** UTC time, `YYYY-MM-DD HH:MM:SS` */
-    public var updatedAt: String
+    /** UTC time, RFC 3339 */
+    public var createdAt: Date
+    /** UTC time, RFC 3339 */
+    public var updatedAt: Date
     public var accountEmail: String
     public var accountName: String
     /** Absent in the create response */
     public var teamName: String?
 
-    public init(id: String, accountId: String, teamId: String, role: MemberRole, status: Status, createdAt: String, updatedAt: String, accountEmail: String, accountName: String, teamName: String? = nil) {
+    public init(id: String, accountId: String, teamId: String, role: MemberRole, status: Status, createdAt: Date, updatedAt: Date, accountEmail: String, accountName: String, teamName: String? = nil) {
         self.id = id
         self.accountId = accountId
         self.teamId = teamId

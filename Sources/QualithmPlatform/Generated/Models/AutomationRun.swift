@@ -36,12 +36,12 @@ public struct AutomationRun: Sendable, Codable, Hashable {
     public var status: Status
     public var steps: [AutomationRunStep]
     public var lastError: String?
-    /** ISO 8601 time */
-    public var triggeredAt: String
-    /** ISO 8601 time */
-    public var executedAt: String?
+    /** UTC time, RFC 3339 */
+    public var triggeredAt: Date
+    /** UTC time, RFC 3339 */
+    public var executedAt: Date?
 
-    public init(id: String, automationId: String, triggerType: TriggerType, status: Status, steps: [AutomationRunStep], lastError: String?, triggeredAt: String, executedAt: String?) {
+    public init(id: String, automationId: String, triggerType: TriggerType, status: Status, steps: [AutomationRunStep], lastError: String?, triggeredAt: Date, executedAt: Date?) {
         self.id = id
         self.automationId = automationId
         self.triggerType = triggerType

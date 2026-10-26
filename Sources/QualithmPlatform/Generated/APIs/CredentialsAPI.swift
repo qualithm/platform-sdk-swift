@@ -16,11 +16,12 @@ open class CredentialsAPI {
      - parameter teamId: (path) The team the request acts on 
      - parameter deviceId: (path) A device ID 
      - parameter createDeviceCertificateRequest: (body)  
+     - parameter idempotencyKey: (header) A unique key for this request. A retry with the same key and body returns the first response instead of acting again; keys last 24 hours. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: CreateDeviceCertificateResponse
      */
-    open class func createDeviceCertificate(teamId: String, deviceId: String, createDeviceCertificateRequest: CreateDeviceCertificateRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> CreateDeviceCertificateResponse {
-        return try await createDeviceCertificateWithRequestBuilder(teamId: teamId, deviceId: deviceId, createDeviceCertificateRequest: createDeviceCertificateRequest, apiConfiguration: apiConfiguration).execute().body
+    open class func createDeviceCertificate(teamId: String, deviceId: String, createDeviceCertificateRequest: CreateDeviceCertificateRequest, idempotencyKey: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> CreateDeviceCertificateResponse {
+        return try await createDeviceCertificateWithRequestBuilder(teamId: teamId, deviceId: deviceId, createDeviceCertificateRequest: createDeviceCertificateRequest, idempotencyKey: idempotencyKey, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -33,10 +34,11 @@ open class CredentialsAPI {
      - parameter teamId: (path) The team the request acts on 
      - parameter deviceId: (path) A device ID 
      - parameter createDeviceCertificateRequest: (body)  
+     - parameter idempotencyKey: (header) A unique key for this request. A retry with the same key and body returns the first response instead of acting again; keys last 24 hours. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<CreateDeviceCertificateResponse> 
      */
-    open class func createDeviceCertificateWithRequestBuilder(teamId: String, deviceId: String, createDeviceCertificateRequest: CreateDeviceCertificateRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<CreateDeviceCertificateResponse> {
+    open class func createDeviceCertificateWithRequestBuilder(teamId: String, deviceId: String, createDeviceCertificateRequest: CreateDeviceCertificateRequest, idempotencyKey: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<CreateDeviceCertificateResponse> {
         var localVariablePath = "/v1/teams/{teamId}/devices/{deviceId}/credentials/cert"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -51,6 +53,7 @@ open class CredentialsAPI {
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/json",
+            "Idempotency-Key": idempotencyKey?.asParameter(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
@@ -65,12 +68,13 @@ open class CredentialsAPI {
      
      - parameter teamId: (path) The team the request acts on 
      - parameter deviceId: (path) A device ID 
+     - parameter idempotencyKey: (header) A unique key for this request. A retry with the same key and body returns the first response instead of acting again; keys last 24 hours. (optional)
      - parameter createDeviceCredentialRequest: (body)  (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: CreateDeviceCredentialResponse
      */
-    open class func createDeviceCredential(teamId: String, deviceId: String, createDeviceCredentialRequest: CreateDeviceCredentialRequest? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> CreateDeviceCredentialResponse {
-        return try await createDeviceCredentialWithRequestBuilder(teamId: teamId, deviceId: deviceId, createDeviceCredentialRequest: createDeviceCredentialRequest, apiConfiguration: apiConfiguration).execute().body
+    open class func createDeviceCredential(teamId: String, deviceId: String, idempotencyKey: String? = nil, createDeviceCredentialRequest: CreateDeviceCredentialRequest? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> CreateDeviceCredentialResponse {
+        return try await createDeviceCredentialWithRequestBuilder(teamId: teamId, deviceId: deviceId, idempotencyKey: idempotencyKey, createDeviceCredentialRequest: createDeviceCredentialRequest, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -82,11 +86,12 @@ open class CredentialsAPI {
      - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
      - parameter deviceId: (path) A device ID 
+     - parameter idempotencyKey: (header) A unique key for this request. A retry with the same key and body returns the first response instead of acting again; keys last 24 hours. (optional)
      - parameter createDeviceCredentialRequest: (body)  (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<CreateDeviceCredentialResponse> 
      */
-    open class func createDeviceCredentialWithRequestBuilder(teamId: String, deviceId: String, createDeviceCredentialRequest: CreateDeviceCredentialRequest? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<CreateDeviceCredentialResponse> {
+    open class func createDeviceCredentialWithRequestBuilder(teamId: String, deviceId: String, idempotencyKey: String? = nil, createDeviceCredentialRequest: CreateDeviceCredentialRequest? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<CreateDeviceCredentialResponse> {
         var localVariablePath = "/v1/teams/{teamId}/devices/{deviceId}/credentials"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -101,6 +106,7 @@ open class CredentialsAPI {
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/json",
+            "Idempotency-Key": idempotencyKey?.asParameter(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
@@ -217,12 +223,13 @@ open class CredentialsAPI {
      - parameter deviceId: (path) A device ID 
      - parameter credentialId: (path) A credential ID 
      - parameter revoke: (query) &#x60;true&#x60; revokes the old credential now; otherwise it stays active until it expires (optional)
+     - parameter idempotencyKey: (header) A unique key for this request. A retry with the same key and body returns the first response instead of acting again; keys last 24 hours. (optional)
      - parameter rotateDeviceCredentialRequest: (body)  (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RotateDeviceCredentialResponse
      */
-    open class func rotateDeviceCredential(teamId: String, deviceId: String, credentialId: String, revoke: String? = nil, rotateDeviceCredentialRequest: RotateDeviceCredentialRequest? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> RotateDeviceCredentialResponse {
-        return try await rotateDeviceCredentialWithRequestBuilder(teamId: teamId, deviceId: deviceId, credentialId: credentialId, revoke: revoke, rotateDeviceCredentialRequest: rotateDeviceCredentialRequest, apiConfiguration: apiConfiguration).execute().body
+    open class func rotateDeviceCredential(teamId: String, deviceId: String, credentialId: String, revoke: String? = nil, idempotencyKey: String? = nil, rotateDeviceCredentialRequest: RotateDeviceCredentialRequest? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> RotateDeviceCredentialResponse {
+        return try await rotateDeviceCredentialWithRequestBuilder(teamId: teamId, deviceId: deviceId, credentialId: credentialId, revoke: revoke, idempotencyKey: idempotencyKey, rotateDeviceCredentialRequest: rotateDeviceCredentialRequest, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -236,11 +243,12 @@ open class CredentialsAPI {
      - parameter deviceId: (path) A device ID 
      - parameter credentialId: (path) A credential ID 
      - parameter revoke: (query) &#x60;true&#x60; revokes the old credential now; otherwise it stays active until it expires (optional)
+     - parameter idempotencyKey: (header) A unique key for this request. A retry with the same key and body returns the first response instead of acting again; keys last 24 hours. (optional)
      - parameter rotateDeviceCredentialRequest: (body)  (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<RotateDeviceCredentialResponse> 
      */
-    open class func rotateDeviceCredentialWithRequestBuilder(teamId: String, deviceId: String, credentialId: String, revoke: String? = nil, rotateDeviceCredentialRequest: RotateDeviceCredentialRequest? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<RotateDeviceCredentialResponse> {
+    open class func rotateDeviceCredentialWithRequestBuilder(teamId: String, deviceId: String, credentialId: String, revoke: String? = nil, idempotencyKey: String? = nil, rotateDeviceCredentialRequest: RotateDeviceCredentialRequest? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<RotateDeviceCredentialResponse> {
         var localVariablePath = "/v1/teams/{teamId}/devices/{deviceId}/credentials/{credentialId}/rotate"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -262,6 +270,7 @@ open class CredentialsAPI {
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/json",
+            "Idempotency-Key": idempotencyKey?.asParameter(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)

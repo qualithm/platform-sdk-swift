@@ -8,11 +8,13 @@
 
 import Foundation
 
-/** At least one of name, spaceId, payload or template */
+/** At least one of name, enabled, spaceId, payload or template */
 public struct UpdateAutomationRequest: Sendable, Codable, Hashable {
 
     public static let spaceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^spc_[0-9A-HJKMNP-TV-Z]{26}$")
     public var name: String?
+    /** Whether its trigger fires */
+    public var enabled: Bool?
     /** A space ID */
     public var spaceId: String?
     public var payload: UpdateAutomationRequestPayload?
@@ -21,8 +23,9 @@ public struct UpdateAutomationRequest: Sendable, Codable, Hashable {
     /** The template's slot values, keyed by slot name; used with `template` */
     public var params: JSONValue?
 
-    public init(name: String? = nil, spaceId: String? = nil, payload: UpdateAutomationRequestPayload? = nil, template: String? = nil, params: JSONValue? = nil) {
+    public init(name: String? = nil, enabled: Bool? = nil, spaceId: String? = nil, payload: UpdateAutomationRequestPayload? = nil, template: String? = nil, params: JSONValue? = nil) {
         self.name = name
+        self.enabled = enabled
         self.spaceId = spaceId
         self.payload = payload
         self.template = template
@@ -31,6 +34,7 @@ public struct UpdateAutomationRequest: Sendable, Codable, Hashable {
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case name
+        case enabled
         case spaceId
         case payload
         case template
@@ -42,6 +46,7 @@ public struct UpdateAutomationRequest: Sendable, Codable, Hashable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(enabled, forKey: .enabled)
         try container.encodeIfPresent(spaceId, forKey: .spaceId)
         try container.encodeIfPresent(payload, forKey: .payload)
         try container.encodeIfPresent(template, forKey: .template)

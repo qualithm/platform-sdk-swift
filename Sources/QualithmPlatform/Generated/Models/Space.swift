@@ -20,14 +20,14 @@ public struct Space: Sendable, Codable, Hashable {
     /** JSON text */
     public var payload: String
     public var zone: ZoneId
-    /** UTC time, `YYYY-MM-DD HH:MM:SS` */
-    public var createdAt: String
-    /** UTC time, `YYYY-MM-DD HH:MM:SS` */
-    public var updatedAt: String
+    /** UTC time, RFC 3339 */
+    public var createdAt: Date
+    /** UTC time, RFC 3339 */
+    public var updatedAt: Date
     /** The space's live devices. Absent when listing a zone's spaces. */
     public var deviceTotal: Int64?
 
-    public init(id: String, teamId: String, name: String, payload: String, zone: ZoneId, createdAt: String, updatedAt: String, deviceTotal: Int64? = nil) {
+    public init(id: String, teamId: String, name: String, payload: String, zone: ZoneId, createdAt: Date, updatedAt: Date, deviceTotal: Int64? = nil) {
         self.id = id
         self.teamId = teamId
         self.name = name

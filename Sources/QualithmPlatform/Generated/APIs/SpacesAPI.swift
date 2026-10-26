@@ -15,11 +15,12 @@ open class SpacesAPI {
      
      - parameter teamId: (path) The team the request acts on 
      - parameter createSpaceRequest: (body)  
+     - parameter idempotencyKey: (header) A unique key for this request. A retry with the same key and body returns the first response instead of acting again; keys last 24 hours. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: CreateSpaceResponse
      */
-    open class func createSpace(teamId: String, createSpaceRequest: CreateSpaceRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> CreateSpaceResponse {
-        return try await createSpaceWithRequestBuilder(teamId: teamId, createSpaceRequest: createSpaceRequest, apiConfiguration: apiConfiguration).execute().body
+    open class func createSpace(teamId: String, createSpaceRequest: CreateSpaceRequest, idempotencyKey: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> CreateSpaceResponse {
+        return try await createSpaceWithRequestBuilder(teamId: teamId, createSpaceRequest: createSpaceRequest, idempotencyKey: idempotencyKey, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -31,10 +32,11 @@ open class SpacesAPI {
      - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
      - parameter createSpaceRequest: (body)  
+     - parameter idempotencyKey: (header) A unique key for this request. A retry with the same key and body returns the first response instead of acting again; keys last 24 hours. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<CreateSpaceResponse> 
      */
-    open class func createSpaceWithRequestBuilder(teamId: String, createSpaceRequest: CreateSpaceRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<CreateSpaceResponse> {
+    open class func createSpaceWithRequestBuilder(teamId: String, createSpaceRequest: CreateSpaceRequest, idempotencyKey: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<CreateSpaceResponse> {
         var localVariablePath = "/v1/teams/{teamId}/spaces"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -46,6 +48,7 @@ open class SpacesAPI {
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/json",
+            "Idempotency-Key": idempotencyKey?.asParameter(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
@@ -60,10 +63,11 @@ open class SpacesAPI {
      
      - parameter teamId: (path) The team the request acts on 
      - parameter spaceId: (path) A space ID 
+     - parameter ifMatch: (header) The ETag you last read. The request is refused with 412 when the resource has changed since; omit it to apply the change regardless. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      */
-    open class func deleteSpace(teamId: String, spaceId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await deleteSpaceWithRequestBuilder(teamId: teamId, spaceId: spaceId, apiConfiguration: apiConfiguration).execute().body
+    open class func deleteSpace(teamId: String, spaceId: String, ifMatch: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await deleteSpaceWithRequestBuilder(teamId: teamId, spaceId: spaceId, ifMatch: ifMatch, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -75,10 +79,11 @@ open class SpacesAPI {
      - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
      - parameter spaceId: (path) A space ID 
+     - parameter ifMatch: (header) The ETag you last read. The request is refused with 412 when the resource has changed since; omit it to apply the change regardless. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
-    open class func deleteSpaceWithRequestBuilder(teamId: String, spaceId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func deleteSpaceWithRequestBuilder(teamId: String, spaceId: String, ifMatch: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/teams/{teamId}/spaces/{spaceId}"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -92,7 +97,7 @@ open class SpacesAPI {
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
+            "If-Match": ifMatch?.asParameter(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
@@ -120,7 +125,7 @@ open class SpacesAPI {
      - Bearer Token:
        - type: http
        - name: apiToken
-     - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
+     - responseHeaders: [Request-Id(String), ETag(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
      - parameter spaceId: (path) A space ID 
      - parameter apiConfiguration: The configuration for the http request.
@@ -219,10 +224,11 @@ open class SpacesAPI {
      - parameter teamId: (path) The team the request acts on 
      - parameter spaceId: (path) A space ID 
      - parameter updateSpaceRequest: (body)  
+     - parameter ifMatch: (header) The ETag you last read. The request is refused with 412 when the resource has changed since; omit it to apply the change regardless. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      */
-    open class func updateSpace(teamId: String, spaceId: String, updateSpaceRequest: UpdateSpaceRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await updateSpaceWithRequestBuilder(teamId: teamId, spaceId: spaceId, updateSpaceRequest: updateSpaceRequest, apiConfiguration: apiConfiguration).execute().body
+    open class func updateSpace(teamId: String, spaceId: String, updateSpaceRequest: UpdateSpaceRequest, ifMatch: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await updateSpaceWithRequestBuilder(teamId: teamId, spaceId: spaceId, updateSpaceRequest: updateSpaceRequest, ifMatch: ifMatch, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -231,14 +237,15 @@ open class SpacesAPI {
      - Bearer Token:
        - type: http
        - name: apiToken
-     - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
+     - responseHeaders: [Request-Id(String), ETag(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
      - parameter spaceId: (path) A space ID 
      - parameter updateSpaceRequest: (body)  
+     - parameter ifMatch: (header) The ETag you last read. The request is refused with 412 when the resource has changed since; omit it to apply the change regardless. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
-    open class func updateSpaceWithRequestBuilder(teamId: String, spaceId: String, updateSpaceRequest: UpdateSpaceRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func updateSpaceWithRequestBuilder(teamId: String, spaceId: String, updateSpaceRequest: UpdateSpaceRequest, ifMatch: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/teams/{teamId}/spaces/{spaceId}"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -253,6 +260,7 @@ open class SpacesAPI {
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/json",
+            "If-Match": ifMatch?.asParameter(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)

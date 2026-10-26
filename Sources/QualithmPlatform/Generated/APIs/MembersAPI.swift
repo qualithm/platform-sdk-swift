@@ -15,11 +15,12 @@ open class MembersAPI {
      
      - parameter teamId: (path) A team ID 
      - parameter createTeamMemberRequest: (body)  
+     - parameter idempotencyKey: (header) A unique key for this request. A retry with the same key and body returns the first response instead of acting again; keys last 24 hours. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: CreateTeamMemberResponse
      */
-    open class func createTeamMember(teamId: String, createTeamMemberRequest: CreateTeamMemberRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> CreateTeamMemberResponse {
-        return try await createTeamMemberWithRequestBuilder(teamId: teamId, createTeamMemberRequest: createTeamMemberRequest, apiConfiguration: apiConfiguration).execute().body
+    open class func createTeamMember(teamId: String, createTeamMemberRequest: CreateTeamMemberRequest, idempotencyKey: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> CreateTeamMemberResponse {
+        return try await createTeamMemberWithRequestBuilder(teamId: teamId, createTeamMemberRequest: createTeamMemberRequest, idempotencyKey: idempotencyKey, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -31,10 +32,11 @@ open class MembersAPI {
      - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) A team ID 
      - parameter createTeamMemberRequest: (body)  
+     - parameter idempotencyKey: (header) A unique key for this request. A retry with the same key and body returns the first response instead of acting again; keys last 24 hours. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<CreateTeamMemberResponse> 
      */
-    open class func createTeamMemberWithRequestBuilder(teamId: String, createTeamMemberRequest: CreateTeamMemberRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<CreateTeamMemberResponse> {
+    open class func createTeamMemberWithRequestBuilder(teamId: String, createTeamMemberRequest: CreateTeamMemberRequest, idempotencyKey: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<CreateTeamMemberResponse> {
         var localVariablePath = "/v1/teams/{teamId}/members"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -46,6 +48,7 @@ open class MembersAPI {
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/json",
+            "Idempotency-Key": idempotencyKey?.asParameter(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
