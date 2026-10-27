@@ -32,14 +32,12 @@ public struct Authority: Sendable, Codable, Hashable {
     /** SHA-256 of the CA certificate */
     public var fingerprint: String?
     public var status: Status
-    /** JSON text */
-    public var payload: String
     /** UTC time, RFC 3339 */
     public var createdAt: Date
     /** UTC time, RFC 3339 */
     public var updatedAt: Date
 
-    public init(id: String, teamId: String, name: String, kind: Kind, certificatePem: String?, fingerprint: String?, status: Status, payload: String, createdAt: Date, updatedAt: Date) {
+    public init(id: String, teamId: String, name: String, kind: Kind, certificatePem: String?, fingerprint: String?, status: Status, createdAt: Date, updatedAt: Date) {
         self.id = id
         self.teamId = teamId
         self.name = name
@@ -47,7 +45,6 @@ public struct Authority: Sendable, Codable, Hashable {
         self.certificatePem = certificatePem
         self.fingerprint = fingerprint
         self.status = status
-        self.payload = payload
         self.createdAt = createdAt
         self.updatedAt = updatedAt
     }
@@ -60,7 +57,6 @@ public struct Authority: Sendable, Codable, Hashable {
         case certificatePem
         case fingerprint
         case status
-        case payload
         case createdAt
         case updatedAt
     }
@@ -76,7 +72,6 @@ public struct Authority: Sendable, Codable, Hashable {
         try container.encode(certificatePem, forKey: .certificatePem)
         try container.encode(fingerprint, forKey: .fingerprint)
         try container.encode(status, forKey: .status)
-        try container.encode(payload, forKey: .payload)
         try container.encode(createdAt, forKey: .createdAt)
         try container.encode(updatedAt, forKey: .updatedAt)
     }
