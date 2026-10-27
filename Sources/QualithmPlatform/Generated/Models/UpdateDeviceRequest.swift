@@ -10,21 +10,27 @@ import Foundation
 
 public struct UpdateDeviceRequest: Sendable, Codable, Hashable {
 
+    public static let scopeIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^spc_[0-9A-HJKMNP-TV-Z]{26}$")
     public static let spaceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^spc_[0-9A-HJKMNP-TV-Z]{26}$")
     public var name: String?
-    /** A space in the device's zone */
+    /** A scope in the device's zone; a device stays in the zone it was claimed in */
+    public var scopeId: String?
+    /** Deprecated: use scopeId */
+    @available(*, deprecated, message: "This property is deprecated.")
     public var spaceId: String?
     /** A parked device can't connect and doesn't count against the plan; its credentials and history stay */
     public var parked: Bool?
 
-    public init(name: String? = nil, spaceId: String? = nil, parked: Bool? = nil) {
+    public init(name: String? = nil, scopeId: String? = nil, spaceId: String? = nil, parked: Bool? = nil) {
         self.name = name
+        self.scopeId = scopeId
         self.spaceId = spaceId
         self.parked = parked
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case name
+        case scopeId
         case spaceId
         case parked
     }
@@ -34,6 +40,7 @@ public struct UpdateDeviceRequest: Sendable, Codable, Hashable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(scopeId, forKey: .scopeId)
         try container.encodeIfPresent(spaceId, forKey: .spaceId)
         try container.encodeIfPresent(parked, forKey: .parked)
     }
