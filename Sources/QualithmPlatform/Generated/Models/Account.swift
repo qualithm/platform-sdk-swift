@@ -15,18 +15,15 @@ public struct Account: Sendable, Codable, Hashable {
     public var id: String
     public var email: String
     public var name: String
-    /** The account's settings: a JSON object, encoded as a string */
-    public var payload: String
     /** UTC time, RFC 3339 */
     public var createdAt: Date
     /** UTC time, RFC 3339 */
     public var updatedAt: Date
 
-    public init(id: String, email: String, name: String, payload: String, createdAt: Date, updatedAt: Date) {
+    public init(id: String, email: String, name: String, createdAt: Date, updatedAt: Date) {
         self.id = id
         self.email = email
         self.name = name
-        self.payload = payload
         self.createdAt = createdAt
         self.updatedAt = updatedAt
     }
@@ -35,7 +32,6 @@ public struct Account: Sendable, Codable, Hashable {
         case id
         case email
         case name
-        case payload
         case createdAt
         case updatedAt
     }
@@ -47,7 +43,6 @@ public struct Account: Sendable, Codable, Hashable {
         try container.encode(id, forKey: .id)
         try container.encode(email, forKey: .email)
         try container.encode(name, forKey: .name)
-        try container.encode(payload, forKey: .payload)
         try container.encode(createdAt, forKey: .createdAt)
         try container.encode(updatedAt, forKey: .updatedAt)
     }
