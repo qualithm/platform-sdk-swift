@@ -17,8 +17,6 @@ public struct Space: Sendable, Codable, Hashable {
     /** A team ID */
     public var teamId: String
     public var name: String
-    /** JSON text */
-    public var payload: String
     public var zone: ZoneId
     /** UTC time, RFC 3339 */
     public var createdAt: Date
@@ -27,11 +25,10 @@ public struct Space: Sendable, Codable, Hashable {
     /** The space's live devices. Absent when listing a zone's spaces. */
     public var deviceTotal: Int64?
 
-    public init(id: String, teamId: String, name: String, payload: String, zone: ZoneId, createdAt: Date, updatedAt: Date, deviceTotal: Int64? = nil) {
+    public init(id: String, teamId: String, name: String, zone: ZoneId, createdAt: Date, updatedAt: Date, deviceTotal: Int64? = nil) {
         self.id = id
         self.teamId = teamId
         self.name = name
-        self.payload = payload
         self.zone = zone
         self.createdAt = createdAt
         self.updatedAt = updatedAt
@@ -42,7 +39,6 @@ public struct Space: Sendable, Codable, Hashable {
         case id
         case teamId
         case name
-        case payload
         case zone
         case createdAt
         case updatedAt
@@ -56,7 +52,6 @@ public struct Space: Sendable, Codable, Hashable {
         try container.encode(id, forKey: .id)
         try container.encode(teamId, forKey: .teamId)
         try container.encode(name, forKey: .name)
-        try container.encode(payload, forKey: .payload)
         try container.encode(zone, forKey: .zone)
         try container.encode(createdAt, forKey: .createdAt)
         try container.encode(updatedAt, forKey: .updatedAt)

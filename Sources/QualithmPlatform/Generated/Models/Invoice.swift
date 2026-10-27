@@ -19,19 +19,19 @@ public struct Invoice: Sendable, Codable, Hashable {
     public var status: String
     /** The invoice total; null until Stripe sets it */
     public var total: Money?
-    /** The invoice detail: a JSON object, encoded as a string */
-    public var payload: String
+    /** The Stripe invoice this one mirrors; null when Stripe didn't send one */
+    public var stripeInvoiceId: String?
     /** UTC time, RFC 3339 */
     public var createdAt: Date
     /** UTC time, RFC 3339 */
     public var updatedAt: Date
 
-    public init(id: String, teamId: String, status: String, total: Money?, payload: String, createdAt: Date, updatedAt: Date) {
+    public init(id: String, teamId: String, status: String, total: Money?, stripeInvoiceId: String?, createdAt: Date, updatedAt: Date) {
         self.id = id
         self.teamId = teamId
         self.status = status
         self.total = total
-        self.payload = payload
+        self.stripeInvoiceId = stripeInvoiceId
         self.createdAt = createdAt
         self.updatedAt = updatedAt
     }
@@ -41,7 +41,7 @@ public struct Invoice: Sendable, Codable, Hashable {
         case teamId
         case status
         case total
-        case payload
+        case stripeInvoiceId
         case createdAt
         case updatedAt
     }
@@ -54,7 +54,7 @@ public struct Invoice: Sendable, Codable, Hashable {
         try container.encode(teamId, forKey: .teamId)
         try container.encode(status, forKey: .status)
         try container.encode(total, forKey: .total)
-        try container.encode(payload, forKey: .payload)
+        try container.encode(stripeInvoiceId, forKey: .stripeInvoiceId)
         try container.encode(createdAt, forKey: .createdAt)
         try container.encode(updatedAt, forKey: .updatedAt)
     }

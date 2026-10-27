@@ -34,14 +34,12 @@ public struct Enrollment: Sendable, Codable, Hashable {
     public var claimedAt: Date?
     /** UTC time, RFC 3339 */
     public var expiresAt: Date
-    /** JSON text */
-    public var payload: String
     /** UTC time, RFC 3339 */
     public var createdAt: Date
     /** UTC time, RFC 3339 */
     public var updatedAt: Date
 
-    public init(id: String, teamId: String, spaceId: String, label: String, status: Status, claimedDeviceId: String?, claimedAt: Date?, expiresAt: Date, payload: String, createdAt: Date, updatedAt: Date) {
+    public init(id: String, teamId: String, spaceId: String, label: String, status: Status, claimedDeviceId: String?, claimedAt: Date?, expiresAt: Date, createdAt: Date, updatedAt: Date) {
         self.id = id
         self.teamId = teamId
         self.spaceId = spaceId
@@ -50,7 +48,6 @@ public struct Enrollment: Sendable, Codable, Hashable {
         self.claimedDeviceId = claimedDeviceId
         self.claimedAt = claimedAt
         self.expiresAt = expiresAt
-        self.payload = payload
         self.createdAt = createdAt
         self.updatedAt = updatedAt
     }
@@ -64,7 +61,6 @@ public struct Enrollment: Sendable, Codable, Hashable {
         case claimedDeviceId
         case claimedAt
         case expiresAt
-        case payload
         case createdAt
         case updatedAt
     }
@@ -81,7 +77,6 @@ public struct Enrollment: Sendable, Codable, Hashable {
         try container.encode(claimedDeviceId, forKey: .claimedDeviceId)
         try container.encode(claimedAt, forKey: .claimedAt)
         try container.encode(expiresAt, forKey: .expiresAt)
-        try container.encode(payload, forKey: .payload)
         try container.encode(createdAt, forKey: .createdAt)
         try container.encode(updatedAt, forKey: .updatedAt)
     }

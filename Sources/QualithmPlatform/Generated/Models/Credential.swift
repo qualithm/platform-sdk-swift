@@ -42,14 +42,12 @@ public struct Credential: Sendable, Codable, Hashable {
     public var lastUsedAt: Date?
     /** A credential ID */
     public var rotatedFrom: String?
-    /** JSON text */
-    public var payload: String
     /** UTC time, RFC 3339 */
     public var createdAt: Date
     /** UTC time, RFC 3339 */
     public var updatedAt: Date
 
-    public init(id: String, deviceId: String, authorityId: String?, kind: Kind, certFingerprint: String?, certSubject: String?, label: String, status: Status, expiresAt: Date?, lastUsedAt: Date?, rotatedFrom: String?, payload: String, createdAt: Date, updatedAt: Date) {
+    public init(id: String, deviceId: String, authorityId: String?, kind: Kind, certFingerprint: String?, certSubject: String?, label: String, status: Status, expiresAt: Date?, lastUsedAt: Date?, rotatedFrom: String?, createdAt: Date, updatedAt: Date) {
         self.id = id
         self.deviceId = deviceId
         self.authorityId = authorityId
@@ -61,7 +59,6 @@ public struct Credential: Sendable, Codable, Hashable {
         self.expiresAt = expiresAt
         self.lastUsedAt = lastUsedAt
         self.rotatedFrom = rotatedFrom
-        self.payload = payload
         self.createdAt = createdAt
         self.updatedAt = updatedAt
     }
@@ -78,7 +75,6 @@ public struct Credential: Sendable, Codable, Hashable {
         case expiresAt
         case lastUsedAt
         case rotatedFrom
-        case payload
         case createdAt
         case updatedAt
     }
@@ -98,7 +94,6 @@ public struct Credential: Sendable, Codable, Hashable {
         try container.encode(expiresAt, forKey: .expiresAt)
         try container.encode(lastUsedAt, forKey: .lastUsedAt)
         try container.encode(rotatedFrom, forKey: .rotatedFrom)
-        try container.encode(payload, forKey: .payload)
         try container.encode(createdAt, forKey: .createdAt)
         try container.encode(updatedAt, forKey: .updatedAt)
     }
