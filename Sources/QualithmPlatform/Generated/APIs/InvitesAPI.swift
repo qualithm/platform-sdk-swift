@@ -109,29 +109,32 @@ open class InvitesAPI {
      List the team's pending invites
      
      - parameter teamId: (path) A team ID 
-     - parameter page: (query) Page number, from 1. Default 1. (optional)
-     - parameter limit: (query) Items per page, 1 to 100. Default 20. (optional)
+     - parameter page: (query) Page number, from 1. Default 1. Ignored with &#x60;cursor&#x60;. (optional)
+     - parameter limit: (query) Items per page, 1 to 100. Default 20, or 50 with &#x60;cursor&#x60;. (optional)
+     - parameter cursor: (query) A previous page&#39;s &#x60;nextCursor&#x60;, to read the page after it (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: ListTeamInvitesResponse
      */
-    open class func listTeamInvites(teamId: String, page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> ListTeamInvitesResponse {
-        return try await listTeamInvitesWithRequestBuilder(teamId: teamId, page: page, limit: limit, apiConfiguration: apiConfiguration).execute().body
+    open class func listTeamInvites(teamId: String, page: Int64? = nil, limit: Int? = nil, cursor: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> ListTeamInvitesResponse {
+        return try await listTeamInvitesWithRequestBuilder(teamId: teamId, page: page, limit: limit, cursor: cursor, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      List the team's pending invites
      - GET /v1/teams/{teamId}/invites
+     - Newest first, by `createdAt` then `id`.
      - Bearer Token:
        - type: http
        - name: apiToken
      - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) A team ID 
-     - parameter page: (query) Page number, from 1. Default 1. (optional)
-     - parameter limit: (query) Items per page, 1 to 100. Default 20. (optional)
+     - parameter page: (query) Page number, from 1. Default 1. Ignored with &#x60;cursor&#x60;. (optional)
+     - parameter limit: (query) Items per page, 1 to 100. Default 20, or 50 with &#x60;cursor&#x60;. (optional)
+     - parameter cursor: (query) A previous page&#39;s &#x60;nextCursor&#x60;, to read the page after it (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<ListTeamInvitesResponse> 
      */
-    open class func listTeamInvitesWithRequestBuilder(teamId: String, page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListTeamInvitesResponse> {
+    open class func listTeamInvitesWithRequestBuilder(teamId: String, page: Int64? = nil, limit: Int? = nil, cursor: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListTeamInvitesResponse> {
         var localVariablePath = "/v1/teams/{teamId}/invites"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -143,6 +146,7 @@ open class InvitesAPI {
         let localVariableQueryParameters: [String: (wrappedValue: (any Sendable)?, isExplode: Bool)] = [
             "page": (wrappedValue: page?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "limit": (wrappedValue: limit?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "cursor": (wrappedValue: cursor?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
         ]
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryParameters)
 

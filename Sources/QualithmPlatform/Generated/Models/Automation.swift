@@ -12,11 +12,14 @@ public struct Automation: Sendable, Codable, Hashable {
 
     public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^aut_[0-9A-HJKMNP-TV-Z]{26}$")
     public static let teamIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^tm_[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let scopeIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^spc_[0-9A-HJKMNP-TV-Z]{26}$")
     public static let spaceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^spc_[0-9A-HJKMNP-TV-Z]{26}$")
     /** An automation ID */
     public var id: String
     /** A team ID */
     public var teamId: String
+    /** A scope ID */
+    public var scopeId: String?
     /** A space ID */
     public var spaceId: String?
     public var spaceName: String?
@@ -30,9 +33,10 @@ public struct Automation: Sendable, Codable, Hashable {
     /** On a single read of a template-built automation: true when its chain no longer matches its template */
     public var templateDrift: Bool?
 
-    public init(id: String, teamId: String, spaceId: String?, spaceName: String?, name: String, enabled: Bool, payload: AutomationPayload, createdAt: Date, updatedAt: Date, templateDrift: Bool? = nil) {
+    public init(id: String, teamId: String, scopeId: String?, spaceId: String?, spaceName: String?, name: String, enabled: Bool, payload: AutomationPayload, createdAt: Date, updatedAt: Date, templateDrift: Bool? = nil) {
         self.id = id
         self.teamId = teamId
+        self.scopeId = scopeId
         self.spaceId = spaceId
         self.spaceName = spaceName
         self.name = name
@@ -46,6 +50,7 @@ public struct Automation: Sendable, Codable, Hashable {
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case id
         case teamId
+        case scopeId
         case spaceId
         case spaceName
         case name
@@ -62,6 +67,7 @@ public struct Automation: Sendable, Codable, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(id, forKey: .id)
         try container.encode(teamId, forKey: .teamId)
+        try container.encode(scopeId, forKey: .scopeId)
         try container.encode(spaceId, forKey: .spaceId)
         try container.encode(spaceName, forKey: .spaceName)
         try container.encode(name, forKey: .name)

@@ -173,26 +173,33 @@ open class CredentialsAPI {
      
      - parameter teamId: (path) The team the request acts on 
      - parameter deviceId: (path) A device ID 
+     - parameter page: (query) Page number, from 1. Default 1. Ignored with &#x60;cursor&#x60;. (optional)
+     - parameter limit: (query) Items per page, 1 to 100. Default 20, or 50 with &#x60;cursor&#x60;. (optional)
+     - parameter cursor: (query) A previous page&#39;s &#x60;nextCursor&#x60;, to read the page after it (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: ListDeviceCredentialsResponse
      */
-    open class func listDeviceCredentials(teamId: String, deviceId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> ListDeviceCredentialsResponse {
-        return try await listDeviceCredentialsWithRequestBuilder(teamId: teamId, deviceId: deviceId, apiConfiguration: apiConfiguration).execute().body
+    open class func listDeviceCredentials(teamId: String, deviceId: String, page: Int64? = nil, limit: Int? = nil, cursor: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> ListDeviceCredentialsResponse {
+        return try await listDeviceCredentialsWithRequestBuilder(teamId: teamId, deviceId: deviceId, page: page, limit: limit, cursor: cursor, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      List a device's credentials
      - GET /v1/teams/{teamId}/devices/{deviceId}/credentials
+     - Newest first, by `createdAt` then `id`.
      - Bearer Token:
        - type: http
        - name: apiToken
      - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
      - parameter deviceId: (path) A device ID 
+     - parameter page: (query) Page number, from 1. Default 1. Ignored with &#x60;cursor&#x60;. (optional)
+     - parameter limit: (query) Items per page, 1 to 100. Default 20, or 50 with &#x60;cursor&#x60;. (optional)
+     - parameter cursor: (query) A previous page&#39;s &#x60;nextCursor&#x60;, to read the page after it (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<ListDeviceCredentialsResponse> 
      */
-    open class func listDeviceCredentialsWithRequestBuilder(teamId: String, deviceId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListDeviceCredentialsResponse> {
+    open class func listDeviceCredentialsWithRequestBuilder(teamId: String, deviceId: String, page: Int64? = nil, limit: Int? = nil, cursor: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListDeviceCredentialsResponse> {
         var localVariablePath = "/v1/teams/{teamId}/devices/{deviceId}/credentials"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -203,7 +210,13 @@ open class CredentialsAPI {
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
 
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        let localVariableQueryParameters: [String: (wrappedValue: (any Sendable)?, isExplode: Bool)] = [
+            "page": (wrappedValue: page?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "limit": (wrappedValue: limit?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "cursor": (wrappedValue: cursor?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ]
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryParameters)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
