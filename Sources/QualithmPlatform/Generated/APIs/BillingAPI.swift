@@ -57,29 +57,32 @@ open class BillingAPI {
      List the workspace's invoices
      
      - parameter teamId: (path) The team the request acts on 
-     - parameter page: (query) Page number, from 1. Default 1. (optional)
-     - parameter limit: (query) Items per page, 1 to 100. Default 20. (optional)
+     - parameter page: (query) Page number, from 1. Default 1. Ignored with &#x60;cursor&#x60;. (optional)
+     - parameter limit: (query) Items per page, 1 to 100. Default 20, or 50 with &#x60;cursor&#x60;. (optional)
+     - parameter cursor: (query) A previous page&#39;s &#x60;nextCursor&#x60;, to read the page after it (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: ListInvoicesResponse
      */
-    open class func listInvoices(teamId: String, page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> ListInvoicesResponse {
-        return try await listInvoicesWithRequestBuilder(teamId: teamId, page: page, limit: limit, apiConfiguration: apiConfiguration).execute().body
+    open class func listInvoices(teamId: String, page: Int64? = nil, limit: Int? = nil, cursor: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> ListInvoicesResponse {
+        return try await listInvoicesWithRequestBuilder(teamId: teamId, page: page, limit: limit, cursor: cursor, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      List the workspace's invoices
      - GET /v1/teams/{teamId}/invoices
+     - Newest first, by `createdAt` then `id`.
      - Bearer Token:
        - type: http
        - name: apiToken
      - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
-     - parameter page: (query) Page number, from 1. Default 1. (optional)
-     - parameter limit: (query) Items per page, 1 to 100. Default 20. (optional)
+     - parameter page: (query) Page number, from 1. Default 1. Ignored with &#x60;cursor&#x60;. (optional)
+     - parameter limit: (query) Items per page, 1 to 100. Default 20, or 50 with &#x60;cursor&#x60;. (optional)
+     - parameter cursor: (query) A previous page&#39;s &#x60;nextCursor&#x60;, to read the page after it (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<ListInvoicesResponse> 
      */
-    open class func listInvoicesWithRequestBuilder(teamId: String, page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListInvoicesResponse> {
+    open class func listInvoicesWithRequestBuilder(teamId: String, page: Int64? = nil, limit: Int? = nil, cursor: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListInvoicesResponse> {
         var localVariablePath = "/v1/teams/{teamId}/invoices"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -91,6 +94,7 @@ open class BillingAPI {
         let localVariableQueryParameters: [String: (wrappedValue: (any Sendable)?, isExplode: Bool)] = [
             "page": (wrappedValue: page?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "limit": (wrappedValue: limit?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "cursor": (wrappedValue: cursor?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
         ]
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryParameters)
 

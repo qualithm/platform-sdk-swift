@@ -28,18 +28,20 @@ open class CapabilitiesAPI {
      - parameter type: (query) Only capabilities of this type (optional)
      - parameter tag: (query) Only capabilities carrying this tag (optional)
      - parameter key: (query) Only capabilities with this key (optional)
-     - parameter page: (query) Page number, from 1. Default 1. (optional)
-     - parameter limit: (query) Items per page, 1 to 100. Default 20. (optional)
+     - parameter page: (query) Page number, from 1. Default 1. Ignored with &#x60;cursor&#x60;. (optional)
+     - parameter limit: (query) Items per page, 1 to 100. Default 20, or 50 with &#x60;cursor&#x60;. (optional)
+     - parameter cursor: (query) A previous page&#39;s &#x60;nextCursor&#x60;, to read the page after it (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: ListCapabilitiesResponse
      */
-    open class func listCapabilities(teamId: String, type: ModelType_listCapabilities? = nil, tag: String? = nil, key: String? = nil, page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> ListCapabilitiesResponse {
-        return try await listCapabilitiesWithRequestBuilder(teamId: teamId, type: type, tag: tag, key: key, page: page, limit: limit, apiConfiguration: apiConfiguration).execute().body
+    open class func listCapabilities(teamId: String, type: ModelType_listCapabilities? = nil, tag: String? = nil, key: String? = nil, page: Int64? = nil, limit: Int? = nil, cursor: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> ListCapabilitiesResponse {
+        return try await listCapabilitiesWithRequestBuilder(teamId: teamId, type: type, tag: tag, key: key, page: page, limit: limit, cursor: cursor, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      List the capabilities of the workspace's devices
      - GET /v1/teams/{teamId}/capabilities
+     - By `key`, then `id`, ascending.
      - Bearer Token:
        - type: http
        - name: apiToken
@@ -48,12 +50,13 @@ open class CapabilitiesAPI {
      - parameter type: (query) Only capabilities of this type (optional)
      - parameter tag: (query) Only capabilities carrying this tag (optional)
      - parameter key: (query) Only capabilities with this key (optional)
-     - parameter page: (query) Page number, from 1. Default 1. (optional)
-     - parameter limit: (query) Items per page, 1 to 100. Default 20. (optional)
+     - parameter page: (query) Page number, from 1. Default 1. Ignored with &#x60;cursor&#x60;. (optional)
+     - parameter limit: (query) Items per page, 1 to 100. Default 20, or 50 with &#x60;cursor&#x60;. (optional)
+     - parameter cursor: (query) A previous page&#39;s &#x60;nextCursor&#x60;, to read the page after it (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<ListCapabilitiesResponse> 
      */
-    open class func listCapabilitiesWithRequestBuilder(teamId: String, type: ModelType_listCapabilities? = nil, tag: String? = nil, key: String? = nil, page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListCapabilitiesResponse> {
+    open class func listCapabilitiesWithRequestBuilder(teamId: String, type: ModelType_listCapabilities? = nil, tag: String? = nil, key: String? = nil, page: Int64? = nil, limit: Int? = nil, cursor: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListCapabilitiesResponse> {
         var localVariablePath = "/v1/teams/{teamId}/capabilities"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -68,6 +71,7 @@ open class CapabilitiesAPI {
             "key": (wrappedValue: key?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "page": (wrappedValue: page?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "limit": (wrappedValue: limit?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "cursor": (wrappedValue: cursor?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
         ]
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryParameters)
 
@@ -87,26 +91,33 @@ open class CapabilitiesAPI {
      
      - parameter teamId: (path) The team the request acts on 
      - parameter deviceId: (path) A device ID 
+     - parameter page: (query) Page number, from 1. Default 1. Ignored with &#x60;cursor&#x60;. (optional)
+     - parameter limit: (query) Items per page, 1 to 100. Default 20, or 50 with &#x60;cursor&#x60;. (optional)
+     - parameter cursor: (query) A previous page&#39;s &#x60;nextCursor&#x60;, to read the page after it (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: ListDeviceCapabilitiesResponse
      */
-    open class func listDeviceCapabilities(teamId: String, deviceId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> ListDeviceCapabilitiesResponse {
-        return try await listDeviceCapabilitiesWithRequestBuilder(teamId: teamId, deviceId: deviceId, apiConfiguration: apiConfiguration).execute().body
+    open class func listDeviceCapabilities(teamId: String, deviceId: String, page: Int64? = nil, limit: Int? = nil, cursor: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> ListDeviceCapabilitiesResponse {
+        return try await listDeviceCapabilitiesWithRequestBuilder(teamId: teamId, deviceId: deviceId, page: page, limit: limit, cursor: cursor, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      List the capabilities a device declares
      - GET /v1/teams/{teamId}/devices/{deviceId}/capabilities
+     - By `key`, then `id`, ascending.
      - Bearer Token:
        - type: http
        - name: apiToken
      - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
      - parameter deviceId: (path) A device ID 
+     - parameter page: (query) Page number, from 1. Default 1. Ignored with &#x60;cursor&#x60;. (optional)
+     - parameter limit: (query) Items per page, 1 to 100. Default 20, or 50 with &#x60;cursor&#x60;. (optional)
+     - parameter cursor: (query) A previous page&#39;s &#x60;nextCursor&#x60;, to read the page after it (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<ListDeviceCapabilitiesResponse> 
      */
-    open class func listDeviceCapabilitiesWithRequestBuilder(teamId: String, deviceId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListDeviceCapabilitiesResponse> {
+    open class func listDeviceCapabilitiesWithRequestBuilder(teamId: String, deviceId: String, page: Int64? = nil, limit: Int? = nil, cursor: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListDeviceCapabilitiesResponse> {
         var localVariablePath = "/v1/teams/{teamId}/devices/{deviceId}/capabilities"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -117,7 +128,13 @@ open class CapabilitiesAPI {
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
 
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        let localVariableQueryParameters: [String: (wrappedValue: (any Sendable)?, isExplode: Bool)] = [
+            "page": (wrappedValue: page?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "limit": (wrappedValue: limit?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "cursor": (wrappedValue: cursor?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ]
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryParameters)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :

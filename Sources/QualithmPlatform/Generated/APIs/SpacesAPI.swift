@@ -73,6 +73,7 @@ open class SpacesAPI {
     /**
      Delete a space and its devices
      - DELETE /v1/teams/{teamId}/spaces/{spaceId}
+     - Refused while scopes sit under it.
      - Bearer Token:
        - type: http
        - name: apiToken
@@ -168,30 +169,33 @@ open class SpacesAPI {
      
      - parameter teamId: (path) The team the request acts on 
      - parameter zone: (query) Only the spaces in this zone (optional)
-     - parameter page: (query) Page number, from 1. Default 1. (optional)
-     - parameter limit: (query) Items per page, 1 to 100. Default 20. (optional)
+     - parameter page: (query) Page number, from 1. Default 1. Ignored with &#x60;cursor&#x60;. (optional)
+     - parameter limit: (query) Items per page, 1 to 100. Default 20, or 50 with &#x60;cursor&#x60;. (optional)
+     - parameter cursor: (query) A previous page&#39;s &#x60;nextCursor&#x60;, to read the page after it (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: ListSpacesResponse
      */
-    open class func listSpaces(teamId: String, zone: Zone_listSpaces? = nil, page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> ListSpacesResponse {
-        return try await listSpacesWithRequestBuilder(teamId: teamId, zone: zone, page: page, limit: limit, apiConfiguration: apiConfiguration).execute().body
+    open class func listSpaces(teamId: String, zone: Zone_listSpaces? = nil, page: Int64? = nil, limit: Int? = nil, cursor: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> ListSpacesResponse {
+        return try await listSpacesWithRequestBuilder(teamId: teamId, zone: zone, page: page, limit: limit, cursor: cursor, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      List the workspace's spaces
      - GET /v1/teams/{teamId}/spaces
+     - Top-level scopes only, newest first, by `createdAt` then `id`. Use listScopes to see nested ones.
      - Bearer Token:
        - type: http
        - name: apiToken
      - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
      - parameter zone: (query) Only the spaces in this zone (optional)
-     - parameter page: (query) Page number, from 1. Default 1. (optional)
-     - parameter limit: (query) Items per page, 1 to 100. Default 20. (optional)
+     - parameter page: (query) Page number, from 1. Default 1. Ignored with &#x60;cursor&#x60;. (optional)
+     - parameter limit: (query) Items per page, 1 to 100. Default 20, or 50 with &#x60;cursor&#x60;. (optional)
+     - parameter cursor: (query) A previous page&#39;s &#x60;nextCursor&#x60;, to read the page after it (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<ListSpacesResponse> 
      */
-    open class func listSpacesWithRequestBuilder(teamId: String, zone: Zone_listSpaces? = nil, page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListSpacesResponse> {
+    open class func listSpacesWithRequestBuilder(teamId: String, zone: Zone_listSpaces? = nil, page: Int64? = nil, limit: Int? = nil, cursor: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListSpacesResponse> {
         var localVariablePath = "/v1/teams/{teamId}/spaces"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -204,6 +208,7 @@ open class SpacesAPI {
             "zone": (wrappedValue: zone?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "page": (wrappedValue: page?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "limit": (wrappedValue: limit?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "cursor": (wrappedValue: cursor?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
         ]
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryParameters)
 

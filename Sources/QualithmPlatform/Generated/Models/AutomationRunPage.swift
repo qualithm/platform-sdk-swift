@@ -15,17 +15,21 @@ public struct AutomationRunPage: Sendable, Codable, Hashable {
     public var items: [AutomationRun]
     /** The last page's number */
     public var last: Int64
+    /** Pass as `cursor` to read the next page; `null` on the last page */
+    public var nextCursor: String?
 
-    public init(current: Int64, items: [AutomationRun], last: Int64) {
+    public init(current: Int64, items: [AutomationRun], last: Int64, nextCursor: String?) {
         self.current = current
         self.items = items
         self.last = last
+        self.nextCursor = nextCursor
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case current
         case items
         case last
+        case nextCursor
     }
 
     // Encodable protocol methods
@@ -35,6 +39,7 @@ public struct AutomationRunPage: Sendable, Codable, Hashable {
         try container.encode(current, forKey: .current)
         try container.encode(items, forKey: .items)
         try container.encode(last, forKey: .last)
+        try container.encode(nextCursor, forKey: .nextCursor)
     }
 }
 

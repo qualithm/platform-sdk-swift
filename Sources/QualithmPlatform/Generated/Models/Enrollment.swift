@@ -18,13 +18,17 @@ public struct Enrollment: Sendable, Codable, Hashable {
     }
     public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^enr_[0-9A-HJKMNP-TV-Z]{26}$")
     public static let teamIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^tm_[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let scopeIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^spc_[0-9A-HJKMNP-TV-Z]{26}$")
     public static let spaceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^spc_[0-9A-HJKMNP-TV-Z]{26}$")
     public static let claimedDeviceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^dev_[0-9A-HJKMNP-TV-Z]{26}$")
     /** An enrollment ID */
     public var id: String
     /** A team ID */
     public var teamId: String
-    /** A space ID */
+    /** A scope ID */
+    public var scopeId: String
+    /** Deprecated: use scopeId */
+    @available(*, deprecated, message: "This property is deprecated.")
     public var spaceId: String
     public var label: String
     public var status: Status
@@ -39,9 +43,10 @@ public struct Enrollment: Sendable, Codable, Hashable {
     /** UTC time, RFC 3339 */
     public var updatedAt: Date
 
-    public init(id: String, teamId: String, spaceId: String, label: String, status: Status, claimedDeviceId: String?, claimedAt: Date?, expiresAt: Date, createdAt: Date, updatedAt: Date) {
+    public init(id: String, teamId: String, scopeId: String, spaceId: String, label: String, status: Status, claimedDeviceId: String?, claimedAt: Date?, expiresAt: Date, createdAt: Date, updatedAt: Date) {
         self.id = id
         self.teamId = teamId
+        self.scopeId = scopeId
         self.spaceId = spaceId
         self.label = label
         self.status = status
@@ -55,6 +60,7 @@ public struct Enrollment: Sendable, Codable, Hashable {
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case id
         case teamId
+        case scopeId
         case spaceId
         case label
         case status
@@ -71,6 +77,7 @@ public struct Enrollment: Sendable, Codable, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(id, forKey: .id)
         try container.encode(teamId, forKey: .teamId)
+        try container.encode(scopeId, forKey: .scopeId)
         try container.encode(spaceId, forKey: .spaceId)
         try container.encode(label, forKey: .label)
         try container.encode(status, forKey: .status)

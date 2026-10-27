@@ -16,11 +16,15 @@ public struct Device: Sendable, Codable, Hashable {
         case unknownDefaultOpenApi = "unknown_default_open_api"
     }
     public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^dev_[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let scopeIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^spc_[0-9A-HJKMNP-TV-Z]{26}$")
     public static let spaceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^spc_[0-9A-HJKMNP-TV-Z]{26}$")
     public static let teamIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^tm_[0-9A-HJKMNP-TV-Z]{26}$")
     /** A device ID */
     public var id: String
-    /** A space ID */
+    /** A scope ID */
+    public var scopeId: String
+    /** Deprecated: use scopeId */
+    @available(*, deprecated, message: "This property is deprecated.")
     public var spaceId: String
     public var spaceName: String
     /** A team ID */
@@ -37,8 +41,9 @@ public struct Device: Sendable, Codable, Hashable {
     public var level: Level?
     public var checks: [DeviceCheck]?
 
-    public init(id: String, spaceId: String, spaceName: String, teamId: String, name: String, createdAt: Date, updatedAt: Date, parkedAt: Date? = nil, capabilitiesDeclared: Bool? = nil, level: Level? = nil, checks: [DeviceCheck]? = nil) {
+    public init(id: String, scopeId: String, spaceId: String, spaceName: String, teamId: String, name: String, createdAt: Date, updatedAt: Date, parkedAt: Date? = nil, capabilitiesDeclared: Bool? = nil, level: Level? = nil, checks: [DeviceCheck]? = nil) {
         self.id = id
+        self.scopeId = scopeId
         self.spaceId = spaceId
         self.spaceName = spaceName
         self.teamId = teamId
@@ -53,6 +58,7 @@ public struct Device: Sendable, Codable, Hashable {
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case id
+        case scopeId
         case spaceId
         case spaceName
         case teamId
@@ -70,6 +76,7 @@ public struct Device: Sendable, Codable, Hashable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(id, forKey: .id)
+        try container.encode(scopeId, forKey: .scopeId)
         try container.encode(spaceId, forKey: .spaceId)
         try container.encode(spaceName, forKey: .spaceName)
         try container.encode(teamId, forKey: .teamId)
