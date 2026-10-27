@@ -26,8 +26,6 @@ public struct Device: Sendable, Codable, Hashable {
     /** A team ID */
     public var teamId: String
     public var name: String
-    /** JSON text */
-    public var payload: String
     /** UTC time, RFC 3339 */
     public var createdAt: Date
     /** UTC time, RFC 3339 */
@@ -39,13 +37,12 @@ public struct Device: Sendable, Codable, Hashable {
     public var level: Level?
     public var checks: [DeviceCheck]?
 
-    public init(id: String, spaceId: String, spaceName: String, teamId: String, name: String, payload: String, createdAt: Date, updatedAt: Date, parkedAt: Date? = nil, capabilitiesDeclared: Bool? = nil, level: Level? = nil, checks: [DeviceCheck]? = nil) {
+    public init(id: String, spaceId: String, spaceName: String, teamId: String, name: String, createdAt: Date, updatedAt: Date, parkedAt: Date? = nil, capabilitiesDeclared: Bool? = nil, level: Level? = nil, checks: [DeviceCheck]? = nil) {
         self.id = id
         self.spaceId = spaceId
         self.spaceName = spaceName
         self.teamId = teamId
         self.name = name
-        self.payload = payload
         self.createdAt = createdAt
         self.updatedAt = updatedAt
         self.parkedAt = parkedAt
@@ -60,7 +57,6 @@ public struct Device: Sendable, Codable, Hashable {
         case spaceName
         case teamId
         case name
-        case payload
         case createdAt
         case updatedAt
         case parkedAt
@@ -78,7 +74,6 @@ public struct Device: Sendable, Codable, Hashable {
         try container.encode(spaceName, forKey: .spaceName)
         try container.encode(teamId, forKey: .teamId)
         try container.encode(name, forKey: .name)
-        try container.encode(payload, forKey: .payload)
         try container.encode(createdAt, forKey: .createdAt)
         try container.encode(updatedAt, forKey: .updatedAt)
         try container.encodeIfPresent(parkedAt, forKey: .parkedAt)

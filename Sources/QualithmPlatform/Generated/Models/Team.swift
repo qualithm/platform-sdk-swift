@@ -51,8 +51,6 @@ public struct Team: Sendable, Codable, Hashable {
     /** A team ID */
     public var id: String
     public var name: String
-    /** The team's settings: a JSON object, encoded as a string */
-    public var payload: String
     /** UTC time, RFC 3339 */
     public var createdAt: Date
     /** UTC time, RFC 3339 */
@@ -63,10 +61,9 @@ public struct Team: Sendable, Codable, Hashable {
     /** What the caller can do in this team: their role, lowered to a token's ceiling */
     public var permissions: [Permissions]
 
-    public init(id: String, name: String, payload: String, createdAt: Date, updatedAt: Date, memberId: String, memberRole: MemberRole, permissions: [Permissions]) {
+    public init(id: String, name: String, createdAt: Date, updatedAt: Date, memberId: String, memberRole: MemberRole, permissions: [Permissions]) {
         self.id = id
         self.name = name
-        self.payload = payload
         self.createdAt = createdAt
         self.updatedAt = updatedAt
         self.memberId = memberId
@@ -77,7 +74,6 @@ public struct Team: Sendable, Codable, Hashable {
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case id
         case name
-        case payload
         case createdAt
         case updatedAt
         case memberId
@@ -91,7 +87,6 @@ public struct Team: Sendable, Codable, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(id, forKey: .id)
         try container.encode(name, forKey: .name)
-        try container.encode(payload, forKey: .payload)
         try container.encode(createdAt, forKey: .createdAt)
         try container.encode(updatedAt, forKey: .updatedAt)
         try container.encode(memberId, forKey: .memberId)
