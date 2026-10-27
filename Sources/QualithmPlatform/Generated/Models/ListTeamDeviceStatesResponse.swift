@@ -10,9 +10,9 @@ import Foundation
 
 public struct ListTeamDeviceStatesResponse: Sendable, Codable, Hashable {
 
-    public var data: ListTeamDeviceStatesResponseData
+    public var data: DeviceStatePage
 
-    public init(data: ListTeamDeviceStatesResponseData) {
+    public init(data: DeviceStatePage) {
         self.data = data
     }
 

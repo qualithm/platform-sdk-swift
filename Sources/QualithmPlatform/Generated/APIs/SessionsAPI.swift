@@ -57,29 +57,32 @@ open class SessionsAPI {
      List the caller's live sessions
      
      - parameter thisDevice: (query) &#x60;true&#x60; to list only the session making the request (optional)
-     - parameter page: (query) Page number, from 1. Default 1. (optional)
-     - parameter limit: (query) Items per page, 1 to 100. Default 20. (optional)
+     - parameter page: (query) Page number, from 1. Default 1. Ignored with &#x60;cursor&#x60;. (optional)
+     - parameter limit: (query) Items per page, 1 to 100. Default 20, or 50 with &#x60;cursor&#x60;. (optional)
+     - parameter cursor: (query) A previous page&#39;s &#x60;nextCursor&#x60;, to read the page after it (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: ListSessionsResponse
      */
-    open class func listSessions(thisDevice: String? = nil, page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> ListSessionsResponse {
-        return try await listSessionsWithRequestBuilder(thisDevice: thisDevice, page: page, limit: limit, apiConfiguration: apiConfiguration).execute().body
+    open class func listSessions(thisDevice: String? = nil, page: Int64? = nil, limit: Int? = nil, cursor: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> ListSessionsResponse {
+        return try await listSessionsWithRequestBuilder(thisDevice: thisDevice, page: page, limit: limit, cursor: cursor, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      List the caller's live sessions
      - GET /v1/account/sessions
+     - Newest first, by `createdAt` then `id`.
      - Bearer Token:
        - type: http
        - name: apiToken
      - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter thisDevice: (query) &#x60;true&#x60; to list only the session making the request (optional)
-     - parameter page: (query) Page number, from 1. Default 1. (optional)
-     - parameter limit: (query) Items per page, 1 to 100. Default 20. (optional)
+     - parameter page: (query) Page number, from 1. Default 1. Ignored with &#x60;cursor&#x60;. (optional)
+     - parameter limit: (query) Items per page, 1 to 100. Default 20, or 50 with &#x60;cursor&#x60;. (optional)
+     - parameter cursor: (query) A previous page&#39;s &#x60;nextCursor&#x60;, to read the page after it (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<ListSessionsResponse> 
      */
-    open class func listSessionsWithRequestBuilder(thisDevice: String? = nil, page: Int64? = nil, limit: Int? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListSessionsResponse> {
+    open class func listSessionsWithRequestBuilder(thisDevice: String? = nil, page: Int64? = nil, limit: Int? = nil, cursor: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListSessionsResponse> {
         let localVariablePath = "/v1/account/sessions"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -89,6 +92,7 @@ open class SessionsAPI {
             "this_device": (wrappedValue: thisDevice?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "page": (wrappedValue: page?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "limit": (wrappedValue: limit?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "cursor": (wrappedValue: cursor?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
         ]
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryParameters)
 

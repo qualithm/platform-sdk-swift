@@ -8,17 +8,24 @@
 
 import Foundation
 
+/** The scope to create it in */
 public struct CreateDeviceRequest: Sendable, Codable, Hashable {
 
+    public static let scopeIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^spc_[0-9A-HJKMNP-TV-Z]{26}$")
     public static let spaceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^spc_[0-9A-HJKMNP-TV-Z]{26}$")
-    /** A space ID */
-    public var spaceId: String
+    /** A scope ID */
+    public var scopeId: String?
+    /** Deprecated: use scopeId */
+    @available(*, deprecated, message: "This property is deprecated.")
+    public var spaceId: String?
 
-    public init(spaceId: String) {
+    public init(scopeId: String? = nil, spaceId: String? = nil) {
+        self.scopeId = scopeId
         self.spaceId = spaceId
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
+        case scopeId
         case spaceId
     }
 
@@ -26,7 +33,8 @@ public struct CreateDeviceRequest: Sendable, Codable, Hashable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(spaceId, forKey: .spaceId)
+        try container.encodeIfPresent(scopeId, forKey: .scopeId)
+        try container.encodeIfPresent(spaceId, forKey: .spaceId)
     }
 }
 

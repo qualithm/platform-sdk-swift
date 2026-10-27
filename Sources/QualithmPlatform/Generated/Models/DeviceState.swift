@@ -11,10 +11,14 @@ import Foundation
 public struct DeviceState: Sendable, Codable, Hashable {
 
     public static let deviceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^dev_[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let scopeIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^spc_[0-9A-HJKMNP-TV-Z]{26}$")
     public static let spaceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^spc_[0-9A-HJKMNP-TV-Z]{26}$")
     /** A device ID */
     public var deviceId: String
-    /** A space ID */
+    /** A scope ID */
+    public var scopeId: String
+    /** Deprecated: use scopeId */
+    @available(*, deprecated, message: "This property is deprecated.")
     public var spaceId: String
     /** Whether the device was seen within the offline window */
     public var online: Bool
@@ -23,8 +27,9 @@ public struct DeviceState: Sendable, Codable, Hashable {
     /** The device's current metrics */
     public var metrics: [String: Double]
 
-    public init(deviceId: String, spaceId: String, online: Bool, lastSeenAt: Date, metrics: [String: Double]) {
+    public init(deviceId: String, scopeId: String, spaceId: String, online: Bool, lastSeenAt: Date, metrics: [String: Double]) {
         self.deviceId = deviceId
+        self.scopeId = scopeId
         self.spaceId = spaceId
         self.online = online
         self.lastSeenAt = lastSeenAt
@@ -33,6 +38,7 @@ public struct DeviceState: Sendable, Codable, Hashable {
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case deviceId
+        case scopeId
         case spaceId
         case online
         case lastSeenAt
@@ -44,6 +50,7 @@ public struct DeviceState: Sendable, Codable, Hashable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(deviceId, forKey: .deviceId)
+        try container.encode(scopeId, forKey: .scopeId)
         try container.encode(spaceId, forKey: .spaceId)
         try container.encode(online, forKey: .online)
         try container.encode(lastSeenAt, forKey: .lastSeenAt)

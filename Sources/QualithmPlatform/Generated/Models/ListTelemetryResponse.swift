@@ -10,9 +10,9 @@ import Foundation
 
 public struct ListTelemetryResponse: Sendable, Codable, Hashable {
 
-    public var data: ListTelemetryResponseData
+    public var data: TelemetryPointPage
 
-    public init(data: ListTelemetryResponseData) {
+    public init(data: TelemetryPointPage) {
         self.data = data
     }
 

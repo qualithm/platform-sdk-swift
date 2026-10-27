@@ -10,22 +10,28 @@ import Foundation
 
 public struct CreateEnrollmentRequest: Sendable, Codable, Hashable {
 
+    public static let scopeIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^spc_[0-9A-HJKMNP-TV-Z]{26}$")
     public static let spaceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^spc_[0-9A-HJKMNP-TV-Z]{26}$")
     public static let expiresInMinutesRule = NumericRule<Int>(minimum: 1, exclusiveMinimum: false, maximum: 525600, exclusiveMaximum: false, multipleOf: nil)
-    /** A space ID */
-    public var spaceId: String
+    /** The scope the device joins */
+    public var scopeId: String?
+    /** Deprecated: use scopeId */
+    @available(*, deprecated, message: "This property is deprecated.")
+    public var spaceId: String?
     /** Up to 64 characters */
     public var label: String?
     /** How long the code can be claimed. Default 1440 (24 hours). */
     public var expiresInMinutes: Int?
 
-    public init(spaceId: String, label: String? = nil, expiresInMinutes: Int? = nil) {
+    public init(scopeId: String? = nil, spaceId: String? = nil, label: String? = nil, expiresInMinutes: Int? = nil) {
+        self.scopeId = scopeId
         self.spaceId = spaceId
         self.label = label
         self.expiresInMinutes = expiresInMinutes
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
+        case scopeId
         case spaceId
         case label
         case expiresInMinutes
@@ -35,7 +41,8 @@ public struct CreateEnrollmentRequest: Sendable, Codable, Hashable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(spaceId, forKey: .spaceId)
+        try container.encodeIfPresent(scopeId, forKey: .scopeId)
+        try container.encodeIfPresent(spaceId, forKey: .spaceId)
         try container.encodeIfPresent(label, forKey: .label)
         try container.encodeIfPresent(expiresInMinutes, forKey: .expiresInMinutes)
     }

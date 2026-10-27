@@ -21,16 +21,20 @@ open class TelemetryAPI {
      - parameter bucket: (query) Bucket width in seconds. Default 60. (optional)
      - parameter agg: (query) Bucket aggregate: avg, min, max, sum, count, last, delta or rate. Default avg. (optional)
      - parameter fill: (query) &#x60;locf&#x60; carries the last observation forward across empty buckets (optional)
+     - parameter page: (query) Page number, from 1. Default 1. Ignored with &#x60;cursor&#x60;. (optional)
+     - parameter limit: (query) Items per page, 1 to 100. Default 20, or 50 with &#x60;cursor&#x60;. (optional)
+     - parameter cursor: (query) A previous page&#39;s &#x60;nextCursor&#x60;, to read the page after it (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: ListTelemetryResponse
      */
-    open class func listTelemetry(teamId: String, deviceId: String, metric: String, from: Date, to: Date, bucket: String? = nil, agg: String? = nil, fill: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> ListTelemetryResponse {
-        return try await listTelemetryWithRequestBuilder(teamId: teamId, deviceId: deviceId, metric: metric, from: from, to: to, bucket: bucket, agg: agg, fill: fill, apiConfiguration: apiConfiguration).execute().body
+    open class func listTelemetry(teamId: String, deviceId: String, metric: String, from: Date, to: Date, bucket: String? = nil, agg: String? = nil, fill: String? = nil, page: Int64? = nil, limit: Int? = nil, cursor: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> ListTelemetryResponse {
+        return try await listTelemetryWithRequestBuilder(teamId: teamId, deviceId: deviceId, metric: metric, from: from, to: to, bucket: bucket, agg: agg, fill: fill, page: page, limit: limit, cursor: cursor, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Read a device metric as bucketed points
      - GET /v1/teams/{teamId}/devices/{deviceId}/telemetry
+     - By bucket start `ts`, ascending, within `from` and `to`. Every page reads the same range, so pass the same query with each cursor.
      - Bearer Token:
        - type: http
        - name: apiToken
@@ -43,10 +47,13 @@ open class TelemetryAPI {
      - parameter bucket: (query) Bucket width in seconds. Default 60. (optional)
      - parameter agg: (query) Bucket aggregate: avg, min, max, sum, count, last, delta or rate. Default avg. (optional)
      - parameter fill: (query) &#x60;locf&#x60; carries the last observation forward across empty buckets (optional)
+     - parameter page: (query) Page number, from 1. Default 1. Ignored with &#x60;cursor&#x60;. (optional)
+     - parameter limit: (query) Items per page, 1 to 100. Default 20, or 50 with &#x60;cursor&#x60;. (optional)
+     - parameter cursor: (query) A previous page&#39;s &#x60;nextCursor&#x60;, to read the page after it (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<ListTelemetryResponse> 
      */
-    open class func listTelemetryWithRequestBuilder(teamId: String, deviceId: String, metric: String, from: Date, to: Date, bucket: String? = nil, agg: String? = nil, fill: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListTelemetryResponse> {
+    open class func listTelemetryWithRequestBuilder(teamId: String, deviceId: String, metric: String, from: Date, to: Date, bucket: String? = nil, agg: String? = nil, fill: String? = nil, page: Int64? = nil, limit: Int? = nil, cursor: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListTelemetryResponse> {
         var localVariablePath = "/v1/teams/{teamId}/devices/{deviceId}/telemetry"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -65,6 +72,9 @@ open class TelemetryAPI {
             "bucket": (wrappedValue: bucket?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "agg": (wrappedValue: agg?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "fill": (wrappedValue: fill?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "page": (wrappedValue: page?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "limit": (wrappedValue: limit?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "cursor": (wrappedValue: cursor?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
         ]
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryParameters)
 
