@@ -18,8 +18,8 @@ public struct AuditEvent: Sendable, Codable, Hashable {
     }
     public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^evt_[0-9A-HJKMNP-TV-Z]{26}$")
     public static let teamIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^tm_[0-9A-HJKMNP-TV-Z]{26}$")
-    public static let actorIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:acc|tok|evt|auth|aut|cmpn|cap|cmd|cred|dash|dev|eml|enr|inv|doc|mem|otp|plan|psh|sub|run|spc|ses|dgst|sev|tm|tev|upt|use|wks)_[0-9A-HJKMNP-TV-Z]{26}$")
-    public static let targetIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:acc|tok|evt|auth|aut|cmpn|cap|cmd|cred|dash|dev|eml|enr|inv|doc|mem|otp|plan|psh|sub|run|spc|ses|dgst|sev|tm|tev|upt|use|wks)_[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let actorIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:acc|tok|evt|auth|aut|cmpn|cap|cmd|cred|dash|dev|eml|enr|inv|doc|mem|oac|ogr|otk|otp|plan|psh|sub|run|spc|ses|dgst|sev|tm|tev|upt|use|wks)_[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let targetIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:acc|tok|evt|auth|aut|cmpn|cap|cmd|cred|dash|dev|eml|enr|inv|doc|mem|oac|ogr|otk|otp|plan|psh|sub|run|spc|ses|dgst|sev|tm|tev|upt|use|wks)_[0-9A-HJKMNP-TV-Z]{26}$")
     /** An audit event ID */
     public var id: String
     /** A team ID */
