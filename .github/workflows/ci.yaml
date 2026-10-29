@@ -20,7 +20,7 @@ permissions:
   contents: read
   pull-requests: read
 
-# One toolchain (Decision qualithm/pm#2237): the Linux jobs run in the swift
+# One toolchain: the Linux jobs run in the swift
 # image of SWIFT_VERSION, and the macOS job selects Xcode XCODE_VERSION, which
 # ships the same Swift. dx config check holds every Swift template to both.
 env:
@@ -84,7 +84,7 @@ jobs:
         if: github.run_id != ''
         run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
       # swift-format ships with the toolchain, so its version is the pinned
-      # Swift's (Decision qualithm/pm#2236). The config is .swift-format.
+      # Swift's. The config is .swift-format.
       # Tracked files only, so build output and checkouts are never linted.
       - run: git ls-files -z '*.swift' | xargs -0 swift format lint --strict
 
@@ -93,7 +93,7 @@ jobs:
     needs: changes
     if: needs.changes.outputs.code == 'true'
     # Linux, not macOS: the package builds on Linux, and a macOS minute bills at
-    # about ten Linux minutes on a private repo (Decision qualithm/pm#2237).
+    # about ten Linux minutes on a private repo.
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     container:
@@ -135,8 +135,8 @@ jobs:
             objects+=(-object "$tests")
           done
           if command -v llvm-cov >/dev/null; then cov=(llvm-cov); else cov=(xcrun llvm-cov); fi
-          # Tests, examples and a generated client's Generated/ sources (Decision
-          # qualithm/pm#2394, checked by Generated Drift) are not the gated layer.
+          # Tests, examples and a generated client's Generated/ sources (checked by
+          # Generated Drift) are not the gated layer.
           "${cov[@]}" export -format=lcov -instr-profile "$profdata" "${objects[@]}" \
             -ignore-filename-regex='/(\.build|Tests|examples|Generated)/' > lcov.info
       - name: Enforce coverage threshold (>=80%)
@@ -234,9 +234,9 @@ jobs:
   # dx:generated-drift-begin
   generated-drift:
     name: Generated Drift
-    # A generated client (Decision qualithm/pm#2394) commits its generator's
-    # output. Rerunning the pinned generator on the committed spec must
-    # reproduce it exactly, so a hand edit can't pass as a generator change.
+    # A generated client commits its generator's output. Rerunning the pinned
+    # generator on the committed spec must reproduce it exactly, so a hand edit
+    # can't pass as a generator change.
     # Ungated by `changes`: the generator pin and config live outside the code
     # filter. A repo without openapi-generator.yaml generates nothing and skips.
     runs-on: ubuntu-24.04
@@ -300,10 +300,10 @@ jobs:
 
   image-pins:
     name: Image Pins
-    # Every image reference in the repo must match the vendored dx registry
-    # (Decision qualithm/pm#744, amendment 2026-10-03). Runs on every PR, docs
-    # included: a README can carry an image reference too. A repo with no
-    # vendored registry references no container image and skips.
+    # Every image reference in the repo must match the vendored dx registry.
+    # Runs on every PR, docs included: a README can carry an image reference
+    # too. A repo with no vendored registry references no container image and
+    # skips.
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
