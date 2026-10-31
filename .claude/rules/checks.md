@@ -13,9 +13,10 @@ swift build
 python3 .claude/checks/ci-jobs.py --skip-ci-only coverage
 ```
 
-Run them with the Xcode the template pins (`XCODE_VERSION` in `ci.yaml`): select it with
-`xcode-select -s` or `DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer`. The Command Line
-Tools alone have no XCTest. `swift format` ships with that toolchain; `.swift-format` is its config.
+Run them with full Xcode selected (`xcode-select -s`): the Command Line Tools alone have no XCTest.
+CI's macOS job uses the Xcode the template pins (`XCODE_VERSION` in `ci.yaml`) at
+`/Applications/Xcode_<version>.app`; `dx brew pinned` sets it up. `swift format` ships with that
+toolchain; `.swift-format` is its config.
 
 The `ci-jobs.py --skip-ci-only coverage` step runs CI's coverage job locally: the same tests and the
 same 80% line gate over `Sources/`, minus the Codecov upload. Tests and `examples/` are outside the
