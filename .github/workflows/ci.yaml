@@ -398,9 +398,12 @@ jobs:
   macos:
     name: Build & Test (macOS)
     needs: changes
-    # The main hop only: Linux covers every PR, and this catches Apple-only API
-    # use before a release at a tenth of the cost of running it on every PR.
-    if: needs.changes.outputs.code == 'true' && needs.changes.outputs.is-main == 'true'
+    # The PR into main only: Linux covers every PR, and this catches Apple-only
+    # API use before a release at a tenth of the cost of running it on every PR.
+    # The push to main holds the tree that PR tested (qualithm/pm#3020).
+    if:
+      needs.changes.outputs.code == 'true' && github.event_name == 'pull_request' && github.base_ref
+      == 'main'
     # GitHub's macOS 27 image with Xcode 27 (a preview image as of 2026-10).
     runs-on: xcode-27
     timeout-minutes: 30
