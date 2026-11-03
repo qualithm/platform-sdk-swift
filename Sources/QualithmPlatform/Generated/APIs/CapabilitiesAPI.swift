@@ -25,6 +25,7 @@ open class CapabilitiesAPI {
      List the capabilities of the workspace's devices
      
      - parameter teamId: (path) The team the request acts on 
+     - parameter scopeId: (query) Only the devices in this scope and every scope under it (optional)
      - parameter type: (query) Only capabilities of this type (optional)
      - parameter tag: (query) Only capabilities carrying this tag (optional)
      - parameter key: (query) Only capabilities with this key (optional)
@@ -34,8 +35,8 @@ open class CapabilitiesAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: ListCapabilitiesResponse
      */
-    open class func listCapabilities(teamId: String, type: ModelType_listCapabilities? = nil, tag: String? = nil, key: String? = nil, page: Int64? = nil, limit: Int? = nil, cursor: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> ListCapabilitiesResponse {
-        return try await listCapabilitiesWithRequestBuilder(teamId: teamId, type: type, tag: tag, key: key, page: page, limit: limit, cursor: cursor, apiConfiguration: apiConfiguration).execute().body
+    open class func listCapabilities(teamId: String, scopeId: String? = nil, type: ModelType_listCapabilities? = nil, tag: String? = nil, key: String? = nil, page: Int64? = nil, limit: Int? = nil, cursor: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> ListCapabilitiesResponse {
+        return try await listCapabilitiesWithRequestBuilder(teamId: teamId, scopeId: scopeId, type: type, tag: tag, key: key, page: page, limit: limit, cursor: cursor, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -47,6 +48,7 @@ open class CapabilitiesAPI {
        - name: apiToken
      - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
+     - parameter scopeId: (query) Only the devices in this scope and every scope under it (optional)
      - parameter type: (query) Only capabilities of this type (optional)
      - parameter tag: (query) Only capabilities carrying this tag (optional)
      - parameter key: (query) Only capabilities with this key (optional)
@@ -56,7 +58,7 @@ open class CapabilitiesAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<ListCapabilitiesResponse> 
      */
-    open class func listCapabilitiesWithRequestBuilder(teamId: String, type: ModelType_listCapabilities? = nil, tag: String? = nil, key: String? = nil, page: Int64? = nil, limit: Int? = nil, cursor: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListCapabilitiesResponse> {
+    open class func listCapabilitiesWithRequestBuilder(teamId: String, scopeId: String? = nil, type: ModelType_listCapabilities? = nil, tag: String? = nil, key: String? = nil, page: Int64? = nil, limit: Int? = nil, cursor: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListCapabilitiesResponse> {
         var localVariablePath = "/v1/teams/{teamId}/capabilities"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -66,6 +68,7 @@ open class CapabilitiesAPI {
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         let localVariableQueryParameters: [String: (wrappedValue: (any Sendable)?, isExplode: Bool)] = [
+            "scopeId": (wrappedValue: scopeId?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "type": (wrappedValue: type?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "tag": (wrappedValue: tag?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "key": (wrappedValue: key?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
