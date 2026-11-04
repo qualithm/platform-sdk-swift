@@ -21,6 +21,7 @@ permissions:
 
 jobs:
   release:
+    if: ${{ !endsWith(github.repository, '-example') }}
     name: Create Release
     runs-on: ubuntu-24.04
     timeout-minutes: 10
