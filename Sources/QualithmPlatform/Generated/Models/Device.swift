@@ -19,6 +19,7 @@ public struct Device: Sendable, Codable, Hashable {
     public static let scopeIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^spc_[0-9A-HJKMNP-TV-Z]{26}$")
     public static let spaceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^spc_[0-9A-HJKMNP-TV-Z]{26}$")
     public static let teamIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^tm_[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let decisionsRule = ArrayRule(minItems: nil, maxItems: 6, uniqueItems: false)
     /** A device ID */
     public var id: String
     /** A scope ID */
@@ -42,8 +43,10 @@ public struct Device: Sendable, Codable, Hashable {
     public var virtual: Bool?
     public var level: Level?
     public var checks: [DeviceCheck]?
+    /** What Qualithm decided when the device was claimed: at most six, most consequential first. Returned by getDevice; empty for a device created without a claim. */
+    public var decisions: [Decision]?
 
-    public init(id: String, scopeId: String, spaceId: String, spaceName: String, teamId: String, name: String, createdAt: Date, updatedAt: Date, parkedAt: Date? = nil, capabilitiesDeclared: Bool? = nil, virtual: Bool? = nil, level: Level? = nil, checks: [DeviceCheck]? = nil) {
+    public init(id: String, scopeId: String, spaceId: String, spaceName: String, teamId: String, name: String, createdAt: Date, updatedAt: Date, parkedAt: Date? = nil, capabilitiesDeclared: Bool? = nil, virtual: Bool? = nil, level: Level? = nil, checks: [DeviceCheck]? = nil, decisions: [Decision]? = nil) {
         self.id = id
         self.scopeId = scopeId
         self.spaceId = spaceId
@@ -57,6 +60,7 @@ public struct Device: Sendable, Codable, Hashable {
         self.virtual = virtual
         self.level = level
         self.checks = checks
+        self.decisions = decisions
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -73,6 +77,7 @@ public struct Device: Sendable, Codable, Hashable {
         case virtual
         case level
         case checks
+        case decisions
     }
 
     // Encodable protocol methods
@@ -92,6 +97,7 @@ public struct Device: Sendable, Codable, Hashable {
         try container.encodeIfPresent(virtual, forKey: .virtual)
         try container.encodeIfPresent(level, forKey: .level)
         try container.encodeIfPresent(checks, forKey: .checks)
+        try container.encodeIfPresent(decisions, forKey: .decisions)
     }
 }
 
