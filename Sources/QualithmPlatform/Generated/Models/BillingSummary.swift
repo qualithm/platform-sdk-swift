@@ -23,17 +23,22 @@ public struct BillingSummary: Sendable, Codable, Hashable {
     public var limitGrace: BillingSummaryLimitGrace?
     public var limits: BillingSummaryLimits
     public var usage: BillingSummaryUsage
-    /** The plan's monthly price with add-ons */
+    /** What the next invoice will charge, after discounts and credit; the plan price with add-ons when `estimated` is true */
     public var monthlyTotal: Money
+    public var upcomingInvoice: BillingSummaryUpcomingInvoice?
+    /** True when Stripe couldn't be read, so `monthlyTotal` is the plan price */
+    public var estimated: Bool
     public var addons: BillingSummaryAddons
 
-    public init(tier: Tier, month: String, limitGrace: BillingSummaryLimitGrace?, limits: BillingSummaryLimits, usage: BillingSummaryUsage, monthlyTotal: Money, addons: BillingSummaryAddons) {
+    public init(tier: Tier, month: String, limitGrace: BillingSummaryLimitGrace?, limits: BillingSummaryLimits, usage: BillingSummaryUsage, monthlyTotal: Money, upcomingInvoice: BillingSummaryUpcomingInvoice?, estimated: Bool, addons: BillingSummaryAddons) {
         self.tier = tier
         self.month = month
         self.limitGrace = limitGrace
         self.limits = limits
         self.usage = usage
         self.monthlyTotal = monthlyTotal
+        self.upcomingInvoice = upcomingInvoice
+        self.estimated = estimated
         self.addons = addons
     }
 
@@ -44,6 +49,8 @@ public struct BillingSummary: Sendable, Codable, Hashable {
         case limits
         case usage
         case monthlyTotal
+        case upcomingInvoice
+        case estimated
         case addons
     }
 
@@ -57,6 +64,8 @@ public struct BillingSummary: Sendable, Codable, Hashable {
         try container.encode(limits, forKey: .limits)
         try container.encode(usage, forKey: .usage)
         try container.encode(monthlyTotal, forKey: .monthlyTotal)
+        try container.encode(upcomingInvoice, forKey: .upcomingInvoice)
+        try container.encode(estimated, forKey: .estimated)
         try container.encode(addons, forKey: .addons)
     }
 }
