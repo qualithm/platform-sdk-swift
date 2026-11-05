@@ -21,17 +21,23 @@ public struct Invoice: Sendable, Codable, Hashable {
     public var total: Money?
     /** The Stripe invoice this one mirrors; null when Stripe didn't send one */
     public var stripeInvoiceId: String?
+    /** Stripe's page to view and pay the invoice; null until Stripe finalizes it */
+    public var hostedUrl: String?
+    /** The invoice as a PDF; null until Stripe finalizes it */
+    public var pdfUrl: String?
     /** UTC time, RFC 3339 */
     public var createdAt: Date
     /** UTC time, RFC 3339 */
     public var updatedAt: Date
 
-    public init(id: String, teamId: String, status: String, total: Money?, stripeInvoiceId: String?, createdAt: Date, updatedAt: Date) {
+    public init(id: String, teamId: String, status: String, total: Money?, stripeInvoiceId: String?, hostedUrl: String?, pdfUrl: String?, createdAt: Date, updatedAt: Date) {
         self.id = id
         self.teamId = teamId
         self.status = status
         self.total = total
         self.stripeInvoiceId = stripeInvoiceId
+        self.hostedUrl = hostedUrl
+        self.pdfUrl = pdfUrl
         self.createdAt = createdAt
         self.updatedAt = updatedAt
     }
@@ -42,6 +48,8 @@ public struct Invoice: Sendable, Codable, Hashable {
         case status
         case total
         case stripeInvoiceId
+        case hostedUrl
+        case pdfUrl
         case createdAt
         case updatedAt
     }
@@ -55,6 +63,8 @@ public struct Invoice: Sendable, Codable, Hashable {
         try container.encode(status, forKey: .status)
         try container.encode(total, forKey: .total)
         try container.encode(stripeInvoiceId, forKey: .stripeInvoiceId)
+        try container.encode(hostedUrl, forKey: .hostedUrl)
+        try container.encode(pdfUrl, forKey: .pdfUrl)
         try container.encode(createdAt, forKey: .createdAt)
         try container.encode(updatedAt, forKey: .updatedAt)
     }
