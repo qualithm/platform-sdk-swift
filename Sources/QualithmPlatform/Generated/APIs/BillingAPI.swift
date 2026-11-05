@@ -11,7 +11,7 @@ import Foundation
 open class BillingAPI {
 
     /**
-     Get the workspace's plan, usage, price and add-ons
+     Get the workspace's plan, usage, next bill and add-ons
      
      - parameter teamId: (path) The team the request acts on 
      - parameter apiConfiguration: The configuration for the http request.
@@ -22,7 +22,7 @@ open class BillingAPI {
     }
 
     /**
-     Get the workspace's plan, usage, price and add-ons
+     Get the workspace's plan, usage, next bill and add-ons
      - GET /v1/teams/{teamId}/billing/summary
      - Bearer Token:
        - type: http
