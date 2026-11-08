@@ -77,7 +77,7 @@ let automations = try await platform.call {
 ### Error Handling
 
 `platform.call` throws only `PlatformError`. Branch on `code`, never on `message`. A code this
-version doesn't know yet reads as `.unknownDefaultOpenApi`, and a request that got no response is
+version doesn't know yet reads as `.unknown`, and a request that got no response is
 `.transport`:
 
 ```swift
