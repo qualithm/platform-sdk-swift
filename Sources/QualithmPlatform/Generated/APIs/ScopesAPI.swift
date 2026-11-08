@@ -161,14 +161,15 @@ open class ScopesAPI {
      
      - parameter teamId: (path) The team the request acts on 
      - parameter scopeId: (path) A scope ID 
+     - parameter tag: (query) Only devices carrying this tag, matched case-insensitively (optional)
      - parameter page: (query) Page number, from 1. Default 1. Ignored with &#x60;cursor&#x60;. (optional)
      - parameter limit: (query) Items per page, 1 to 100. Default 20, or 50 with &#x60;cursor&#x60;. (optional)
      - parameter cursor: (query) A previous page&#39;s &#x60;nextCursor&#x60;, to read the page after it (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: ListScopeDevicesResponse
      */
-    open class func listScopeDevices(teamId: String, scopeId: String, page: Int64? = nil, limit: Int? = nil, cursor: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> ListScopeDevicesResponse {
-        return try await listScopeDevicesWithRequestBuilder(teamId: teamId, scopeId: scopeId, page: page, limit: limit, cursor: cursor, apiConfiguration: apiConfiguration).execute().body
+    open class func listScopeDevices(teamId: String, scopeId: String, tag: String? = nil, page: Int64? = nil, limit: Int? = nil, cursor: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> ListScopeDevicesResponse {
+        return try await listScopeDevicesWithRequestBuilder(teamId: teamId, scopeId: scopeId, tag: tag, page: page, limit: limit, cursor: cursor, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -181,13 +182,14 @@ open class ScopesAPI {
      - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
      - parameter scopeId: (path) A scope ID 
+     - parameter tag: (query) Only devices carrying this tag, matched case-insensitively (optional)
      - parameter page: (query) Page number, from 1. Default 1. Ignored with &#x60;cursor&#x60;. (optional)
      - parameter limit: (query) Items per page, 1 to 100. Default 20, or 50 with &#x60;cursor&#x60;. (optional)
      - parameter cursor: (query) A previous page&#39;s &#x60;nextCursor&#x60;, to read the page after it (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<ListScopeDevicesResponse> 
      */
-    open class func listScopeDevicesWithRequestBuilder(teamId: String, scopeId: String, page: Int64? = nil, limit: Int? = nil, cursor: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListScopeDevicesResponse> {
+    open class func listScopeDevicesWithRequestBuilder(teamId: String, scopeId: String, tag: String? = nil, page: Int64? = nil, limit: Int? = nil, cursor: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListScopeDevicesResponse> {
         var localVariablePath = "/v1/teams/{teamId}/scopes/{scopeId}/devices"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -200,6 +202,7 @@ open class ScopesAPI {
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         let localVariableQueryParameters: [String: (wrappedValue: (any Sendable)?, isExplode: Bool)] = [
+            "tag": (wrappedValue: tag?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "page": (wrappedValue: page?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "limit": (wrappedValue: limit?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "cursor": (wrappedValue: cursor?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),

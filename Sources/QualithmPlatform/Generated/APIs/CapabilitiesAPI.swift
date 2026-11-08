@@ -27,7 +27,7 @@ open class CapabilitiesAPI {
      - parameter teamId: (path) The team the request acts on 
      - parameter scopeId: (query) Only the devices in this scope and every scope under it (optional)
      - parameter type: (query) Only capabilities of this type (optional)
-     - parameter tag: (query) Only capabilities carrying this tag (optional)
+     - parameter tag: (query) Only capabilities tagged this, or on a device tagged this (optional)
      - parameter key: (query) Only capabilities with this key (optional)
      - parameter page: (query) Page number, from 1. Default 1. Ignored with &#x60;cursor&#x60;. (optional)
      - parameter limit: (query) Items per page, 1 to 100. Default 20, or 50 with &#x60;cursor&#x60;. (optional)
@@ -50,7 +50,7 @@ open class CapabilitiesAPI {
      - parameter teamId: (path) The team the request acts on 
      - parameter scopeId: (query) Only the devices in this scope and every scope under it (optional)
      - parameter type: (query) Only capabilities of this type (optional)
-     - parameter tag: (query) Only capabilities carrying this tag (optional)
+     - parameter tag: (query) Only capabilities tagged this, or on a device tagged this (optional)
      - parameter key: (query) Only capabilities with this key (optional)
      - parameter page: (query) Page number, from 1. Default 1. Ignored with &#x60;cursor&#x60;. (optional)
      - parameter limit: (query) Items per page, 1 to 100. Default 20, or 50 with &#x60;cursor&#x60;. (optional)
