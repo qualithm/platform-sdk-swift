@@ -41,12 +41,14 @@ public struct Device: Sendable, Codable, Hashable {
     public var capabilitiesDeclared: Bool?
     /** Whether the device declared itself virtual at claim: it runs on a host rather than a board, and counts as a device all the same */
     public var virtual: Bool?
+    /** Operator-set tags, lowercased and sorted. A capability reference with this tag matches every capability on the device */
+    public var tags: [String]?
     public var level: Level?
     public var checks: [DeviceCheck]?
     /** What Qualithm decided when the device was claimed: at most six, most consequential first. Returned by getDevice; empty for a device created without a claim. */
     public var decisions: [Decision]?
 
-    public init(id: String, scopeId: String, spaceId: String, spaceName: String, teamId: String, name: String, createdAt: Date, updatedAt: Date, parkedAt: Date? = nil, capabilitiesDeclared: Bool? = nil, virtual: Bool? = nil, level: Level? = nil, checks: [DeviceCheck]? = nil, decisions: [Decision]? = nil) {
+    public init(id: String, scopeId: String, spaceId: String, spaceName: String, teamId: String, name: String, createdAt: Date, updatedAt: Date, parkedAt: Date? = nil, capabilitiesDeclared: Bool? = nil, virtual: Bool? = nil, tags: [String]? = nil, level: Level? = nil, checks: [DeviceCheck]? = nil, decisions: [Decision]? = nil) {
         self.id = id
         self.scopeId = scopeId
         self.spaceId = spaceId
@@ -58,6 +60,7 @@ public struct Device: Sendable, Codable, Hashable {
         self.parkedAt = parkedAt
         self.capabilitiesDeclared = capabilitiesDeclared
         self.virtual = virtual
+        self.tags = tags
         self.level = level
         self.checks = checks
         self.decisions = decisions
@@ -75,6 +78,7 @@ public struct Device: Sendable, Codable, Hashable {
         case parkedAt
         case capabilitiesDeclared
         case virtual
+        case tags
         case level
         case checks
         case decisions
@@ -95,6 +99,7 @@ public struct Device: Sendable, Codable, Hashable {
         try container.encodeIfPresent(parkedAt, forKey: .parkedAt)
         try container.encodeIfPresent(capabilitiesDeclared, forKey: .capabilitiesDeclared)
         try container.encodeIfPresent(virtual, forKey: .virtual)
+        try container.encodeIfPresent(tags, forKey: .tags)
         try container.encodeIfPresent(level, forKey: .level)
         try container.encodeIfPresent(checks, forKey: .checks)
         try container.encodeIfPresent(decisions, forKey: .decisions)

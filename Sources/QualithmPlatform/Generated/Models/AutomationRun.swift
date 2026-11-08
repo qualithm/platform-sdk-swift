@@ -28,6 +28,7 @@ public struct AutomationRun: Sendable, Codable, Hashable {
     }
     public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^run_[0-9A-HJKMNP-TV-Z]{26}$")
     public static let automationIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^aut_[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let decisionsRule = ArrayRule(minItems: nil, maxItems: 6, uniqueItems: false)
     /** An automation run ID */
     public var id: String
     /** An automation ID */
@@ -40,8 +41,10 @@ public struct AutomationRun: Sendable, Codable, Hashable {
     public var triggeredAt: Date
     /** UTC time, RFC 3339 */
     public var executedAt: Date?
+    /** What Qualithm decided when the run's alert fired: at most six, most consequential first. Absent when the run fired no alert. */
+    public var decisions: [Decision]?
 
-    public init(id: String, automationId: String, triggerType: TriggerType, status: Status, steps: [AutomationRunStep], lastError: String?, triggeredAt: Date, executedAt: Date?) {
+    public init(id: String, automationId: String, triggerType: TriggerType, status: Status, steps: [AutomationRunStep], lastError: String?, triggeredAt: Date, executedAt: Date?, decisions: [Decision]? = nil) {
         self.id = id
         self.automationId = automationId
         self.triggerType = triggerType
@@ -50,6 +53,7 @@ public struct AutomationRun: Sendable, Codable, Hashable {
         self.lastError = lastError
         self.triggeredAt = triggeredAt
         self.executedAt = executedAt
+        self.decisions = decisions
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -61,6 +65,7 @@ public struct AutomationRun: Sendable, Codable, Hashable {
         case lastError
         case triggeredAt
         case executedAt
+        case decisions
     }
 
     // Encodable protocol methods
@@ -75,6 +80,7 @@ public struct AutomationRun: Sendable, Codable, Hashable {
         try container.encode(lastError, forKey: .lastError)
         try container.encode(triggeredAt, forKey: .triggeredAt)
         try container.encode(executedAt, forKey: .executedAt)
+        try container.encodeIfPresent(decisions, forKey: .decisions)
     }
 }
 
