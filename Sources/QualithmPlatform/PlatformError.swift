@@ -7,18 +7,18 @@ import Foundation
 /// Every failure a platform call raises. Branch on ``code``, never on ``message``.
 public enum PlatformError: Error, Sendable, Equatable {
   /// The API answered with an error envelope: its HTTP status, stable code and message.
-  case api(status: Int, code: ApiErrorCode, message: String)
+  case api(status: Int, code: PlatformErrorCode, message: String)
   /// The request never got a usable response.
   case transport(message: String)
   /// No API token was passed or set in `QUALITHM_API_TOKEN`.
   case missingToken
 
   /// The envelope's stable code. A code this version doesn't know yet, or a failure with no
-  /// response, reads as `.unknownDefaultOpenApi`; a missing token reads as `.unauthorized`.
-  public var code: ApiErrorCode {
+  /// response, reads as `.unknown`; a missing token reads as `.unauthorized`.
+  public var code: PlatformErrorCode {
     switch self {
     case .api(_, let code, _): code
-    case .transport: .unknownDefaultOpenApi
+    case .transport: .unknown
     case .missingToken: .unauthorized
     }
   }
@@ -54,19 +54,17 @@ public enum PlatformError: Error, Sendable, Equatable {
       envelope?.message.flatMap { $0.isEmpty ? nil : $0 }
       ?? "request failed with status \(http.statusCode)"
     return .api(
-      status: http.statusCode, code: envelope?.code ?? .unknownDefaultOpenApi, message: message)
+      status: http.statusCode, code: envelope?.code ?? .unknown, message: message)
   }
 
   private struct Envelope: Decodable {
     let message: String?
-    let code: ApiErrorCode?
+    let code: PlatformErrorCode?
 
     init(from decoder: Decoder) throws {
       let container = try decoder.container(keyedBy: CodingKeys.self)
       message = try? container.decode(String.self, forKey: .message)
-      code = (try? container.decode(String.self, forKey: .code)).map {
-        ApiErrorCode(rawValue: $0) ?? .unknownDefaultOpenApi
-      }
+      code = (try? container.decode(String.self, forKey: .code)).map(PlatformErrorCode.init(code:))
     }
 
     private enum CodingKeys: String, CodingKey {
