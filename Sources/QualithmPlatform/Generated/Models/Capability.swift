@@ -18,11 +18,11 @@ public struct Capability: Sendable, Codable, Hashable {
         case sensor = "sensor"
         case unknownDefaultOpenApi = "unknown_default_open_api"
     }
-    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^cap_[0-9A-HJKMNP-TV-Z]{26}$")
-    public static let deviceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^dev_[0-9A-HJKMNP-TV-Z]{26}$")
-    /** A capability ID */
+    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:cap_(?:defraa|sgsina)_|cap_)[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let deviceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:dvc_(?:defraa|sgsina)_|dvc_|dev_)[0-9A-HJKMNP-TV-Z]{26}$")
+    /** A capability ID: `cap_<zone>_…`; also accepts the legacy `cap_…` */
     public var id: String
-    /** A device ID */
+    /** A device ID: `dvc_<zone>_…`; also accepts the legacy `dev_…` */
     public var deviceId: String
     public var key: String
     public var type: ModelType

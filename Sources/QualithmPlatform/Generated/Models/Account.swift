@@ -10,8 +10,8 @@ import Foundation
 
 public struct Account: Sendable, Codable, Hashable {
 
-    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^acc_[0-9A-HJKMNP-TV-Z]{26}$")
-    /** An account ID */
+    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:acc_)[0-9A-HJKMNP-TV-Z]{26}$")
+    /** An account ID: `acc_…` */
     public var id: String
     public var email: String
     public var name: String

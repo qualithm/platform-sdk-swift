@@ -54,7 +54,7 @@ open class TeamsAPI {
     /**
      Delete the team with its spaces, devices and memberships
      
-     - parameter teamId: (path) A team ID 
+     - parameter teamId: (path) A team ID: &#x60;tem_…&#x60;; also accepts the legacy &#x60;tm_…&#x60; 
      - parameter ifMatch: (header) The ETag you last read. The request is refused with 412 when the resource has changed since; omit it to apply the change regardless. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      */
@@ -69,7 +69,7 @@ open class TeamsAPI {
        - type: http
        - name: apiToken
      - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
-     - parameter teamId: (path) A team ID 
+     - parameter teamId: (path) A team ID: &#x60;tem_…&#x60;; also accepts the legacy &#x60;tm_…&#x60; 
      - parameter ifMatch: (header) The ETag you last read. The request is refused with 412 when the resource has changed since; omit it to apply the change regardless. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
@@ -98,7 +98,7 @@ open class TeamsAPI {
     /**
      Get one of the caller's teams, with their role and permissions in it
      
-     - parameter teamId: (path) A team ID 
+     - parameter teamId: (path) A team ID: &#x60;tem_…&#x60;; also accepts the legacy &#x60;tm_…&#x60; 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: GetTeamResponse
      */
@@ -113,7 +113,7 @@ open class TeamsAPI {
        - type: http
        - name: apiToken
      - responseHeaders: [Request-Id(String), ETag(String), RateLimit(String), RateLimit-Policy(String)]
-     - parameter teamId: (path) A team ID 
+     - parameter teamId: (path) A team ID: &#x60;tem_…&#x60;; also accepts the legacy &#x60;tm_…&#x60; 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<GetTeamResponse> 
      */
@@ -192,7 +192,7 @@ open class TeamsAPI {
     /**
      Rename the team
      
-     - parameter teamId: (path) A team ID 
+     - parameter teamId: (path) A team ID: &#x60;tem_…&#x60;; also accepts the legacy &#x60;tm_…&#x60; 
      - parameter updateTeamRequest: (body)  
      - parameter ifMatch: (header) The ETag you last read. The request is refused with 412 when the resource has changed since; omit it to apply the change regardless. (optional)
      - parameter apiConfiguration: The configuration for the http request.
@@ -208,7 +208,7 @@ open class TeamsAPI {
        - type: http
        - name: apiToken
      - responseHeaders: [Request-Id(String), ETag(String), RateLimit(String), RateLimit-Policy(String)]
-     - parameter teamId: (path) A team ID 
+     - parameter teamId: (path) A team ID: &#x60;tem_…&#x60;; also accepts the legacy &#x60;tm_…&#x60; 
      - parameter updateTeamRequest: (body)  
      - parameter ifMatch: (header) The ETag you last read. The request is refused with 412 when the resource has changed since; omit it to apply the change regardless. (optional)
      - parameter apiConfiguration: The configuration for the http request.

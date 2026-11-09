@@ -10,14 +10,14 @@ import Foundation
 
 public struct RoleAssignment: Sendable, Codable, Hashable {
 
-    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^mem_[0-9A-HJKMNP-TV-Z]{26}$")
-    public static let accountIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^acc_[0-9A-HJKMNP-TV-Z]{26}$")
-    public static let teamIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^tm_[0-9A-HJKMNP-TV-Z]{26}$")
-    /** A member ID */
+    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:mbr_|mem_)[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let accountIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:acc_)[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let teamIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:tem_|tm_)[0-9A-HJKMNP-TV-Z]{26}$")
+    /** A member ID: `mbr_…`; also accepts the legacy `mem_…` */
     public var id: String
-    /** An account ID */
+    /** An account ID: `acc_…` */
     public var accountId: String
-    /** A team ID */
+    /** A team ID: `tem_…`; also accepts the legacy `tm_…` */
     public var teamId: String
     public var teamName: String
     public var role: MemberRole

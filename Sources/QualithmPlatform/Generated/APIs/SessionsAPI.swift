@@ -13,7 +13,7 @@ open class SessionsAPI {
     /**
      Get one of the caller's live sessions
      
-     - parameter sessionId: (path) A session ID 
+     - parameter sessionId: (path) A session ID: &#x60;ses_…&#x60; 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: GetSessionResponse
      */
@@ -28,7 +28,7 @@ open class SessionsAPI {
        - type: http
        - name: apiToken
      - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
-     - parameter sessionId: (path) A session ID 
+     - parameter sessionId: (path) A session ID: &#x60;ses_…&#x60; 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<GetSessionResponse> 
      */

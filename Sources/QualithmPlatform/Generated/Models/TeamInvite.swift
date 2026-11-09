@@ -14,14 +14,14 @@ public struct TeamInvite: Sendable, Codable, Hashable {
         case invited = "invited"
         case unknownDefaultOpenApi = "unknown_default_open_api"
     }
-    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^mem_[0-9A-HJKMNP-TV-Z]{26}$")
-    public static let accountIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^acc_[0-9A-HJKMNP-TV-Z]{26}$")
-    public static let teamIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^tm_[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:mbr_|mem_)[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let accountIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:acc_)[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let teamIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:tem_|tm_)[0-9A-HJKMNP-TV-Z]{26}$")
     /** The invite's id: the invited membership's id */
     public var id: String
-    /** An account ID */
+    /** An account ID: `acc_…` */
     public var accountId: String
-    /** A team ID */
+    /** A team ID: `tem_…`; also accepts the legacy `tm_…` */
     public var teamId: String
     public var role: MemberRole
     public var status: Status
