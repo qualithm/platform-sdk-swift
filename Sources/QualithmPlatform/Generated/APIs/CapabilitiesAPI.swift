@@ -93,7 +93,7 @@ open class CapabilitiesAPI {
      List the capabilities a device declares
      
      - parameter teamId: (path) The team the request acts on 
-     - parameter deviceId: (path) A device ID 
+     - parameter deviceId: (path) A device ID: &#x60;dvc_&lt;zone&gt;_…&#x60;; also accepts the legacy &#x60;dev_…&#x60; 
      - parameter page: (query) Page number, from 1. Default 1. Ignored with &#x60;cursor&#x60;. (optional)
      - parameter limit: (query) Items per page, 1 to 100. Default 20, or 50 with &#x60;cursor&#x60;. (optional)
      - parameter cursor: (query) A previous page&#39;s &#x60;nextCursor&#x60;, to read the page after it (optional)
@@ -113,7 +113,7 @@ open class CapabilitiesAPI {
        - name: apiToken
      - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
-     - parameter deviceId: (path) A device ID 
+     - parameter deviceId: (path) A device ID: &#x60;dvc_&lt;zone&gt;_…&#x60;; also accepts the legacy &#x60;dev_…&#x60; 
      - parameter page: (query) Page number, from 1. Default 1. Ignored with &#x60;cursor&#x60;. (optional)
      - parameter limit: (query) Items per page, 1 to 100. Default 20, or 50 with &#x60;cursor&#x60;. (optional)
      - parameter cursor: (query) A previous page&#39;s &#x60;nextCursor&#x60;, to read the page after it (optional)
@@ -154,7 +154,7 @@ open class CapabilitiesAPI {
      Rename or retag a capability
      
      - parameter teamId: (path) The team the request acts on 
-     - parameter capabilityId: (path) A capability ID 
+     - parameter capabilityId: (path) A capability ID: &#x60;cap_&lt;zone&gt;_…&#x60;; also accepts the legacy &#x60;cap_…&#x60; 
      - parameter updateCapabilityRequest: (body)  
      - parameter ifMatch: (header) The ETag you last read. The request is refused with 412 when the resource has changed since; omit it to apply the change regardless. (optional)
      - parameter apiConfiguration: The configuration for the http request.
@@ -172,7 +172,7 @@ open class CapabilitiesAPI {
        - name: apiToken
      - responseHeaders: [Request-Id(String), ETag(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
-     - parameter capabilityId: (path) A capability ID 
+     - parameter capabilityId: (path) A capability ID: &#x60;cap_&lt;zone&gt;_…&#x60;; also accepts the legacy &#x60;cap_…&#x60; 
      - parameter updateCapabilityRequest: (body)  
      - parameter ifMatch: (header) The ETag you last read. The request is refused with 412 when the resource has changed since; omit it to apply the change regardless. (optional)
      - parameter apiConfiguration: The configuration for the http request.

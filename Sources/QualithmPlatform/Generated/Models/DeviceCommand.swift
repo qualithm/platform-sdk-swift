@@ -22,11 +22,11 @@ public struct DeviceCommand: Sendable, Codable, Hashable {
         case failed = "failed"
         case unknownDefaultOpenApi = "unknown_default_open_api"
     }
-    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^cmd_[0-9A-HJKMNP-TV-Z]{26}$")
-    public static let deviceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^dev_[0-9A-HJKMNP-TV-Z]{26}$")
-    /** A command ID */
+    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:cmd_(?:defraa|sgsina)_|cmd_)[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let deviceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:dvc_(?:defraa|sgsina)_|dvc_|dev_)[0-9A-HJKMNP-TV-Z]{26}$")
+    /** A command ID: `cmd_<zone>_…`; also accepts the legacy `cmd_…` */
     public var id: String
-    /** A device ID */
+    /** A device ID: `dvc_<zone>_…`; also accepts the legacy `dev_…` */
     public var deviceId: String
     public var source: Source
     public var topic: String

@@ -20,11 +20,11 @@ public struct Authority: Sendable, Codable, Hashable {
         case revoked = "revoked"
         case unknownDefaultOpenApi = "unknown_default_open_api"
     }
-    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^auth_[0-9A-HJKMNP-TV-Z]{26}$")
-    public static let teamIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^tm_[0-9A-HJKMNP-TV-Z]{26}$")
-    /** A device authority ID */
+    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:dca_|auth_)[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let teamIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:tem_|tm_)[0-9A-HJKMNP-TV-Z]{26}$")
+    /** A device authority ID: `dca_…`; also accepts the legacy `auth_…` */
     public var id: String
-    /** A team ID */
+    /** A team ID: `tem_…`; also accepts the legacy `tm_…` */
     public var teamId: String
     public var name: String
     public var kind: Kind

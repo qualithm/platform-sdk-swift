@@ -62,7 +62,7 @@ open class DashboardsAPI {
      Delete a dashboard
      
      - parameter teamId: (path) The team the request acts on 
-     - parameter dashboardId: (path) A dashboard ID 
+     - parameter dashboardId: (path) A dashboard ID: &#x60;dsh_&lt;zone&gt;_…&#x60;; also accepts the legacy &#x60;dash_…&#x60; 
      - parameter ifMatch: (header) The ETag you last read. The request is refused with 412 when the resource has changed since; omit it to apply the change regardless. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      */
@@ -78,7 +78,7 @@ open class DashboardsAPI {
        - name: apiToken
      - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
-     - parameter dashboardId: (path) A dashboard ID 
+     - parameter dashboardId: (path) A dashboard ID: &#x60;dsh_&lt;zone&gt;_…&#x60;; also accepts the legacy &#x60;dash_…&#x60; 
      - parameter ifMatch: (header) The ETag you last read. The request is refused with 412 when the resource has changed since; omit it to apply the change regardless. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
@@ -111,7 +111,7 @@ open class DashboardsAPI {
      Get a dashboard
      
      - parameter teamId: (path) The team the request acts on 
-     - parameter dashboardId: (path) A dashboard ID 
+     - parameter dashboardId: (path) A dashboard ID: &#x60;dsh_&lt;zone&gt;_…&#x60;; also accepts the legacy &#x60;dash_…&#x60; 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: GetDashboardResponse
      */
@@ -127,7 +127,7 @@ open class DashboardsAPI {
        - name: apiToken
      - responseHeaders: [Request-Id(String), ETag(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
-     - parameter dashboardId: (path) A dashboard ID 
+     - parameter dashboardId: (path) A dashboard ID: &#x60;dsh_&lt;zone&gt;_…&#x60;; also accepts the legacy &#x60;dash_…&#x60; 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<GetDashboardResponse> 
      */
@@ -215,7 +215,7 @@ open class DashboardsAPI {
      Update a dashboard
      
      - parameter teamId: (path) The team the request acts on 
-     - parameter dashboardId: (path) A dashboard ID 
+     - parameter dashboardId: (path) A dashboard ID: &#x60;dsh_&lt;zone&gt;_…&#x60;; also accepts the legacy &#x60;dash_…&#x60; 
      - parameter updateDashboardRequest: (body)  
      - parameter ifMatch: (header) The ETag you last read. The request is refused with 412 when the resource has changed since; omit it to apply the change regardless. (optional)
      - parameter apiConfiguration: The configuration for the http request.
@@ -233,7 +233,7 @@ open class DashboardsAPI {
        - name: apiToken
      - responseHeaders: [Request-Id(String), ETag(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
-     - parameter dashboardId: (path) A dashboard ID 
+     - parameter dashboardId: (path) A dashboard ID: &#x60;dsh_&lt;zone&gt;_…&#x60;; also accepts the legacy &#x60;dash_…&#x60; 
      - parameter updateDashboardRequest: (body)  
      - parameter ifMatch: (header) The ETag you last read. The request is refused with 412 when the resource has changed since; omit it to apply the change regardless. (optional)
      - parameter apiConfiguration: The configuration for the http request.

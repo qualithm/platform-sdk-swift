@@ -13,7 +13,7 @@ open class InvitesAPI {
     /**
      Invite an account to the team by email
      
-     - parameter teamId: (path) A team ID 
+     - parameter teamId: (path) A team ID: &#x60;tem_…&#x60;; also accepts the legacy &#x60;tm_…&#x60; 
      - parameter createTeamInviteRequest: (body)  
      - parameter idempotencyKey: (header) A unique key for this request. A retry with the same key and body returns the first response instead of acting again; keys last 24 hours. (optional)
      - parameter apiConfiguration: The configuration for the http request.
@@ -30,7 +30,7 @@ open class InvitesAPI {
        - type: http
        - name: apiToken
      - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
-     - parameter teamId: (path) A team ID 
+     - parameter teamId: (path) A team ID: &#x60;tem_…&#x60;; also accepts the legacy &#x60;tm_…&#x60; 
      - parameter createTeamInviteRequest: (body)  
      - parameter idempotencyKey: (header) A unique key for this request. A retry with the same key and body returns the first response instead of acting again; keys last 24 hours. (optional)
      - parameter apiConfiguration: The configuration for the http request.
@@ -61,8 +61,8 @@ open class InvitesAPI {
     /**
      Revoke a pending invite
      
-     - parameter teamId: (path) A team ID 
-     - parameter inviteId: (path) A member ID 
+     - parameter teamId: (path) A team ID: &#x60;tem_…&#x60;; also accepts the legacy &#x60;tm_…&#x60; 
+     - parameter inviteId: (path) A member ID: &#x60;mbr_…&#x60;; also accepts the legacy &#x60;mem_…&#x60; 
      - parameter apiConfiguration: The configuration for the http request.
      */
     open class func deleteTeamInvite(teamId: String, inviteId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) {
@@ -76,8 +76,8 @@ open class InvitesAPI {
        - type: http
        - name: apiToken
      - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
-     - parameter teamId: (path) A team ID 
-     - parameter inviteId: (path) A member ID 
+     - parameter teamId: (path) A team ID: &#x60;tem_…&#x60;; also accepts the legacy &#x60;tm_…&#x60; 
+     - parameter inviteId: (path) A member ID: &#x60;mbr_…&#x60;; also accepts the legacy &#x60;mem_…&#x60; 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
@@ -108,7 +108,7 @@ open class InvitesAPI {
     /**
      List the team's pending invites
      
-     - parameter teamId: (path) A team ID 
+     - parameter teamId: (path) A team ID: &#x60;tem_…&#x60;; also accepts the legacy &#x60;tm_…&#x60; 
      - parameter page: (query) Page number, from 1. Default 1. Ignored with &#x60;cursor&#x60;. (optional)
      - parameter limit: (query) Items per page, 1 to 100. Default 20, or 50 with &#x60;cursor&#x60;. (optional)
      - parameter cursor: (query) A previous page&#39;s &#x60;nextCursor&#x60;, to read the page after it (optional)
@@ -127,7 +127,7 @@ open class InvitesAPI {
        - type: http
        - name: apiToken
      - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
-     - parameter teamId: (path) A team ID 
+     - parameter teamId: (path) A team ID: &#x60;tem_…&#x60;; also accepts the legacy &#x60;tm_…&#x60; 
      - parameter page: (query) Page number, from 1. Default 1. Ignored with &#x60;cursor&#x60;. (optional)
      - parameter limit: (query) Items per page, 1 to 100. Default 20, or 50 with &#x60;cursor&#x60;. (optional)
      - parameter cursor: (query) A previous page&#39;s &#x60;nextCursor&#x60;, to read the page after it (optional)

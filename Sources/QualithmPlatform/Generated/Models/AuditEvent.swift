@@ -16,22 +16,22 @@ public struct AuditEvent: Sendable, Codable, Hashable {
         case system = "system"
         case unknownDefaultOpenApi = "unknown_default_open_api"
     }
-    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^evt_[0-9A-HJKMNP-TV-Z]{26}$")
-    public static let teamIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^tm_[0-9A-HJKMNP-TV-Z]{26}$")
-    public static let actorIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:acc|tok|evt|auth|aut|cmpn|cap|cmd|cred|dash|dev|eml|enr|inv|doc|mem|oac|ogr|otk|otp|plan|psh|sub|run|spc|ses|dgst|sev|tm|tev|upt|use|wks)_[0-9A-HJKMNP-TV-Z]{26}$")
-    public static let targetIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:acc|tok|evt|auth|aut|cmpn|cap|cmd|cred|dash|dev|eml|enr|inv|doc|mem|oac|ogr|otk|otp|plan|psh|sub|run|spc|ses|dgst|sev|tm|tev|upt|use|wks)_[0-9A-HJKMNP-TV-Z]{26}$")
-    /** An audit event ID */
+    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:aud_|evt_)[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let teamIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:tem_|tm_)[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let actorIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:acc_|tok_|aud_|evt_|dca_|auth_|aut_(?:defraa|sgsina)_|aut_|cmp_|cmpn_|cap_(?:defraa|sgsina)_|cap_|cmd_(?:defraa|sgsina)_|cmd_|crd_(?:defraa|sgsina)_|crd_|cred_|dsh_(?:defraa|sgsina)_|dsh_|dash_|dvc_(?:defraa|sgsina)_|dvc_|dev_|eml_|enr_(?:defraa|sgsina)_|enr_|inv_|lgl_|doc_|mbr_|mem_|oac_|ogr_|oat_|otk_|otc_|otp_|pln_|plan_|psh_|psb_|sub_|run_(?:defraa|sgsina)_|run_|scp_(?:defraa|sgsina)_|scp_|spc_|ses_|dig_|dgst_|sev_|tem_|tm_|tev_|upt_|usg_|use_|wks_)[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let targetIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:acc_|tok_|aud_|evt_|dca_|auth_|aut_(?:defraa|sgsina)_|aut_|cmp_|cmpn_|cap_(?:defraa|sgsina)_|cap_|cmd_(?:defraa|sgsina)_|cmd_|crd_(?:defraa|sgsina)_|crd_|cred_|dsh_(?:defraa|sgsina)_|dsh_|dash_|dvc_(?:defraa|sgsina)_|dvc_|dev_|eml_|enr_(?:defraa|sgsina)_|enr_|inv_|lgl_|doc_|mbr_|mem_|oac_|ogr_|oat_|otk_|otc_|otp_|pln_|plan_|psh_|psb_|sub_|run_(?:defraa|sgsina)_|run_|scp_(?:defraa|sgsina)_|scp_|spc_|ses_|dig_|dgst_|sev_|tem_|tm_|tev_|upt_|usg_|use_|wks_)[0-9A-HJKMNP-TV-Z]{26}$")
+    /** An audit event ID: `aud_…`; also accepts the legacy `evt_…` */
     public var id: String
-    /** A team ID */
+    /** A team ID: `tem_…`; also accepts the legacy `tm_…` */
     public var teamId: String
     public var actorKind: ActorKind
-    /** An ID of any type */
+    /** An ID of any kind: `<kind>_[<zone>_]<ULID>` */
     public var actorId: String?
     /** Dot-namespaced action, e.g. `device.claim` */
     public var action: String
     /** What the action acted on, e.g. `device` */
     public var targetKind: String
-    /** An ID of any type */
+    /** An ID of any kind: `<kind>_[<zone>_]<ULID>` */
     public var targetId: String
     /** Non-sensitive context for the action */
     public var metadata: JSONValue?

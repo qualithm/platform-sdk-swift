@@ -10,12 +10,12 @@ import Foundation
 
 public struct DeviceState: Sendable, Codable, Hashable {
 
-    public static let deviceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^dev_[0-9A-HJKMNP-TV-Z]{26}$")
-    public static let scopeIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^spc_[0-9A-HJKMNP-TV-Z]{26}$")
-    public static let spaceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^spc_[0-9A-HJKMNP-TV-Z]{26}$")
-    /** A device ID */
+    public static let deviceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:dvc_(?:defraa|sgsina)_|dvc_|dev_)[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let scopeIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:scp_(?:defraa|sgsina)_|scp_|spc_)[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let spaceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:scp_(?:defraa|sgsina)_|scp_|spc_)[0-9A-HJKMNP-TV-Z]{26}$")
+    /** A device ID: `dvc_<zone>_…`; also accepts the legacy `dev_…` */
     public var deviceId: String
-    /** A scope ID */
+    /** A scope ID: `scp_<zone>_…`; also accepts the legacy `spc_…` */
     public var scopeId: String
     /** Deprecated: use scopeId */
     @available(*, deprecated, message: "This property is deprecated.")

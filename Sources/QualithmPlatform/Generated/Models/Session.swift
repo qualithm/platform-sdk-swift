@@ -10,11 +10,11 @@ import Foundation
 
 public struct Session: Sendable, Codable, Hashable {
 
-    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^ses_[0-9A-HJKMNP-TV-Z]{26}$")
-    public static let accountIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^acc_[0-9A-HJKMNP-TV-Z]{26}$")
-    /** A session ID */
+    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:ses_)[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let accountIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:acc_)[0-9A-HJKMNP-TV-Z]{26}$")
+    /** A session ID: `ses_…` */
     public var id: String
-    /** An account ID */
+    /** An account ID: `acc_…` */
     public var accountId: String
     public var userAgent: String
     public var ipAddress: String

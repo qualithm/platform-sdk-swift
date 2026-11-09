@@ -10,8 +10,8 @@ import Foundation
 
 public struct QueuedCommand: Sendable, Codable, Hashable {
 
-    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^cmd_[0-9A-HJKMNP-TV-Z]{26}$")
-    /** A command ID */
+    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:cmd_(?:defraa|sgsina)_|cmd_)[0-9A-HJKMNP-TV-Z]{26}$")
+    /** A command ID: `cmd_<zone>_…`; also accepts the legacy `cmd_…` */
     public var id: String
     /** True when the dedup key was already used: no second command was sent */
     public var duplicate: Bool
