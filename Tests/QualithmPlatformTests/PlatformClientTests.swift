@@ -107,8 +107,20 @@ struct PlatformClientTests {
       StubAnswer(
         status: 422,
         body: json(#"{"message":"device limit reached","code":"device_limit_reached"}"#)))
-    #expect(error.code == .unknownDefaultOpenApi)
+    #expect(error.code == .unknown)
     #expect(error.message == "device limit reached")
+  }
+
+  @Test func decodesAKnownCode() async throws {
+    let error = try await failure(
+      StubAnswer(status: 409, body: json(#"{"message":"name taken","code":"name_taken"}"#)))
+    #expect(error.code == .nameTaken)
+  }
+
+  @Test func mapsWireCodes() {
+    #expect(PlatformErrorCode.allCases.count == 29)
+    #expect(PlatformErrorCode(code: "idempotency_in_flight") == .idempotencyInFlight)
+    #expect(PlatformErrorCode(code: "something_new") == .unknown)
   }
 
   @Test func namesTheStatusWhenTheBodyIsNotAnEnvelope() async throws {
@@ -116,7 +128,7 @@ struct PlatformClientTests {
     #expect(
       error
         == .api(
-          status: 502, code: .unknownDefaultOpenApi, message: "request failed with status 502"))
+          status: 502, code: .unknown, message: "request failed with status 502"))
   }
 
   @Test func wrapsARequestThatNeverGotAResponse() async throws {
@@ -127,6 +139,6 @@ struct PlatformClientTests {
     }
     #expect(message.hasPrefix("request failed: "))
     #expect(error.status == 0)
-    #expect(error.code == .unknownDefaultOpenApi)
+    #expect(error.code == .unknown)
   }
 }
