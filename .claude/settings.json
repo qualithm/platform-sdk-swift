@@ -302,6 +302,7 @@
       "Bash(dx images sync *)",
       "Bash(dx git sync-commit)",
       "Bash(dx git sync-commit *)",
+      "Bash(python3 .claude/checks/ci-jobs.py *)",
       "Bash(swift build)",
       "Bash(swift build *)",
       "Bash(swift test)",
@@ -321,8 +322,7 @@
       "Bash(xcodebuild build *)",
       "Bash(xcodebuild test *)",
       "Bash(xcrun llvm-cov *)",
-      "Bash(xcrun xccov *)",
-      "Bash(python3 .claude/checks/ci-jobs.py *)"
+      "Bash(xcrun xccov *)"
     ],
     "ask": [
       "Bash(git push *--force)",
