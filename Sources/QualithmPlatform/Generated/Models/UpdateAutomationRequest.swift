@@ -11,14 +11,14 @@ import Foundation
 /** At least one of name, enabled, scopeId, payload or template */
 public struct UpdateAutomationRequest: Sendable, Codable, Hashable {
 
-    public static let scopeIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^spc_[0-9A-HJKMNP-TV-Z]{26}$")
-    public static let spaceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^spc_[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let scopeIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:scp_(?:defraa|sgsina)_|scp_|spc_)[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let spaceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:scp_(?:defraa|sgsina)_|scp_|spc_)[0-9A-HJKMNP-TV-Z]{26}$")
     public var name: String?
     /** Whether its trigger fires */
     public var enabled: Bool?
-    /** A scope ID */
+    /** A scope ID: `scp_<zone>_…`; also accepts the legacy `spc_…` */
     public var scopeId: String?
-    /** A space ID */
+    /** A space ID: `scp_<zone>_…`; also accepts the legacy `spc_…` */
     public var spaceId: String?
     public var payload: UpdateAutomationRequestPayload?
     /** A template id to re-expand the chain from; exclusive with `payload` */

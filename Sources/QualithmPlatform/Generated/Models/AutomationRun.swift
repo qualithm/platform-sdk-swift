@@ -26,12 +26,12 @@ public struct AutomationRun: Sendable, Codable, Hashable {
         case limited = "limited"
         case unknownDefaultOpenApi = "unknown_default_open_api"
     }
-    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^run_[0-9A-HJKMNP-TV-Z]{26}$")
-    public static let automationIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^aut_[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:run_(?:defraa|sgsina)_|run_)[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let automationIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:aut_(?:defraa|sgsina)_|aut_)[0-9A-HJKMNP-TV-Z]{26}$")
     public static let decisionsRule = ArrayRule(minItems: nil, maxItems: 6, uniqueItems: false)
-    /** An automation run ID */
+    /** An automation run ID: `run_<zone>_…`; also accepts the legacy `run_…` */
     public var id: String
-    /** An automation ID */
+    /** An automation ID: `aut_<zone>_…`; also accepts the legacy `aut_…` */
     public var automationId: String
     public var triggerType: TriggerType
     public var status: Status

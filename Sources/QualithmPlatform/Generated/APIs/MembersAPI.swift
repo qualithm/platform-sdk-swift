@@ -13,7 +13,7 @@ open class MembersAPI {
     /**
      Accept the caller's invite to the team
      
-     - parameter teamId: (path) A team ID 
+     - parameter teamId: (path) A team ID: &#x60;tem_…&#x60;; also accepts the legacy &#x60;tm_…&#x60; 
      - parameter createTeamMemberRequest: (body)  
      - parameter idempotencyKey: (header) A unique key for this request. A retry with the same key and body returns the first response instead of acting again; keys last 24 hours. (optional)
      - parameter apiConfiguration: The configuration for the http request.
@@ -30,7 +30,7 @@ open class MembersAPI {
        - type: http
        - name: apiToken
      - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
-     - parameter teamId: (path) A team ID 
+     - parameter teamId: (path) A team ID: &#x60;tem_…&#x60;; also accepts the legacy &#x60;tm_…&#x60; 
      - parameter createTeamMemberRequest: (body)  
      - parameter idempotencyKey: (header) A unique key for this request. A retry with the same key and body returns the first response instead of acting again; keys last 24 hours. (optional)
      - parameter apiConfiguration: The configuration for the http request.
@@ -61,8 +61,8 @@ open class MembersAPI {
     /**
      Remove a member from the team
      
-     - parameter teamId: (path) A team ID 
-     - parameter memberId: (path) A member ID 
+     - parameter teamId: (path) A team ID: &#x60;tem_…&#x60;; also accepts the legacy &#x60;tm_…&#x60; 
+     - parameter memberId: (path) A member ID: &#x60;mbr_…&#x60;; also accepts the legacy &#x60;mem_…&#x60; 
      - parameter apiConfiguration: The configuration for the http request.
      */
     open class func deleteTeamMember(teamId: String, memberId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) {
@@ -77,8 +77,8 @@ open class MembersAPI {
        - type: http
        - name: apiToken
      - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
-     - parameter teamId: (path) A team ID 
-     - parameter memberId: (path) A member ID 
+     - parameter teamId: (path) A team ID: &#x60;tem_…&#x60;; also accepts the legacy &#x60;tm_…&#x60; 
+     - parameter memberId: (path) A member ID: &#x60;mbr_…&#x60;; also accepts the legacy &#x60;mem_…&#x60; 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
@@ -109,8 +109,8 @@ open class MembersAPI {
     /**
      Get a member of the team
      
-     - parameter teamId: (path) A team ID 
-     - parameter memberId: (path) A member ID 
+     - parameter teamId: (path) A team ID: &#x60;tem_…&#x60;; also accepts the legacy &#x60;tm_…&#x60; 
+     - parameter memberId: (path) A member ID: &#x60;mbr_…&#x60;; also accepts the legacy &#x60;mem_…&#x60; 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: GetTeamMemberResponse
      */
@@ -125,8 +125,8 @@ open class MembersAPI {
        - type: http
        - name: apiToken
      - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
-     - parameter teamId: (path) A team ID 
-     - parameter memberId: (path) A member ID 
+     - parameter teamId: (path) A team ID: &#x60;tem_…&#x60;; also accepts the legacy &#x60;tm_…&#x60; 
+     - parameter memberId: (path) A member ID: &#x60;mbr_…&#x60;; also accepts the legacy &#x60;mem_…&#x60; 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<GetTeamMemberResponse> 
      */
@@ -157,7 +157,7 @@ open class MembersAPI {
     /**
      List the team's active members
      
-     - parameter teamId: (path) A team ID 
+     - parameter teamId: (path) A team ID: &#x60;tem_…&#x60;; also accepts the legacy &#x60;tm_…&#x60; 
      - parameter page: (query) Page number, from 1. Default 1. Ignored with &#x60;cursor&#x60;. (optional)
      - parameter limit: (query) Items per page, 1 to 100. Default 20, or 50 with &#x60;cursor&#x60;. (optional)
      - parameter cursor: (query) A previous page&#39;s &#x60;nextCursor&#x60;, to read the page after it (optional)
@@ -176,7 +176,7 @@ open class MembersAPI {
        - type: http
        - name: apiToken
      - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
-     - parameter teamId: (path) A team ID 
+     - parameter teamId: (path) A team ID: &#x60;tem_…&#x60;; also accepts the legacy &#x60;tm_…&#x60; 
      - parameter page: (query) Page number, from 1. Default 1. Ignored with &#x60;cursor&#x60;. (optional)
      - parameter limit: (query) Items per page, 1 to 100. Default 20, or 50 with &#x60;cursor&#x60;. (optional)
      - parameter cursor: (query) A previous page&#39;s &#x60;nextCursor&#x60;, to read the page after it (optional)
@@ -213,8 +213,8 @@ open class MembersAPI {
     /**
      Change a member's role
      
-     - parameter teamId: (path) A team ID 
-     - parameter memberId: (path) A member ID 
+     - parameter teamId: (path) A team ID: &#x60;tem_…&#x60;; also accepts the legacy &#x60;tm_…&#x60; 
+     - parameter memberId: (path) A member ID: &#x60;mbr_…&#x60;; also accepts the legacy &#x60;mem_…&#x60; 
      - parameter updateTeamMemberRequest: (body)  
      - parameter apiConfiguration: The configuration for the http request.
      */
@@ -229,8 +229,8 @@ open class MembersAPI {
        - type: http
        - name: apiToken
      - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
-     - parameter teamId: (path) A team ID 
-     - parameter memberId: (path) A member ID 
+     - parameter teamId: (path) A team ID: &#x60;tem_…&#x60;; also accepts the legacy &#x60;tm_…&#x60; 
+     - parameter memberId: (path) A member ID: &#x60;mbr_…&#x60;; also accepts the legacy &#x60;mem_…&#x60; 
      - parameter updateTeamMemberRequest: (body)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 

@@ -13,8 +13,8 @@ open class TelemetryAPI {
     /**
      Read a device metric as bucketed points
      
-     - parameter teamId: (path) A team ID 
-     - parameter deviceId: (path) A device ID 
+     - parameter teamId: (path) A team ID: &#x60;tem_…&#x60;; also accepts the legacy &#x60;tm_…&#x60; 
+     - parameter deviceId: (path) A device ID: &#x60;dvc_&lt;zone&gt;_…&#x60;; also accepts the legacy &#x60;dev_…&#x60; 
      - parameter metric: (query) The metric to read 
      - parameter from: (query) Range start, RFC 3339, inclusive 
      - parameter to: (query) Range end, RFC 3339, exclusive 
@@ -39,8 +39,8 @@ open class TelemetryAPI {
        - type: http
        - name: apiToken
      - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
-     - parameter teamId: (path) A team ID 
-     - parameter deviceId: (path) A device ID 
+     - parameter teamId: (path) A team ID: &#x60;tem_…&#x60;; also accepts the legacy &#x60;tm_…&#x60; 
+     - parameter deviceId: (path) A device ID: &#x60;dvc_&lt;zone&gt;_…&#x60;; also accepts the legacy &#x60;dev_…&#x60; 
      - parameter metric: (query) The metric to read 
      - parameter from: (query) Range start, RFC 3339, inclusive 
      - parameter to: (query) Range end, RFC 3339, exclusive 

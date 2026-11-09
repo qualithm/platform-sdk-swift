@@ -10,17 +10,17 @@ import Foundation
 
 public struct Automation: Sendable, Codable, Hashable {
 
-    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^aut_[0-9A-HJKMNP-TV-Z]{26}$")
-    public static let teamIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^tm_[0-9A-HJKMNP-TV-Z]{26}$")
-    public static let scopeIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^spc_[0-9A-HJKMNP-TV-Z]{26}$")
-    public static let spaceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^spc_[0-9A-HJKMNP-TV-Z]{26}$")
-    /** An automation ID */
+    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:aut_(?:defraa|sgsina)_|aut_)[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let teamIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:tem_|tm_)[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let scopeIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:scp_(?:defraa|sgsina)_|scp_|spc_)[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let spaceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:scp_(?:defraa|sgsina)_|scp_|spc_)[0-9A-HJKMNP-TV-Z]{26}$")
+    /** An automation ID: `aut_<zone>_…`; also accepts the legacy `aut_…` */
     public var id: String
-    /** A team ID */
+    /** A team ID: `tem_…`; also accepts the legacy `tm_…` */
     public var teamId: String
-    /** A scope ID */
+    /** A scope ID: `scp_<zone>_…`; also accepts the legacy `spc_…` */
     public var scopeId: String?
-    /** A space ID */
+    /** A space ID: `scp_<zone>_…`; also accepts the legacy `spc_…` */
     public var spaceId: String?
     public var spaceName: String?
     public var name: String

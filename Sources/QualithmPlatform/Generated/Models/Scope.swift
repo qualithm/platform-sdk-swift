@@ -10,14 +10,14 @@ import Foundation
 
 public struct Scope: Sendable, Codable, Hashable {
 
-    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^spc_[0-9A-HJKMNP-TV-Z]{26}$")
-    public static let teamIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^tm_[0-9A-HJKMNP-TV-Z]{26}$")
-    public static let parentIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^spc_[0-9A-HJKMNP-TV-Z]{26}$")
-    /** A scope ID */
+    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:scp_(?:defraa|sgsina)_|scp_|spc_)[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let teamIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:tem_|tm_)[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let parentIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:scp_(?:defraa|sgsina)_|scp_|spc_)[0-9A-HJKMNP-TV-Z]{26}$")
+    /** A scope ID: `scp_<zone>_…`; also accepts the legacy `spc_…` */
     public var id: String
-    /** A team ID */
+    /** A team ID: `tem_…`; also accepts the legacy `tm_…` */
     public var teamId: String
-    /** A scope ID */
+    /** A scope ID: `scp_<zone>_…`; also accepts the legacy `spc_…` */
     public var parentId: String?
     public var name: String
     public var zone: ZoneId

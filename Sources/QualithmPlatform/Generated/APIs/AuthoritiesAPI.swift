@@ -62,7 +62,7 @@ open class AuthoritiesAPI {
      Revoke a certificate authority and every credential it issued
      
      - parameter teamId: (path) The team the request acts on 
-     - parameter authorityId: (path) A device authority ID 
+     - parameter authorityId: (path) A device authority ID: &#x60;dca_…&#x60;; also accepts the legacy &#x60;auth_…&#x60; 
      - parameter apiConfiguration: The configuration for the http request.
      */
     open class func deleteAuthority(teamId: String, authorityId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) {
@@ -77,7 +77,7 @@ open class AuthoritiesAPI {
        - name: apiToken
      - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
-     - parameter authorityId: (path) A device authority ID 
+     - parameter authorityId: (path) A device authority ID: &#x60;dca_…&#x60;; also accepts the legacy &#x60;auth_…&#x60; 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
