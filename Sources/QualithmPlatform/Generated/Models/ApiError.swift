@@ -11,13 +11,13 @@ import Foundation
 public struct ApiError: Sendable, Codable, Hashable {
 
     public var message: String
-    public var code: ApiErrorCode
+    public var code: String
     /** The `Request-Id` this response carried; quote it */
     public var requestId: String
     /** Each field that failed validation. Validation errors only. */
     public var details: [ApiErrorDetailsInner]?
 
-    public init(message: String, code: ApiErrorCode, requestId: String, details: [ApiErrorDetailsInner]? = nil) {
+    public init(message: String, code: String, requestId: String, details: [ApiErrorDetailsInner]? = nil) {
         self.message = message
         self.code = code
         self.requestId = requestId
@@ -42,10 +42,3 @@ public struct ApiError: Sendable, Codable, Hashable {
     }
 }
 
-
-extension ApiError: UnknownCaseCheckable {
-    public var containsUnknownDefaultOpenApiCase: Bool {
-        if code == .unknownDefaultOpenApi { return true }
-        return false
-    }
-}

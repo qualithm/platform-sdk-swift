@@ -62,7 +62,7 @@ open class SpacesAPI {
      Delete a space and its devices
      
      - parameter teamId: (path) The team the request acts on 
-     - parameter spaceId: (path) A space ID 
+     - parameter spaceId: (path) A space ID: &#x60;scp_&lt;zone&gt;_…&#x60;; also accepts the legacy &#x60;spc_…&#x60; 
      - parameter ifMatch: (header) The ETag you last read. The request is refused with 412 when the resource has changed since; omit it to apply the change regardless. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      */
@@ -79,7 +79,7 @@ open class SpacesAPI {
        - name: apiToken
      - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
-     - parameter spaceId: (path) A space ID 
+     - parameter spaceId: (path) A space ID: &#x60;scp_&lt;zone&gt;_…&#x60;; also accepts the legacy &#x60;spc_…&#x60; 
      - parameter ifMatch: (header) The ETag you last read. The request is refused with 412 when the resource has changed since; omit it to apply the change regardless. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
@@ -112,7 +112,7 @@ open class SpacesAPI {
      Get a space
      
      - parameter teamId: (path) The team the request acts on 
-     - parameter spaceId: (path) A space ID 
+     - parameter spaceId: (path) A space ID: &#x60;scp_&lt;zone&gt;_…&#x60;; also accepts the legacy &#x60;spc_…&#x60; 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: GetSpaceResponse
      */
@@ -128,7 +128,7 @@ open class SpacesAPI {
        - name: apiToken
      - responseHeaders: [Request-Id(String), ETag(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
-     - parameter spaceId: (path) A space ID 
+     - parameter spaceId: (path) A space ID: &#x60;scp_&lt;zone&gt;_…&#x60;; also accepts the legacy &#x60;spc_…&#x60; 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<GetSpaceResponse> 
      */
@@ -227,7 +227,7 @@ open class SpacesAPI {
      Rename a space
      
      - parameter teamId: (path) The team the request acts on 
-     - parameter spaceId: (path) A space ID 
+     - parameter spaceId: (path) A space ID: &#x60;scp_&lt;zone&gt;_…&#x60;; also accepts the legacy &#x60;spc_…&#x60; 
      - parameter updateSpaceRequest: (body)  
      - parameter ifMatch: (header) The ETag you last read. The request is refused with 412 when the resource has changed since; omit it to apply the change regardless. (optional)
      - parameter apiConfiguration: The configuration for the http request.
@@ -244,7 +244,7 @@ open class SpacesAPI {
        - name: apiToken
      - responseHeaders: [Request-Id(String), ETag(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
-     - parameter spaceId: (path) A space ID 
+     - parameter spaceId: (path) A space ID: &#x60;scp_&lt;zone&gt;_…&#x60;; also accepts the legacy &#x60;spc_…&#x60; 
      - parameter updateSpaceRequest: (body)  
      - parameter ifMatch: (header) The ETag you last read. The request is refused with 412 when the resource has changed since; omit it to apply the change regardless. (optional)
      - parameter apiConfiguration: The configuration for the http request.

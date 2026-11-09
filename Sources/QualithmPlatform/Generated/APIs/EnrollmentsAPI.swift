@@ -62,7 +62,7 @@ open class EnrollmentsAPI {
      Revoke a pending enrollment
      
      - parameter teamId: (path) The team the request acts on 
-     - parameter enrollmentId: (path) An enrollment ID 
+     - parameter enrollmentId: (path) An enrollment ID: &#x60;enr_&lt;zone&gt;_…&#x60;; also accepts the legacy &#x60;enr_…&#x60; 
      - parameter apiConfiguration: The configuration for the http request.
      */
     open class func deleteEnrollment(teamId: String, enrollmentId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) {
@@ -77,7 +77,7 @@ open class EnrollmentsAPI {
        - name: apiToken
      - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
-     - parameter enrollmentId: (path) An enrollment ID 
+     - parameter enrollmentId: (path) An enrollment ID: &#x60;enr_&lt;zone&gt;_…&#x60;; also accepts the legacy &#x60;enr_…&#x60; 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */

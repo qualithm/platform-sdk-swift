@@ -62,7 +62,7 @@ open class DevicesAPI {
      Delete a device and revoke its credentials
      
      - parameter teamId: (path) The team the request acts on 
-     - parameter deviceId: (path) A device ID 
+     - parameter deviceId: (path) A device ID: &#x60;dvc_&lt;zone&gt;_…&#x60;; also accepts the legacy &#x60;dev_…&#x60; 
      - parameter ifMatch: (header) The ETag you last read. The request is refused with 412 when the resource has changed since; omit it to apply the change regardless. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      */
@@ -78,7 +78,7 @@ open class DevicesAPI {
        - name: apiToken
      - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
-     - parameter deviceId: (path) A device ID 
+     - parameter deviceId: (path) A device ID: &#x60;dvc_&lt;zone&gt;_…&#x60;; also accepts the legacy &#x60;dev_…&#x60; 
      - parameter ifMatch: (header) The ETag you last read. The request is refused with 412 when the resource has changed since; omit it to apply the change regardless. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
@@ -111,7 +111,7 @@ open class DevicesAPI {
      Get a device
      
      - parameter teamId: (path) The team the request acts on 
-     - parameter deviceId: (path) A device ID 
+     - parameter deviceId: (path) A device ID: &#x60;dvc_&lt;zone&gt;_…&#x60;; also accepts the legacy &#x60;dev_…&#x60; 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: GetDeviceResponse
      */
@@ -127,7 +127,7 @@ open class DevicesAPI {
        - name: apiToken
      - responseHeaders: [Request-Id(String), ETag(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
-     - parameter deviceId: (path) A device ID 
+     - parameter deviceId: (path) A device ID: &#x60;dvc_&lt;zone&gt;_…&#x60;; also accepts the legacy &#x60;dev_…&#x60; 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<GetDeviceResponse> 
      */
@@ -161,14 +161,15 @@ open class DevicesAPI {
      - parameter teamId: (path) The team the request acts on 
      - parameter scopeId: (query) Only the devices directly in this scope, not the scopes under it (optional)
      - parameter spaceId: (query) Deprecated: use scopeId (optional)
+     - parameter tag: (query) Only devices carrying this tag, matched case-insensitively (optional)
      - parameter page: (query) Page number, from 1. Default 1. Ignored with &#x60;cursor&#x60;. (optional)
      - parameter limit: (query) Items per page, 1 to 100. Default 20, or 50 with &#x60;cursor&#x60;. (optional)
      - parameter cursor: (query) A previous page&#39;s &#x60;nextCursor&#x60;, to read the page after it (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: ListDevicesResponse
      */
-    open class func listDevices(teamId: String, scopeId: String? = nil, spaceId: String? = nil, page: Int64? = nil, limit: Int? = nil, cursor: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> ListDevicesResponse {
-        return try await listDevicesWithRequestBuilder(teamId: teamId, scopeId: scopeId, spaceId: spaceId, page: page, limit: limit, cursor: cursor, apiConfiguration: apiConfiguration).execute().body
+    open class func listDevices(teamId: String, scopeId: String? = nil, spaceId: String? = nil, tag: String? = nil, page: Int64? = nil, limit: Int? = nil, cursor: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> ListDevicesResponse {
+        return try await listDevicesWithRequestBuilder(teamId: teamId, scopeId: scopeId, spaceId: spaceId, tag: tag, page: page, limit: limit, cursor: cursor, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -182,13 +183,14 @@ open class DevicesAPI {
      - parameter teamId: (path) The team the request acts on 
      - parameter scopeId: (query) Only the devices directly in this scope, not the scopes under it (optional)
      - parameter spaceId: (query) Deprecated: use scopeId (optional)
+     - parameter tag: (query) Only devices carrying this tag, matched case-insensitively (optional)
      - parameter page: (query) Page number, from 1. Default 1. Ignored with &#x60;cursor&#x60;. (optional)
      - parameter limit: (query) Items per page, 1 to 100. Default 20, or 50 with &#x60;cursor&#x60;. (optional)
      - parameter cursor: (query) A previous page&#39;s &#x60;nextCursor&#x60;, to read the page after it (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<ListDevicesResponse> 
      */
-    open class func listDevicesWithRequestBuilder(teamId: String, scopeId: String? = nil, spaceId: String? = nil, page: Int64? = nil, limit: Int? = nil, cursor: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListDevicesResponse> {
+    open class func listDevicesWithRequestBuilder(teamId: String, scopeId: String? = nil, spaceId: String? = nil, tag: String? = nil, page: Int64? = nil, limit: Int? = nil, cursor: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListDevicesResponse> {
         var localVariablePath = "/v1/teams/{teamId}/devices"
         let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
         let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -200,6 +202,7 @@ open class DevicesAPI {
         let localVariableQueryParameters: [String: (wrappedValue: (any Sendable)?, isExplode: Bool)] = [
             "scopeId": (wrappedValue: scopeId?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "spaceId": (wrappedValue: spaceId?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "tag": (wrappedValue: tag?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "page": (wrappedValue: page?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "limit": (wrappedValue: limit?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "cursor": (wrappedValue: cursor?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
@@ -220,7 +223,7 @@ open class DevicesAPI {
     /**
      List the live state of a team's devices
      
-     - parameter teamId: (path) A team ID 
+     - parameter teamId: (path) A team ID: &#x60;tem_…&#x60;; also accepts the legacy &#x60;tm_…&#x60; 
      - parameter page: (query) Page number, from 1. Default 1. Ignored with &#x60;cursor&#x60;. (optional)
      - parameter limit: (query) Items per page, 1 to 100. Default 20, or 50 with &#x60;cursor&#x60;. (optional)
      - parameter cursor: (query) A previous page&#39;s &#x60;nextCursor&#x60;, to read the page after it (optional)
@@ -239,7 +242,7 @@ open class DevicesAPI {
        - type: http
        - name: apiToken
      - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
-     - parameter teamId: (path) A team ID 
+     - parameter teamId: (path) A team ID: &#x60;tem_…&#x60;; also accepts the legacy &#x60;tm_…&#x60; 
      - parameter page: (query) Page number, from 1. Default 1. Ignored with &#x60;cursor&#x60;. (optional)
      - parameter limit: (query) Items per page, 1 to 100. Default 20, or 50 with &#x60;cursor&#x60;. (optional)
      - parameter cursor: (query) A previous page&#39;s &#x60;nextCursor&#x60;, to read the page after it (optional)
@@ -274,10 +277,10 @@ open class DevicesAPI {
     }
 
     /**
-     Rename, move or park a device
+     Rename, move, park or retag a device
      
      - parameter teamId: (path) The team the request acts on 
-     - parameter deviceId: (path) A device ID 
+     - parameter deviceId: (path) A device ID: &#x60;dvc_&lt;zone&gt;_…&#x60;; also accepts the legacy &#x60;dev_…&#x60; 
      - parameter updateDeviceRequest: (body)  
      - parameter ifMatch: (header) The ETag you last read. The request is refused with 412 when the resource has changed since; omit it to apply the change regardless. (optional)
      - parameter apiConfiguration: The configuration for the http request.
@@ -287,14 +290,14 @@ open class DevicesAPI {
     }
 
     /**
-     Rename, move or park a device
+     Rename, move, park or retag a device
      - PATCH /v1/teams/{teamId}/devices/{deviceId}
      - Bearer Token:
        - type: http
        - name: apiToken
      - responseHeaders: [Request-Id(String), ETag(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
-     - parameter deviceId: (path) A device ID 
+     - parameter deviceId: (path) A device ID: &#x60;dvc_&lt;zone&gt;_…&#x60;; also accepts the legacy &#x60;dev_…&#x60; 
      - parameter updateDeviceRequest: (body)  
      - parameter ifMatch: (header) The ETag you last read. The request is refused with 412 when the resource has changed since; omit it to apply the change regardless. (optional)
      - parameter apiConfiguration: The configuration for the http request.

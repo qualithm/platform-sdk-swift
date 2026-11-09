@@ -10,8 +10,8 @@ import Foundation
 
 public struct CreateEnrollmentRequest: Sendable, Codable, Hashable {
 
-    public static let scopeIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^spc_[0-9A-HJKMNP-TV-Z]{26}$")
-    public static let spaceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^spc_[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let scopeIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:scp_(?:defraa|sgsina)_|scp_|spc_)[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let spaceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:scp_(?:defraa|sgsina)_|scp_|spc_)[0-9A-HJKMNP-TV-Z]{26}$")
     public static let expiresInMinutesRule = NumericRule<Int>(minimum: 1, exclusiveMinimum: false, maximum: 525600, exclusiveMaximum: false, multipleOf: nil)
     /** The scope the device joins */
     public var scopeId: String?

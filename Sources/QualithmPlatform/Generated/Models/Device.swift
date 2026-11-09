@@ -15,20 +15,20 @@ public struct Device: Sendable, Codable, Hashable {
         case production = "production"
         case unknownDefaultOpenApi = "unknown_default_open_api"
     }
-    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^dev_[0-9A-HJKMNP-TV-Z]{26}$")
-    public static let scopeIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^spc_[0-9A-HJKMNP-TV-Z]{26}$")
-    public static let spaceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^spc_[0-9A-HJKMNP-TV-Z]{26}$")
-    public static let teamIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^tm_[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:dvc_(?:defraa|sgsina)_|dvc_|dev_)[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let scopeIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:scp_(?:defraa|sgsina)_|scp_|spc_)[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let spaceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:scp_(?:defraa|sgsina)_|scp_|spc_)[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let teamIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:tem_|tm_)[0-9A-HJKMNP-TV-Z]{26}$")
     public static let decisionsRule = ArrayRule(minItems: nil, maxItems: 6, uniqueItems: false)
-    /** A device ID */
+    /** A device ID: `dvc_<zone>_…`; also accepts the legacy `dev_…` */
     public var id: String
-    /** A scope ID */
+    /** A scope ID: `scp_<zone>_…`; also accepts the legacy `spc_…` */
     public var scopeId: String
     /** Deprecated: use scopeId */
     @available(*, deprecated, message: "This property is deprecated.")
     public var spaceId: String
     public var spaceName: String
-    /** A team ID */
+    /** A team ID: `tem_…`; also accepts the legacy `tm_…` */
     public var teamId: String
     public var name: String
     /** UTC time, RFC 3339 */
@@ -41,12 +41,14 @@ public struct Device: Sendable, Codable, Hashable {
     public var capabilitiesDeclared: Bool?
     /** Whether the device declared itself virtual at claim: it runs on a host rather than a board, and counts as a device all the same */
     public var virtual: Bool?
+    /** Operator-set tags, lowercased and sorted. A capability reference with this tag matches every capability on the device */
+    public var tags: [String]?
     public var level: Level?
     public var checks: [DeviceCheck]?
     /** What Qualithm decided when the device was claimed: at most six, most consequential first. Returned by getDevice; empty for a device created without a claim. */
     public var decisions: [Decision]?
 
-    public init(id: String, scopeId: String, spaceId: String, spaceName: String, teamId: String, name: String, createdAt: Date, updatedAt: Date, parkedAt: Date? = nil, capabilitiesDeclared: Bool? = nil, virtual: Bool? = nil, level: Level? = nil, checks: [DeviceCheck]? = nil, decisions: [Decision]? = nil) {
+    public init(id: String, scopeId: String, spaceId: String, spaceName: String, teamId: String, name: String, createdAt: Date, updatedAt: Date, parkedAt: Date? = nil, capabilitiesDeclared: Bool? = nil, virtual: Bool? = nil, tags: [String]? = nil, level: Level? = nil, checks: [DeviceCheck]? = nil, decisions: [Decision]? = nil) {
         self.id = id
         self.scopeId = scopeId
         self.spaceId = spaceId
@@ -58,6 +60,7 @@ public struct Device: Sendable, Codable, Hashable {
         self.parkedAt = parkedAt
         self.capabilitiesDeclared = capabilitiesDeclared
         self.virtual = virtual
+        self.tags = tags
         self.level = level
         self.checks = checks
         self.decisions = decisions
@@ -75,6 +78,7 @@ public struct Device: Sendable, Codable, Hashable {
         case parkedAt
         case capabilitiesDeclared
         case virtual
+        case tags
         case level
         case checks
         case decisions
@@ -95,6 +99,7 @@ public struct Device: Sendable, Codable, Hashable {
         try container.encodeIfPresent(parkedAt, forKey: .parkedAt)
         try container.encodeIfPresent(capabilitiesDeclared, forKey: .capabilitiesDeclared)
         try container.encodeIfPresent(virtual, forKey: .virtual)
+        try container.encodeIfPresent(tags, forKey: .tags)
         try container.encodeIfPresent(level, forKey: .level)
         try container.encodeIfPresent(checks, forKey: .checks)
         try container.encodeIfPresent(decisions, forKey: .decisions)

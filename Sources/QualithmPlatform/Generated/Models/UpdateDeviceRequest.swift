@@ -10,8 +10,8 @@ import Foundation
 
 public struct UpdateDeviceRequest: Sendable, Codable, Hashable {
 
-    public static let scopeIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^spc_[0-9A-HJKMNP-TV-Z]{26}$")
-    public static let spaceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^spc_[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let scopeIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:scp_(?:defraa|sgsina)_|scp_|spc_)[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let spaceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:scp_(?:defraa|sgsina)_|scp_|spc_)[0-9A-HJKMNP-TV-Z]{26}$")
     public var name: String?
     /** A scope in the device's zone; a device stays in the zone it was claimed in */
     public var scopeId: String?
@@ -20,12 +20,15 @@ public struct UpdateDeviceRequest: Sendable, Codable, Hashable {
     public var spaceId: String?
     /** A parked device can't connect and doesn't count against the plan; its credentials and history stay */
     public var parked: Bool?
+    /** Replaces the device's tags; `[]` clears them. Stored lowercased */
+    public var tags: [String]?
 
-    public init(name: String? = nil, scopeId: String? = nil, spaceId: String? = nil, parked: Bool? = nil) {
+    public init(name: String? = nil, scopeId: String? = nil, spaceId: String? = nil, parked: Bool? = nil, tags: [String]? = nil) {
         self.name = name
         self.scopeId = scopeId
         self.spaceId = spaceId
         self.parked = parked
+        self.tags = tags
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -33,6 +36,7 @@ public struct UpdateDeviceRequest: Sendable, Codable, Hashable {
         case scopeId
         case spaceId
         case parked
+        case tags
     }
 
     // Encodable protocol methods
@@ -43,6 +47,7 @@ public struct UpdateDeviceRequest: Sendable, Codable, Hashable {
         try container.encodeIfPresent(scopeId, forKey: .scopeId)
         try container.encodeIfPresent(spaceId, forKey: .spaceId)
         try container.encodeIfPresent(parked, forKey: .parked)
+        try container.encodeIfPresent(tags, forKey: .tags)
     }
 }
 

@@ -14,7 +14,7 @@ open class ApiTokensAPI {
      Revoke an API token: any in the team for an owner, otherwise the caller's own
      
      - parameter teamId: (path) The team the request acts on 
-     - parameter tokenId: (path) An API token ID 
+     - parameter tokenId: (path) An API token ID: &#x60;tok_…&#x60; 
      - parameter apiConfiguration: The configuration for the http request.
      */
     open class func deleteApiToken(teamId: String, tokenId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) {
@@ -29,7 +29,7 @@ open class ApiTokensAPI {
        - name: apiToken
      - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
-     - parameter tokenId: (path) An API token ID 
+     - parameter tokenId: (path) An API token ID: &#x60;tok_…&#x60; 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
