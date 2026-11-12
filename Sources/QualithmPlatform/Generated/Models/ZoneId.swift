@@ -11,6 +11,7 @@ import Foundation
 public enum ZoneId: String, Sendable, Codable, CaseIterable, CaseIterableDefaultsLast {
     case deFraA = "de-fra-a"
     case sgSinA = "sg-sin-a"
+    case usNycA = "us-nyc-a"
     case unknownDefaultOpenApi = "unknown_default_open_api"
 }
 

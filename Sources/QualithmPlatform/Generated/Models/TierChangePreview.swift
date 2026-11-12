@@ -24,9 +24,9 @@ public struct TierChangePreview: Sendable, Codable, Hashable {
     }
     public var from: From
     public var to: To
-    /** What the change bills now; a negative amount is a credit */
+    /** What the change adds to the next bill, before tax; a negative amount is a credit */
     public var amountDue: Money
-    /** When the change is billed, in Unix seconds */
+    /** When the next bill is charged, in Unix seconds */
     public var nextPaymentAttempt: Int64?
 
     public init(from: From, to: To, amountDue: Money, nextPaymentAttempt: Int64?) {

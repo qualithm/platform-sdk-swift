@@ -15,19 +15,15 @@ public struct Device: Sendable, Codable, Hashable {
         case production = "production"
         case unknownDefaultOpenApi = "unknown_default_open_api"
     }
-    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:dvc_(?:defraa|sgsina)_|dvc_|dev_)[0-9A-HJKMNP-TV-Z]{26}$")
-    public static let scopeIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:scp_(?:defraa|sgsina)_|scp_|spc_)[0-9A-HJKMNP-TV-Z]{26}$")
-    public static let spaceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:scp_(?:defraa|sgsina)_|scp_|spc_)[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:dvc_(?:defraa|sgsina|usnyca)_|dvc_|dev_)[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let scopeIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:scp_(?:defraa|sgsina|usnyca)_|scp_|spc_)[0-9A-HJKMNP-TV-Z]{26}$")
     public static let teamIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:tem_|tm_)[0-9A-HJKMNP-TV-Z]{26}$")
     public static let decisionsRule = ArrayRule(minItems: nil, maxItems: 6, uniqueItems: false)
     /** A device ID: `dvc_<zone>_…`; also accepts the legacy `dev_…` */
     public var id: String
     /** A scope ID: `scp_<zone>_…`; also accepts the legacy `spc_…` */
     public var scopeId: String
-    /** Deprecated: use scopeId */
-    @available(*, deprecated, message: "This property is deprecated.")
-    public var spaceId: String
-    public var spaceName: String
+    public var scopeName: String
     /** A team ID: `tem_…`; also accepts the legacy `tm_…` */
     public var teamId: String
     public var name: String
@@ -48,11 +44,10 @@ public struct Device: Sendable, Codable, Hashable {
     /** What Qualithm decided when the device was claimed: at most six, most consequential first. Returned by getDevice; empty for a device created without a claim. */
     public var decisions: [Decision]?
 
-    public init(id: String, scopeId: String, spaceId: String, spaceName: String, teamId: String, name: String, createdAt: Date, updatedAt: Date, parkedAt: Date? = nil, capabilitiesDeclared: Bool? = nil, virtual: Bool? = nil, tags: [String]? = nil, level: Level? = nil, checks: [DeviceCheck]? = nil, decisions: [Decision]? = nil) {
+    public init(id: String, scopeId: String, scopeName: String, teamId: String, name: String, createdAt: Date, updatedAt: Date, parkedAt: Date? = nil, capabilitiesDeclared: Bool? = nil, virtual: Bool? = nil, tags: [String]? = nil, level: Level? = nil, checks: [DeviceCheck]? = nil, decisions: [Decision]? = nil) {
         self.id = id
         self.scopeId = scopeId
-        self.spaceId = spaceId
-        self.spaceName = spaceName
+        self.scopeName = scopeName
         self.teamId = teamId
         self.name = name
         self.createdAt = createdAt
@@ -69,8 +64,7 @@ public struct Device: Sendable, Codable, Hashable {
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case id
         case scopeId
-        case spaceId
-        case spaceName
+        case scopeName
         case teamId
         case name
         case createdAt
@@ -90,8 +84,7 @@ public struct Device: Sendable, Codable, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(id, forKey: .id)
         try container.encode(scopeId, forKey: .scopeId)
-        try container.encode(spaceId, forKey: .spaceId)
-        try container.encode(spaceName, forKey: .spaceName)
+        try container.encode(scopeName, forKey: .scopeName)
         try container.encode(teamId, forKey: .teamId)
         try container.encode(name, forKey: .name)
         try container.encode(createdAt, forKey: .createdAt)

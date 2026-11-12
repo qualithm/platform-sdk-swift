@@ -226,6 +226,7 @@ open class ScopesAPI {
     public enum Zone_listScopes: String, Sendable, CaseIterable {
         case deFraA = "de-fra-a"
         case sgSinA = "sg-sin-a"
+        case usNycA = "us-nyc-a"
     }
 
     /**

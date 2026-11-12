@@ -12,7 +12,7 @@ public struct CreateDeviceCredentialRequest: Sendable, Codable, Hashable {
 
     /** Up to 64 characters */
     public var label: String?
-    /** A time in the future */
+    /** A time in the future, within 30 days. Default 30 days from now. */
     public var expiresAt: Date?
 
     public init(label: String? = nil, expiresAt: Date? = nil) {

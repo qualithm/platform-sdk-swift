@@ -28,9 +28,10 @@ public struct BillingSummary: Sendable, Codable, Hashable {
     public var upcomingInvoice: BillingSummaryUpcomingInvoice?
     /** True when Stripe couldn't be read, so `monthlyTotal` is the plan price */
     public var estimated: Bool
+    public var cancellation: BillingSummaryCancellation?
     public var addons: BillingSummaryAddons
 
-    public init(tier: Tier, month: String, limitGrace: BillingSummaryLimitGrace?, limits: BillingSummaryLimits, usage: BillingSummaryUsage, monthlyTotal: Money, upcomingInvoice: BillingSummaryUpcomingInvoice?, estimated: Bool, addons: BillingSummaryAddons) {
+    public init(tier: Tier, month: String, limitGrace: BillingSummaryLimitGrace?, limits: BillingSummaryLimits, usage: BillingSummaryUsage, monthlyTotal: Money, upcomingInvoice: BillingSummaryUpcomingInvoice?, estimated: Bool, cancellation: BillingSummaryCancellation?, addons: BillingSummaryAddons) {
         self.tier = tier
         self.month = month
         self.limitGrace = limitGrace
@@ -39,6 +40,7 @@ public struct BillingSummary: Sendable, Codable, Hashable {
         self.monthlyTotal = monthlyTotal
         self.upcomingInvoice = upcomingInvoice
         self.estimated = estimated
+        self.cancellation = cancellation
         self.addons = addons
     }
 
@@ -51,6 +53,7 @@ public struct BillingSummary: Sendable, Codable, Hashable {
         case monthlyTotal
         case upcomingInvoice
         case estimated
+        case cancellation
         case addons
     }
 
@@ -66,6 +69,7 @@ public struct BillingSummary: Sendable, Codable, Hashable {
         try container.encode(monthlyTotal, forKey: .monthlyTotal)
         try container.encode(upcomingInvoice, forKey: .upcomingInvoice)
         try container.encode(estimated, forKey: .estimated)
+        try container.encode(cancellation, forKey: .cancellation)
         try container.encode(addons, forKey: .addons)
     }
 }

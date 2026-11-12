@@ -10,16 +10,12 @@ import Foundation
 
 public struct DeviceState: Sendable, Codable, Hashable {
 
-    public static let deviceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:dvc_(?:defraa|sgsina)_|dvc_|dev_)[0-9A-HJKMNP-TV-Z]{26}$")
-    public static let scopeIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:scp_(?:defraa|sgsina)_|scp_|spc_)[0-9A-HJKMNP-TV-Z]{26}$")
-    public static let spaceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:scp_(?:defraa|sgsina)_|scp_|spc_)[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let deviceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:dvc_(?:defraa|sgsina|usnyca)_|dvc_|dev_)[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let scopeIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:scp_(?:defraa|sgsina|usnyca)_|scp_|spc_)[0-9A-HJKMNP-TV-Z]{26}$")
     /** A device ID: `dvc_<zone>_…`; also accepts the legacy `dev_…` */
     public var deviceId: String
     /** A scope ID: `scp_<zone>_…`; also accepts the legacy `spc_…` */
     public var scopeId: String
-    /** Deprecated: use scopeId */
-    @available(*, deprecated, message: "This property is deprecated.")
-    public var spaceId: String
     /** Whether the device was seen within the offline window */
     public var online: Bool
     /** When the device was last seen */
@@ -27,10 +23,9 @@ public struct DeviceState: Sendable, Codable, Hashable {
     /** The device's current metrics */
     public var metrics: [String: Double]
 
-    public init(deviceId: String, scopeId: String, spaceId: String, online: Bool, lastSeenAt: Date, metrics: [String: Double]) {
+    public init(deviceId: String, scopeId: String, online: Bool, lastSeenAt: Date, metrics: [String: Double]) {
         self.deviceId = deviceId
         self.scopeId = scopeId
-        self.spaceId = spaceId
         self.online = online
         self.lastSeenAt = lastSeenAt
         self.metrics = metrics
@@ -39,7 +34,6 @@ public struct DeviceState: Sendable, Codable, Hashable {
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case deviceId
         case scopeId
-        case spaceId
         case online
         case lastSeenAt
         case metrics
@@ -51,7 +45,6 @@ public struct DeviceState: Sendable, Codable, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(deviceId, forKey: .deviceId)
         try container.encode(scopeId, forKey: .scopeId)
-        try container.encode(spaceId, forKey: .spaceId)
         try container.encode(online, forKey: .online)
         try container.encode(lastSeenAt, forKey: .lastSeenAt)
         try container.encode(metrics, forKey: .metrics)

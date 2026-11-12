@@ -10,7 +10,7 @@ import Foundation
 
 public struct CreateAutomationRunResponseData: Sendable, Codable, Hashable {
 
-    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:run_(?:defraa|sgsina)_|run_)[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:run_(?:defraa|sgsina|usnyca)_|run_)[0-9A-HJKMNP-TV-Z]{26}$")
     /** The queued run's id */
     public var id: String
 

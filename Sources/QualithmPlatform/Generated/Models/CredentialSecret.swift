@@ -13,15 +13,19 @@ public struct CredentialSecret: Sendable, Codable, Hashable {
     public var credential: Credential
     /** The bearer token (the MQTT password), shown only once */
     public var secret: String
+    /** The gateway the device connects to now; returned when a device renews */
+    public var broker: GatewayEndpoint?
 
-    public init(credential: Credential, secret: String) {
+    public init(credential: Credential, secret: String, broker: GatewayEndpoint? = nil) {
         self.credential = credential
         self.secret = secret
+        self.broker = broker
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case credential
         case secret
+        case broker
     }
 
     // Encodable protocol methods
@@ -30,6 +34,7 @@ public struct CredentialSecret: Sendable, Codable, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(credential, forKey: .credential)
         try container.encode(secret, forKey: .secret)
+        try container.encodeIfPresent(broker, forKey: .broker)
     }
 }
 
