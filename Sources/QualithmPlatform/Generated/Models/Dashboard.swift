@@ -10,19 +10,16 @@ import Foundation
 
 public struct Dashboard: Sendable, Codable, Hashable {
 
-    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:dsh_(?:defraa|sgsina)_|dsh_|dash_)[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:dsh_(?:defraa|sgsina|usnyca)_|dsh_|dash_)[0-9A-HJKMNP-TV-Z]{26}$")
     public static let teamIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:tem_|tm_)[0-9A-HJKMNP-TV-Z]{26}$")
-    public static let scopeIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:scp_(?:defraa|sgsina)_|scp_|spc_)[0-9A-HJKMNP-TV-Z]{26}$")
-    public static let spaceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:scp_(?:defraa|sgsina)_|scp_|spc_)[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let scopeIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:scp_(?:defraa|sgsina|usnyca)_|scp_|spc_)[0-9A-HJKMNP-TV-Z]{26}$")
     /** A dashboard ID: `dsh_<zone>_…`; also accepts the legacy `dash_…` */
     public var id: String
     /** A team ID: `tem_…`; also accepts the legacy `tm_…` */
     public var teamId: String
     /** A scope ID: `scp_<zone>_…`; also accepts the legacy `spc_…` */
     public var scopeId: String?
-    /** A space ID: `scp_<zone>_…`; also accepts the legacy `spc_…` */
-    public var spaceId: String?
-    public var spaceName: String?
+    public var scopeName: String?
     public var name: String
     public var payload: [DashboardWidget]
     /** UTC time, RFC 3339 */
@@ -30,12 +27,11 @@ public struct Dashboard: Sendable, Codable, Hashable {
     /** UTC time, RFC 3339 */
     public var updatedAt: Date
 
-    public init(id: String, teamId: String, scopeId: String?, spaceId: String?, spaceName: String?, name: String, payload: [DashboardWidget], createdAt: Date, updatedAt: Date) {
+    public init(id: String, teamId: String, scopeId: String?, scopeName: String?, name: String, payload: [DashboardWidget], createdAt: Date, updatedAt: Date) {
         self.id = id
         self.teamId = teamId
         self.scopeId = scopeId
-        self.spaceId = spaceId
-        self.spaceName = spaceName
+        self.scopeName = scopeName
         self.name = name
         self.payload = payload
         self.createdAt = createdAt
@@ -46,8 +42,7 @@ public struct Dashboard: Sendable, Codable, Hashable {
         case id
         case teamId
         case scopeId
-        case spaceId
-        case spaceName
+        case scopeName
         case name
         case payload
         case createdAt
@@ -61,8 +56,7 @@ public struct Dashboard: Sendable, Codable, Hashable {
         try container.encode(id, forKey: .id)
         try container.encode(teamId, forKey: .teamId)
         try container.encode(scopeId, forKey: .scopeId)
-        try container.encode(spaceId, forKey: .spaceId)
-        try container.encode(spaceName, forKey: .spaceName)
+        try container.encode(scopeName, forKey: .scopeName)
         try container.encode(name, forKey: .name)
         try container.encode(payload, forKey: .payload)
         try container.encode(createdAt, forKey: .createdAt)

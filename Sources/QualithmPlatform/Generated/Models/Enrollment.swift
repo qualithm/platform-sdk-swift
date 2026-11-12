@@ -16,20 +16,16 @@ public struct Enrollment: Sendable, Codable, Hashable {
         case revoked = "revoked"
         case unknownDefaultOpenApi = "unknown_default_open_api"
     }
-    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:enr_(?:defraa|sgsina)_|enr_)[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:enr_(?:defraa|sgsina|usnyca)_|enr_)[0-9A-HJKMNP-TV-Z]{26}$")
     public static let teamIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:tem_|tm_)[0-9A-HJKMNP-TV-Z]{26}$")
-    public static let scopeIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:scp_(?:defraa|sgsina)_|scp_|spc_)[0-9A-HJKMNP-TV-Z]{26}$")
-    public static let spaceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:scp_(?:defraa|sgsina)_|scp_|spc_)[0-9A-HJKMNP-TV-Z]{26}$")
-    public static let claimedDeviceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:dvc_(?:defraa|sgsina)_|dvc_|dev_)[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let scopeIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:scp_(?:defraa|sgsina|usnyca)_|scp_|spc_)[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let claimedDeviceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:dvc_(?:defraa|sgsina|usnyca)_|dvc_|dev_)[0-9A-HJKMNP-TV-Z]{26}$")
     /** An enrollment ID: `enr_<zone>_…`; also accepts the legacy `enr_…` */
     public var id: String
     /** A team ID: `tem_…`; also accepts the legacy `tm_…` */
     public var teamId: String
     /** A scope ID: `scp_<zone>_…`; also accepts the legacy `spc_…` */
     public var scopeId: String
-    /** Deprecated: use scopeId */
-    @available(*, deprecated, message: "This property is deprecated.")
-    public var spaceId: String
     public var label: String
     public var status: Status
     /** A device ID: `dvc_<zone>_…`; also accepts the legacy `dev_…` */
@@ -43,11 +39,10 @@ public struct Enrollment: Sendable, Codable, Hashable {
     /** UTC time, RFC 3339 */
     public var updatedAt: Date
 
-    public init(id: String, teamId: String, scopeId: String, spaceId: String, label: String, status: Status, claimedDeviceId: String?, claimedAt: Date?, expiresAt: Date, createdAt: Date, updatedAt: Date) {
+    public init(id: String, teamId: String, scopeId: String, label: String, status: Status, claimedDeviceId: String?, claimedAt: Date?, expiresAt: Date, createdAt: Date, updatedAt: Date) {
         self.id = id
         self.teamId = teamId
         self.scopeId = scopeId
-        self.spaceId = spaceId
         self.label = label
         self.status = status
         self.claimedDeviceId = claimedDeviceId
@@ -61,7 +56,6 @@ public struct Enrollment: Sendable, Codable, Hashable {
         case id
         case teamId
         case scopeId
-        case spaceId
         case label
         case status
         case claimedDeviceId
@@ -78,7 +72,6 @@ public struct Enrollment: Sendable, Codable, Hashable {
         try container.encode(id, forKey: .id)
         try container.encode(teamId, forKey: .teamId)
         try container.encode(scopeId, forKey: .scopeId)
-        try container.encode(spaceId, forKey: .spaceId)
         try container.encode(label, forKey: .label)
         try container.encode(status, forKey: .status)
         try container.encode(claimedDeviceId, forKey: .claimedDeviceId)

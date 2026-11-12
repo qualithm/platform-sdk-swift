@@ -11,7 +11,7 @@ import Foundation
 /** A name, and either a zone or a parent */
 public struct CreateScopeRequest: Sendable, Codable, Hashable {
 
-    public static let parentIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:scp_(?:defraa|sgsina)_|scp_|spc_)[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let parentIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:scp_(?:defraa|sgsina|usnyca)_|scp_|spc_)[0-9A-HJKMNP-TV-Z]{26}$")
     /** Up to 64 characters */
     public var name: String
     /** Required for a top-level scope; a child takes its parent's zone */

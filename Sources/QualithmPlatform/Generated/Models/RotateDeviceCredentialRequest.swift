@@ -10,7 +10,7 @@ import Foundation
 
 public struct RotateDeviceCredentialRequest: Sendable, Codable, Hashable {
 
-    /** A time in the future */
+    /** A time in the future, within 30 days. Default 30 days from now. */
     public var expiresAt: Date?
 
     public init(expiresAt: Date? = nil) {

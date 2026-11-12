@@ -15,7 +15,7 @@ public struct CreateDeviceCertificateRequest: Sendable, Codable, Hashable {
     public var csrPem: String
     /** Up to 64 characters */
     public var label: String?
-    /** Certificate lifetime in days. Default 90. */
+    /** Certificate lifetime in days, at most 30 for a development device. Default 30. */
     public var expiresInDays: Int?
 
     public init(csrPem: String, label: String? = nil, expiresInDays: Int? = nil) {
