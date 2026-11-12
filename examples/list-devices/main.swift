@@ -19,7 +19,7 @@ do {
     try await DevicesAPI.listDevices(teamId: team.id, limit: 20, apiConfiguration: $0)
   }
   for device in page.data.items {
-    print("\(device.id)  \(device.spaceName)  \(device.name)")
+    print("\(device.id)  \(device.scopeName)  \(device.name)")
   }
 } catch {
   FileHandle.standardError.write(
