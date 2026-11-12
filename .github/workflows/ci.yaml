@@ -266,6 +266,13 @@ jobs:
           name: coverage-${{ steps.covered.outputs.tree }}
           path: ${{ runner.temp }}/coverage.tgz
           retention-days: 14
+      # The swift image ships no curl, which the Codecov CLI fetch needs.
+      - name: Install curl
+        if: ${{ !cancelled() }}
+        continue-on-error: true
+        run: |
+          apt-get update -qq
+          apt-get install -y -qq --no-install-recommends ca-certificates curl
       - name: Fetch Codecov CLI
         id: codecov-cli
         if: ${{ !cancelled() }}
