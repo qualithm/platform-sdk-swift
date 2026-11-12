@@ -20,10 +20,10 @@ public struct Credential: Sendable, Codable, Hashable {
         case revoked = "revoked"
         case unknownDefaultOpenApi = "unknown_default_open_api"
     }
-    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:crd_(?:defraa|sgsina)_|crd_|cred_)[0-9A-HJKMNP-TV-Z]{26}$")
-    public static let deviceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:dvc_(?:defraa|sgsina)_|dvc_|dev_)[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:crd_(?:defraa|sgsina|usnyca)_|crd_|cred_)[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let deviceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:dvc_(?:defraa|sgsina|usnyca)_|dvc_|dev_)[0-9A-HJKMNP-TV-Z]{26}$")
     public static let authorityIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:dca_|auth_)[0-9A-HJKMNP-TV-Z]{26}$")
-    public static let rotatedFromRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:crd_(?:defraa|sgsina)_|crd_|cred_)[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let rotatedFromRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:crd_(?:defraa|sgsina|usnyca)_|crd_|cred_)[0-9A-HJKMNP-TV-Z]{26}$")
     /** A credential ID: `crd_<zone>_…`; also accepts the legacy `cred_…` */
     public var id: String
     /** A device ID: `dvc_<zone>_…`; also accepts the legacy `dev_…` */

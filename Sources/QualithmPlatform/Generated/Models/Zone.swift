@@ -12,7 +12,7 @@ public struct Zone: Sendable, Codable, Hashable {
 
     public var id: ZoneId
     public var name: String
-    /** Whether the zone accepts new spaces in this environment */
+    /** Whether the zone accepts new scopes in this environment */
     public var _open: Bool
     /** The zone's regional API host */
     public var api: String

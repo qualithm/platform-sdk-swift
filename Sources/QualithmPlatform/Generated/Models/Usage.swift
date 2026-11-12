@@ -20,7 +20,7 @@ public struct Usage: Sendable, Codable, Hashable {
     public var deviceTotal: Int64
     /** The tier's device limit */
     public var deviceMax: Int64
-    public var spaceTotal: Int64
+    public var scopeTotal: Int64
     public var tier: Tier
     /** The month usage counts over: `YYYY-MM`, UTC */
     public var month: String
@@ -28,10 +28,10 @@ public struct Usage: Sendable, Codable, Hashable {
     public var limits: BillingSummaryLimits
     public var usage: BillingSummaryUsage
 
-    public init(deviceTotal: Int64, deviceMax: Int64, spaceTotal: Int64, tier: Tier, month: String, limitGrace: BillingSummaryLimitGrace?, limits: BillingSummaryLimits, usage: BillingSummaryUsage) {
+    public init(deviceTotal: Int64, deviceMax: Int64, scopeTotal: Int64, tier: Tier, month: String, limitGrace: BillingSummaryLimitGrace?, limits: BillingSummaryLimits, usage: BillingSummaryUsage) {
         self.deviceTotal = deviceTotal
         self.deviceMax = deviceMax
-        self.spaceTotal = spaceTotal
+        self.scopeTotal = scopeTotal
         self.tier = tier
         self.month = month
         self.limitGrace = limitGrace
@@ -42,7 +42,7 @@ public struct Usage: Sendable, Codable, Hashable {
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case deviceTotal
         case deviceMax
-        case spaceTotal
+        case scopeTotal
         case tier
         case month
         case limitGrace
@@ -56,7 +56,7 @@ public struct Usage: Sendable, Codable, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(deviceTotal, forKey: .deviceTotal)
         try container.encode(deviceMax, forKey: .deviceMax)
-        try container.encode(spaceTotal, forKey: .spaceTotal)
+        try container.encode(scopeTotal, forKey: .scopeTotal)
         try container.encode(tier, forKey: .tier)
         try container.encode(month, forKey: .month)
         try container.encode(limitGrace, forKey: .limitGrace)

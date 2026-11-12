@@ -11,23 +11,19 @@ import Foundation
 /** A name, and either a payload or a template */
 public struct CreateAutomationRequest: Sendable, Codable, Hashable {
 
-    public static let scopeIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:scp_(?:defraa|sgsina)_|scp_|spc_)[0-9A-HJKMNP-TV-Z]{26}$")
-    public static let spaceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:scp_(?:defraa|sgsina)_|scp_|spc_)[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let scopeIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:scp_(?:defraa|sgsina|usnyca)_|scp_|spc_)[0-9A-HJKMNP-TV-Z]{26}$")
     public var name: String
     /** A scope ID: `scp_<zone>_…`; also accepts the legacy `spc_…` */
     public var scopeId: String?
-    /** A space ID: `scp_<zone>_…`; also accepts the legacy `spc_…` */
-    public var spaceId: String?
     public var payload: CreateAutomationRequestPayload?
     /** A template id to expand the chain from; exclusive with `payload` */
     public var template: String?
     /** The template's slot values, keyed by slot name; used with `template` */
     public var params: JSONValue?
 
-    public init(name: String, scopeId: String? = nil, spaceId: String? = nil, payload: CreateAutomationRequestPayload? = nil, template: String? = nil, params: JSONValue? = nil) {
+    public init(name: String, scopeId: String? = nil, payload: CreateAutomationRequestPayload? = nil, template: String? = nil, params: JSONValue? = nil) {
         self.name = name
         self.scopeId = scopeId
-        self.spaceId = spaceId
         self.payload = payload
         self.template = template
         self.params = params
@@ -36,7 +32,6 @@ public struct CreateAutomationRequest: Sendable, Codable, Hashable {
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case name
         case scopeId
-        case spaceId
         case payload
         case template
         case params
@@ -48,7 +43,6 @@ public struct CreateAutomationRequest: Sendable, Codable, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(name, forKey: .name)
         try container.encodeIfPresent(scopeId, forKey: .scopeId)
-        try container.encodeIfPresent(spaceId, forKey: .spaceId)
         try container.encodeIfPresent(payload, forKey: .payload)
         try container.encodeIfPresent(template, forKey: .template)
         try container.encodeIfPresent(params, forKey: .params)
