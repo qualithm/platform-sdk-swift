@@ -11,26 +11,22 @@ import Foundation
 /** At least one of name, enabled, scopeId, payload or template */
 public struct UpdateAutomationRequest: Sendable, Codable, Hashable {
 
-    public static let scopeIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:scp_(?:defraa|sgsina)_|scp_|spc_)[0-9A-HJKMNP-TV-Z]{26}$")
-    public static let spaceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:scp_(?:defraa|sgsina)_|scp_|spc_)[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let scopeIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:scp_(?:defraa|sgsina|usnyca)_|scp_|spc_)[0-9A-HJKMNP-TV-Z]{26}$")
     public var name: String?
     /** Whether its trigger fires */
     public var enabled: Bool?
     /** A scope ID: `scp_<zone>_…`; also accepts the legacy `spc_…` */
     public var scopeId: String?
-    /** A space ID: `scp_<zone>_…`; also accepts the legacy `spc_…` */
-    public var spaceId: String?
     public var payload: UpdateAutomationRequestPayload?
     /** A template id to re-expand the chain from; exclusive with `payload` */
     public var template: String?
     /** The template's slot values, keyed by slot name; used with `template` */
     public var params: JSONValue?
 
-    public init(name: String? = nil, enabled: Bool? = nil, scopeId: String? = nil, spaceId: String? = nil, payload: UpdateAutomationRequestPayload? = nil, template: String? = nil, params: JSONValue? = nil) {
+    public init(name: String? = nil, enabled: Bool? = nil, scopeId: String? = nil, payload: UpdateAutomationRequestPayload? = nil, template: String? = nil, params: JSONValue? = nil) {
         self.name = name
         self.enabled = enabled
         self.scopeId = scopeId
-        self.spaceId = spaceId
         self.payload = payload
         self.template = template
         self.params = params
@@ -40,7 +36,6 @@ public struct UpdateAutomationRequest: Sendable, Codable, Hashable {
         case name
         case enabled
         case scopeId
-        case spaceId
         case payload
         case template
         case params
@@ -53,7 +48,6 @@ public struct UpdateAutomationRequest: Sendable, Codable, Hashable {
         try container.encodeIfPresent(name, forKey: .name)
         try container.encodeIfPresent(enabled, forKey: .enabled)
         try container.encodeIfPresent(scopeId, forKey: .scopeId)
-        try container.encodeIfPresent(spaceId, forKey: .spaceId)
         try container.encodeIfPresent(payload, forKey: .payload)
         try container.encodeIfPresent(template, forKey: .template)
         try container.encodeIfPresent(params, forKey: .params)

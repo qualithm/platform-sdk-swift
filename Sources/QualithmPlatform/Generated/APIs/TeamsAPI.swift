@@ -52,7 +52,7 @@ open class TeamsAPI {
     }
 
     /**
-     Delete the team with its spaces, devices and memberships
+     Delete the team with its scopes, devices and memberships
      
      - parameter teamId: (path) A team ID: &#x60;tem_…&#x60;; also accepts the legacy &#x60;tm_…&#x60; 
      - parameter ifMatch: (header) The ETag you last read. The request is refused with 412 when the resource has changed since; omit it to apply the change regardless. (optional)
@@ -63,7 +63,7 @@ open class TeamsAPI {
     }
 
     /**
-     Delete the team with its spaces, devices and memberships
+     Delete the team with its scopes, devices and memberships
      - DELETE /v1/teams/{teamId}
      - Bearer Token:
        - type: http
