@@ -234,7 +234,7 @@ open class DevicesAPI {
     /**
      List the live state of a team's devices
      - GET /v1/teams/{teamId}/device-states
-     - By `deviceId`, ascending.
+     - By `deviceId`, ascending. A deleted device has no row.
      - Bearer Token:
        - type: http
        - name: apiToken
