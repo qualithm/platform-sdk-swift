@@ -11,7 +11,7 @@ import Foundation
 open class MembersAPI {
 
     /**
-     Accept the caller's invite to the team
+     Accept an invite to the team
      
      - parameter teamId: (path) A team ID: &#x60;tem_…&#x60;; also accepts the legacy &#x60;tm_…&#x60; 
      - parameter createTeamMemberRequest: (body)  
@@ -24,8 +24,9 @@ open class MembersAPI {
     }
 
     /**
-     Accept the caller's invite to the team
+     Accept an invite to the team
      - POST /v1/teams/{teamId}/members
+     - Only the account whose email the invite names can accept it.
      - Bearer Token:
        - type: http
        - name: apiToken
