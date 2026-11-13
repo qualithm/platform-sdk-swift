@@ -10,17 +10,18 @@ import Foundation
 
 public struct CreateTeamInviteRequest: Sendable, Codable, Hashable {
 
-    /** The email of an existing account */
-    public var email: String
+    public static let emailsRule = ArrayRule(minItems: 1, maxItems: 20, uniqueItems: false)
+    /** The addresses to invite, with or without an account */
+    public var emails: [String]
     public var role: MemberRole
 
-    public init(email: String, role: MemberRole) {
-        self.email = email
+    public init(emails: [String], role: MemberRole) {
+        self.emails = emails
         self.role = role
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
-        case email
+        case emails
         case role
     }
 
@@ -28,7 +29,7 @@ public struct CreateTeamInviteRequest: Sendable, Codable, Hashable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(email, forKey: .email)
+        try container.encode(emails, forKey: .emails)
         try container.encode(role, forKey: .role)
     }
 }
