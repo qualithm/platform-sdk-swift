@@ -10,54 +10,51 @@ import Foundation
 
 public struct TeamInvite: Sendable, Codable, Hashable {
 
-    public enum Status: String, Sendable, Codable, CaseIterable, CaseIterableDefaultsLast {
-        case invited = "invited"
-        case unknownDefaultOpenApi = "unknown_default_open_api"
-    }
-    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:mbr_|mem_)[0-9A-HJKMNP-TV-Z]{26}$")
-    public static let accountIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:acc_)[0-9A-HJKMNP-TV-Z]{26}$")
+    public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:ivt_)[0-9A-HJKMNP-TV-Z]{26}$")
     public static let teamIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:tem_|tm_)[0-9A-HJKMNP-TV-Z]{26}$")
-    /** The invite's id: the invited membership's id */
+    public static let invitedByRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:acc_)[0-9A-HJKMNP-TV-Z]{26}$")
+    /** An invite ID: `ivt_…` */
     public var id: String
-    /** An account ID: `acc_…` */
-    public var accountId: String
     /** A team ID: `tem_…`; also accepts the legacy `tm_…` */
     public var teamId: String
+    public var teamName: String
+    /** The invited address; only its account can accept */
+    public var email: String
     public var role: MemberRole
-    public var status: Status
+    /** An account ID: `acc_…` */
+    public var invitedBy: String?
+    public var inviterName: String?
+    /** When its link stops working */
+    public var expiresAt: Date
     /** UTC time, RFC 3339 */
     public var createdAt: Date
     /** UTC time, RFC 3339 */
     public var updatedAt: Date
-    public var accountEmail: String
-    public var accountName: String
-    /** Absent in the create response */
-    public var teamName: String?
 
-    public init(id: String, accountId: String, teamId: String, role: MemberRole, status: Status, createdAt: Date, updatedAt: Date, accountEmail: String, accountName: String, teamName: String? = nil) {
+    public init(id: String, teamId: String, teamName: String, email: String, role: MemberRole, invitedBy: String?, inviterName: String?, expiresAt: Date, createdAt: Date, updatedAt: Date) {
         self.id = id
-        self.accountId = accountId
         self.teamId = teamId
+        self.teamName = teamName
+        self.email = email
         self.role = role
-        self.status = status
+        self.invitedBy = invitedBy
+        self.inviterName = inviterName
+        self.expiresAt = expiresAt
         self.createdAt = createdAt
         self.updatedAt = updatedAt
-        self.accountEmail = accountEmail
-        self.accountName = accountName
-        self.teamName = teamName
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case id
-        case accountId
         case teamId
+        case teamName
+        case email
         case role
-        case status
+        case invitedBy
+        case inviterName
+        case expiresAt
         case createdAt
         case updatedAt
-        case accountEmail
-        case accountName
-        case teamName
     }
 
     // Encodable protocol methods
@@ -65,15 +62,15 @@ public struct TeamInvite: Sendable, Codable, Hashable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(id, forKey: .id)
-        try container.encode(accountId, forKey: .accountId)
         try container.encode(teamId, forKey: .teamId)
+        try container.encode(teamName, forKey: .teamName)
+        try container.encode(email, forKey: .email)
         try container.encode(role, forKey: .role)
-        try container.encode(status, forKey: .status)
+        try container.encode(invitedBy, forKey: .invitedBy)
+        try container.encode(inviterName, forKey: .inviterName)
+        try container.encode(expiresAt, forKey: .expiresAt)
         try container.encode(createdAt, forKey: .createdAt)
         try container.encode(updatedAt, forKey: .updatedAt)
-        try container.encode(accountEmail, forKey: .accountEmail)
-        try container.encode(accountName, forKey: .accountName)
-        try container.encodeIfPresent(teamName, forKey: .teamName)
     }
 }
 
@@ -83,7 +80,6 @@ extension TeamInvite: Identifiable {}
 extension TeamInvite: UnknownCaseCheckable {
     public var containsUnknownDefaultOpenApiCase: Bool {
         if role == .unknownDefaultOpenApi { return true }
-        if status == .unknownDefaultOpenApi { return true }
         return false
     }
 }
