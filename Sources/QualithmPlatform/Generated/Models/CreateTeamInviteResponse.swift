@@ -10,9 +10,9 @@ import Foundation
 
 public struct CreateTeamInviteResponse: Sendable, Codable, Hashable {
 
-    public var data: TeamInvite
+    public var data: TeamInviteResults
 
-    public init(data: TeamInvite) {
+    public init(data: TeamInviteResults) {
         self.data = data
     }
 

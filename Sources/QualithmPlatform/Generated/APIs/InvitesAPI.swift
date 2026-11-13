@@ -11,7 +11,51 @@ import Foundation
 open class InvitesAPI {
 
     /**
-     Invite an account to the team by email
+     Accept the invite an invite link names
+     
+     - parameter acceptInviteRequest: (body)  
+     - parameter idempotencyKey: (header) A unique key for this request. A retry with the same key and body returns the first response instead of acting again; keys last 24 hours. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: AcceptInviteResponse
+     */
+    open class func acceptInvite(acceptInviteRequest: AcceptInviteRequest, idempotencyKey: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> AcceptInviteResponse {
+        return try await acceptInviteWithRequestBuilder(acceptInviteRequest: acceptInviteRequest, idempotencyKey: idempotencyKey, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Accept the invite an invite link names
+     - POST /v1/invites/accept
+     - Only the account whose email the invite names can accept it; anyone else gets `403` with `invite_email_mismatch`.
+     - Bearer Token:
+       - type: http
+       - name: apiToken
+     - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
+     - parameter acceptInviteRequest: (body)  
+     - parameter idempotencyKey: (header) A unique key for this request. A retry with the same key and body returns the first response instead of acting again; keys last 24 hours. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<AcceptInviteResponse> 
+     */
+    open class func acceptInviteWithRequestBuilder(acceptInviteRequest: AcceptInviteRequest, idempotencyKey: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<AcceptInviteResponse> {
+        let localVariablePath = "/v1/invites/accept"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: acceptInviteRequest, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+            "Idempotency-Key": idempotencyKey?.asParameter(codableHelper: apiConfiguration.codableHelper),
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<AcceptInviteResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Invite email addresses to the team
      
      - parameter teamId: (path) A team ID: &#x60;tem_…&#x60;; also accepts the legacy &#x60;tm_…&#x60; 
      - parameter createTeamInviteRequest: (body)  
@@ -24,8 +68,9 @@ open class InvitesAPI {
     }
 
     /**
-     Invite an account to the team by email
+     Invite email addresses to the team
      - POST /v1/teams/{teamId}/invites
+     - Each address gets an invite whose link expires after 7 days; only the account with that email can accept it. The team may send a limited number of invite emails per hour.
      - Bearer Token:
        - type: http
        - name: apiToken
@@ -59,10 +104,10 @@ open class InvitesAPI {
     }
 
     /**
-     Revoke a pending invite
+     Withdraw a pending invite
      
      - parameter teamId: (path) A team ID: &#x60;tem_…&#x60;; also accepts the legacy &#x60;tm_…&#x60; 
-     - parameter inviteId: (path) A member ID: &#x60;mbr_…&#x60;; also accepts the legacy &#x60;mem_…&#x60; 
+     - parameter inviteId: (path) An invite ID: &#x60;ivt_…&#x60; 
      - parameter apiConfiguration: The configuration for the http request.
      */
     open class func deleteTeamInvite(teamId: String, inviteId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) {
@@ -70,14 +115,15 @@ open class InvitesAPI {
     }
 
     /**
-     Revoke a pending invite
+     Withdraw a pending invite
      - DELETE /v1/teams/{teamId}/invites/{inviteId}
+     - Its link stops working at once.
      - Bearer Token:
        - type: http
        - name: apiToken
      - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) A team ID: &#x60;tem_…&#x60;; also accepts the legacy &#x60;tm_…&#x60; 
-     - parameter inviteId: (path) A member ID: &#x60;mbr_…&#x60;; also accepts the legacy &#x60;mem_…&#x60; 
+     - parameter inviteId: (path) An invite ID: &#x60;ivt_…&#x60; 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
@@ -159,5 +205,100 @@ open class InvitesAPI {
         let localVariableRequestBuilder: RequestBuilder<ListTeamInvitesResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Read the invite an invite link names
+     
+     - parameter acceptInviteRequest: (body)  
+     - parameter idempotencyKey: (header) A unique key for this request. A retry with the same key and body returns the first response instead of acting again; keys last 24 hours. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: LookupInviteResponse
+     */
+    open class func lookupInvite(acceptInviteRequest: AcceptInviteRequest, idempotencyKey: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> LookupInviteResponse {
+        return try await lookupInviteWithRequestBuilder(acceptInviteRequest: acceptInviteRequest, idempotencyKey: idempotencyKey, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Read the invite an invite link names
+     - POST /v1/invites/lookup
+     - Says whether the caller can accept it: only the account whose email it names can. Answers `404` with `invite_expired` once the link has expired.
+     - Bearer Token:
+       - type: http
+       - name: apiToken
+     - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
+     - parameter acceptInviteRequest: (body)  
+     - parameter idempotencyKey: (header) A unique key for this request. A retry with the same key and body returns the first response instead of acting again; keys last 24 hours. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<LookupInviteResponse> 
+     */
+    open class func lookupInviteWithRequestBuilder(acceptInviteRequest: AcceptInviteRequest, idempotencyKey: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<LookupInviteResponse> {
+        let localVariablePath = "/v1/invites/lookup"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: acceptInviteRequest, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+            "Idempotency-Key": idempotencyKey?.asParameter(codableHelper: apiConfiguration.codableHelper),
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<LookupInviteResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Mail a pending invite again
+     
+     - parameter teamId: (path) A team ID: &#x60;tem_…&#x60;; also accepts the legacy &#x60;tm_…&#x60; 
+     - parameter inviteId: (path) An invite ID: &#x60;ivt_…&#x60; 
+     - parameter idempotencyKey: (header) A unique key for this request. A retry with the same key and body returns the first response instead of acting again; keys last 24 hours. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ResendTeamInviteResponse
+     */
+    open class func resendTeamInvite(teamId: String, inviteId: String, idempotencyKey: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> ResendTeamInviteResponse {
+        return try await resendTeamInviteWithRequestBuilder(teamId: teamId, inviteId: inviteId, idempotencyKey: idempotencyKey, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Mail a pending invite again
+     - POST /v1/teams/{teamId}/invites/{inviteId}/resend
+     - Issues a new link, which expires 7 days from now; the old link stops working. An expired invite can be resent until it is cleared.
+     - Bearer Token:
+       - type: http
+       - name: apiToken
+     - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
+     - parameter teamId: (path) A team ID: &#x60;tem_…&#x60;; also accepts the legacy &#x60;tm_…&#x60; 
+     - parameter inviteId: (path) An invite ID: &#x60;ivt_…&#x60; 
+     - parameter idempotencyKey: (header) A unique key for this request. A retry with the same key and body returns the first response instead of acting again; keys last 24 hours. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ResendTeamInviteResponse> 
+     */
+    open class func resendTeamInviteWithRequestBuilder(teamId: String, inviteId: String, idempotencyKey: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ResendTeamInviteResponse> {
+        var localVariablePath = "/v1/teams/{teamId}/invites/{inviteId}/resend"
+        let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
+        let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{teamId}", with: teamIdPostEscape, options: .literal, range: nil)
+        let inviteIdPreEscape = "\(APIHelper.mapValueToPathItem(inviteId))"
+        let inviteIdPostEscape = inviteIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{inviteId}", with: inviteIdPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Idempotency-Key": idempotencyKey?.asParameter(codableHelper: apiConfiguration.codableHelper),
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<ResendTeamInviteResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 }
