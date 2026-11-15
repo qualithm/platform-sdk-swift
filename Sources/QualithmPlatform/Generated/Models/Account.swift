@@ -15,15 +15,24 @@ public struct Account: Sendable, Codable, Hashable {
     public var id: String
     public var email: String
     public var name: String
+    /** The current Terms of Service version. Ask the person to accept when it differs from `termsAcceptedVersion`. */
+    public var termsVersion: String
+    /** The terms version the person last accepted, or null */
+    public var termsAcceptedVersion: String?
+    /** UTC time, RFC 3339 */
+    public var termsAcceptedAt: Date?
     /** UTC time, RFC 3339 */
     public var createdAt: Date
     /** UTC time, RFC 3339 */
     public var updatedAt: Date
 
-    public init(id: String, email: String, name: String, createdAt: Date, updatedAt: Date) {
+    public init(id: String, email: String, name: String, termsVersion: String, termsAcceptedVersion: String?, termsAcceptedAt: Date?, createdAt: Date, updatedAt: Date) {
         self.id = id
         self.email = email
         self.name = name
+        self.termsVersion = termsVersion
+        self.termsAcceptedVersion = termsAcceptedVersion
+        self.termsAcceptedAt = termsAcceptedAt
         self.createdAt = createdAt
         self.updatedAt = updatedAt
     }
@@ -32,6 +41,9 @@ public struct Account: Sendable, Codable, Hashable {
         case id
         case email
         case name
+        case termsVersion
+        case termsAcceptedVersion
+        case termsAcceptedAt
         case createdAt
         case updatedAt
     }
@@ -43,6 +55,9 @@ public struct Account: Sendable, Codable, Hashable {
         try container.encode(id, forKey: .id)
         try container.encode(email, forKey: .email)
         try container.encode(name, forKey: .name)
+        try container.encode(termsVersion, forKey: .termsVersion)
+        try container.encode(termsAcceptedVersion, forKey: .termsAcceptedVersion)
+        try container.encode(termsAcceptedAt, forKey: .termsAcceptedAt)
         try container.encode(createdAt, forKey: .createdAt)
         try container.encode(updatedAt, forKey: .updatedAt)
     }
