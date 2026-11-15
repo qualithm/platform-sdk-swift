@@ -317,6 +317,49 @@ open class AutomationsAPI {
     }
 
     /**
+     List every automation template and whether the team's devices can use it
+     
+     - parameter teamId: (path) The team the request acts on 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ListAutomationTemplatesResponse
+     */
+    open class func listAutomationTemplates(teamId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> ListAutomationTemplatesResponse {
+        return try await listAutomationTemplatesWithRequestBuilder(teamId: teamId, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     List every automation template and whether the team's devices can use it
+     - GET /v1/teams/{teamId}/automation-templates
+     - Bearer Token:
+       - type: http
+       - name: apiToken
+     - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
+     - parameter teamId: (path) The team the request acts on 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ListAutomationTemplatesResponse> 
+     */
+    open class func listAutomationTemplatesWithRequestBuilder(teamId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<ListAutomationTemplatesResponse> {
+        var localVariablePath = "/v1/teams/{teamId}/automation-templates"
+        let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
+        let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{teamId}", with: teamIdPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<ListAutomationTemplatesResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
      List the workspace's automations
      
      - parameter teamId: (path) The team the request acts on 
