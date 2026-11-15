@@ -20,13 +20,16 @@ public struct CreateAutomationRequest: Sendable, Codable, Hashable {
     public var template: String?
     /** The template's slot values, keyed by slot name; used with `template` */
     public var params: JSONValue?
+    /** Whether its trigger fires; absent creates it turned on */
+    public var enabled: Bool?
 
-    public init(name: String, scopeId: String? = nil, payload: CreateAutomationRequestPayload? = nil, template: String? = nil, params: JSONValue? = nil) {
+    public init(name: String, scopeId: String? = nil, payload: CreateAutomationRequestPayload? = nil, template: String? = nil, params: JSONValue? = nil, enabled: Bool? = nil) {
         self.name = name
         self.scopeId = scopeId
         self.payload = payload
         self.template = template
         self.params = params
+        self.enabled = enabled
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -35,6 +38,7 @@ public struct CreateAutomationRequest: Sendable, Codable, Hashable {
         case payload
         case template
         case params
+        case enabled
     }
 
     // Encodable protocol methods
@@ -46,6 +50,7 @@ public struct CreateAutomationRequest: Sendable, Codable, Hashable {
         try container.encodeIfPresent(payload, forKey: .payload)
         try container.encodeIfPresent(template, forKey: .template)
         try container.encodeIfPresent(params, forKey: .params)
+        try container.encodeIfPresent(enabled, forKey: .enabled)
     }
 }
 
