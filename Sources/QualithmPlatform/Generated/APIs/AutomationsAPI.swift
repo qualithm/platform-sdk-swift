@@ -421,6 +421,103 @@ open class AutomationsAPI {
     }
 
     /**
+     Test an automation against a reading without running it
+     
+     - parameter teamId: (path) The team the request acts on 
+     - parameter automationId: (path) An automation ID: &#x60;aut_&lt;zone&gt;_…&#x60;; also accepts the legacy &#x60;aut_…&#x60; 
+     - parameter testAutomationRequest: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: TestAutomationResponse
+     */
+    open class func testAutomation(teamId: String, automationId: String, testAutomationRequest: TestAutomationRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> TestAutomationResponse {
+        return try await testAutomationWithRequestBuilder(teamId: teamId, automationId: automationId, testAutomationRequest: testAutomationRequest, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Test an automation against a reading without running it
+     - POST /v1/teams/{teamId}/automations/{automationId}/test
+     - Evaluates the saved trigger and chain against the device's latest reading, or a sample. Nothing is run, recorded or counted against quota.
+     - Bearer Token:
+       - type: http
+       - name: apiToken
+     - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
+     - parameter teamId: (path) The team the request acts on 
+     - parameter automationId: (path) An automation ID: &#x60;aut_&lt;zone&gt;_…&#x60;; also accepts the legacy &#x60;aut_…&#x60; 
+     - parameter testAutomationRequest: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<TestAutomationResponse> 
+     */
+    open class func testAutomationWithRequestBuilder(teamId: String, automationId: String, testAutomationRequest: TestAutomationRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<TestAutomationResponse> {
+        var localVariablePath = "/v1/teams/{teamId}/automations/{automationId}/test"
+        let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
+        let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{teamId}", with: teamIdPostEscape, options: .literal, range: nil)
+        let automationIdPreEscape = "\(APIHelper.mapValueToPathItem(automationId))"
+        let automationIdPostEscape = automationIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{automationId}", with: automationIdPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: testAutomationRequest, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<TestAutomationResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Test an unsaved automation against a reading without running it
+     
+     - parameter teamId: (path) The team the request acts on 
+     - parameter testDraftAutomationRequest: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: TestDraftAutomationResponse
+     */
+    open class func testDraftAutomation(teamId: String, testDraftAutomationRequest: TestDraftAutomationRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> TestDraftAutomationResponse {
+        return try await testDraftAutomationWithRequestBuilder(teamId: teamId, testDraftAutomationRequest: testDraftAutomationRequest, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Test an unsaved automation against a reading without running it
+     - POST /v1/teams/{teamId}/automations/test
+     - Evaluates the trigger and chain against the device's latest reading, or a sample. Nothing is run, recorded or counted against quota.
+     - Bearer Token:
+       - type: http
+       - name: apiToken
+     - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
+     - parameter teamId: (path) The team the request acts on 
+     - parameter testDraftAutomationRequest: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<TestDraftAutomationResponse> 
+     */
+    open class func testDraftAutomationWithRequestBuilder(teamId: String, testDraftAutomationRequest: TestDraftAutomationRequest, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<TestDraftAutomationResponse> {
+        var localVariablePath = "/v1/teams/{teamId}/automations/test"
+        let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
+        let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{teamId}", with: teamIdPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: testDraftAutomationRequest, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<TestDraftAutomationResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
      Trigger a webhook automation
      
      - parameter idempotencyKey: (header) A unique key for this request. A retry with the same key and body returns the first response instead of acting again; keys last 24 hours. (optional)
