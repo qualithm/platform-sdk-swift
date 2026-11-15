@@ -8,15 +8,15 @@
 
 import Foundation
 
-/** The next invoice from Stripe; null on the free plan or when estimated */
+/** The next renewal from Polar, before tax and without add-ons, which Polar doesn&#39;t bill; null on the free plan, for a plan set to end, or when estimated */
 public struct BillingSummaryUpcomingInvoice: Sendable, Codable, Hashable {
 
     public var lines: [BillingSummaryUpcomingInvoiceLinesInner]
     /** The sum of the lines, before discounts */
     public var subtotal: Money
-    /** What coupons and promotion codes take off */
+    /** What the subscription's discount takes off */
     public var discount: Money
-    /** What the team's credit balance covers */
+    /** Credit applied to the renewal; zero, since SLA credits arrive as a discount */
     public var credit: Money
     /** ISO 8601 time the period the invoice bills ends */
     public var periodEnd: String?

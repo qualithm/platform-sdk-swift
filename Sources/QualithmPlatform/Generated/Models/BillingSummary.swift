@@ -23,15 +23,16 @@ public struct BillingSummary: Sendable, Codable, Hashable {
     public var limitGrace: BillingSummaryLimitGrace?
     public var limits: BillingSummaryLimits
     public var usage: BillingSummaryUsage
-    /** What the next invoice will charge, after discounts and credit; the plan price with add-ons when `estimated` is true */
+    /** What the next renewal will charge before tax, after the discount that still applies; zero for a plan set to end. A plan change mid-period adds its proration to that bill, which this leaves out. The plan price with add-ons when `estimated` is true */
     public var monthlyTotal: Money
     public var upcomingInvoice: BillingSummaryUpcomingInvoice?
-    /** True when Stripe couldn't be read, so `monthlyTotal` is the plan price */
+    /** True when Polar couldn't be read, so `monthlyTotal` is the plan price */
     public var estimated: Bool
     public var cancellation: BillingSummaryCancellation?
+    public var slaCredit: BillingSummarySlaCredit?
     public var addons: BillingSummaryAddons
 
-    public init(tier: Tier, month: String, limitGrace: BillingSummaryLimitGrace?, limits: BillingSummaryLimits, usage: BillingSummaryUsage, monthlyTotal: Money, upcomingInvoice: BillingSummaryUpcomingInvoice?, estimated: Bool, cancellation: BillingSummaryCancellation?, addons: BillingSummaryAddons) {
+    public init(tier: Tier, month: String, limitGrace: BillingSummaryLimitGrace?, limits: BillingSummaryLimits, usage: BillingSummaryUsage, monthlyTotal: Money, upcomingInvoice: BillingSummaryUpcomingInvoice?, estimated: Bool, cancellation: BillingSummaryCancellation?, slaCredit: BillingSummarySlaCredit?, addons: BillingSummaryAddons) {
         self.tier = tier
         self.month = month
         self.limitGrace = limitGrace
@@ -41,6 +42,7 @@ public struct BillingSummary: Sendable, Codable, Hashable {
         self.upcomingInvoice = upcomingInvoice
         self.estimated = estimated
         self.cancellation = cancellation
+        self.slaCredit = slaCredit
         self.addons = addons
     }
 
@@ -54,6 +56,7 @@ public struct BillingSummary: Sendable, Codable, Hashable {
         case upcomingInvoice
         case estimated
         case cancellation
+        case slaCredit
         case addons
     }
 
@@ -70,6 +73,7 @@ public struct BillingSummary: Sendable, Codable, Hashable {
         try container.encode(upcomingInvoice, forKey: .upcomingInvoice)
         try container.encode(estimated, forKey: .estimated)
         try container.encode(cancellation, forKey: .cancellation)
+        try container.encode(slaCredit, forKey: .slaCredit)
         try container.encode(addons, forKey: .addons)
     }
 }
