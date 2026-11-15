@@ -16,6 +16,10 @@ public struct Enrollment: Sendable, Codable, Hashable {
         case revoked = "revoked"
         case unknownDefaultOpenApi = "unknown_default_open_api"
     }
+    public enum LastFailure: String, Sendable, Codable, CaseIterable, CaseIterableDefaultsLast {
+        case deviceAlreadyClaimed = "device_already_claimed"
+        case unknownDefaultOpenApi = "unknown_default_open_api"
+    }
     public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:enr_(?:defraa|sgsina|usnyca)_|enr_)[0-9A-HJKMNP-TV-Z]{26}$")
     public static let teamIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:tem_|tm_)[0-9A-HJKMNP-TV-Z]{26}$")
     public static let scopeIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:scp_(?:defraa|sgsina|usnyca)_|scp_|spc_)[0-9A-HJKMNP-TV-Z]{26}$")
@@ -34,12 +38,17 @@ public struct Enrollment: Sendable, Codable, Hashable {
     public var claimedAt: Date?
     /** UTC time, RFC 3339 */
     public var expiresAt: Date
+    /** Why the latest rejected claim of this code failed, when the team can act on it: `device_already_claimed` means a device presented the code after it was claimed. The claim response stays the generic `401`. */
+    public var lastFailure: LastFailure?
+    public var lastFailureScope: EnrollmentLastFailureScope?
+    /** UTC time, RFC 3339 */
+    public var lastFailureAt: Date?
     /** UTC time, RFC 3339 */
     public var createdAt: Date
     /** UTC time, RFC 3339 */
     public var updatedAt: Date
 
-    public init(id: String, teamId: String, scopeId: String, label: String, status: Status, claimedDeviceId: String?, claimedAt: Date?, expiresAt: Date, createdAt: Date, updatedAt: Date) {
+    public init(id: String, teamId: String, scopeId: String, label: String, status: Status, claimedDeviceId: String?, claimedAt: Date?, expiresAt: Date, lastFailure: LastFailure?, lastFailureScope: EnrollmentLastFailureScope?, lastFailureAt: Date?, createdAt: Date, updatedAt: Date) {
         self.id = id
         self.teamId = teamId
         self.scopeId = scopeId
@@ -48,6 +57,9 @@ public struct Enrollment: Sendable, Codable, Hashable {
         self.claimedDeviceId = claimedDeviceId
         self.claimedAt = claimedAt
         self.expiresAt = expiresAt
+        self.lastFailure = lastFailure
+        self.lastFailureScope = lastFailureScope
+        self.lastFailureAt = lastFailureAt
         self.createdAt = createdAt
         self.updatedAt = updatedAt
     }
@@ -61,6 +73,9 @@ public struct Enrollment: Sendable, Codable, Hashable {
         case claimedDeviceId
         case claimedAt
         case expiresAt
+        case lastFailure
+        case lastFailureScope
+        case lastFailureAt
         case createdAt
         case updatedAt
     }
@@ -77,6 +92,9 @@ public struct Enrollment: Sendable, Codable, Hashable {
         try container.encode(claimedDeviceId, forKey: .claimedDeviceId)
         try container.encode(claimedAt, forKey: .claimedAt)
         try container.encode(expiresAt, forKey: .expiresAt)
+        try container.encode(lastFailure, forKey: .lastFailure)
+        try container.encode(lastFailureScope, forKey: .lastFailureScope)
+        try container.encode(lastFailureAt, forKey: .lastFailureAt)
         try container.encode(createdAt, forKey: .createdAt)
         try container.encode(updatedAt, forKey: .updatedAt)
     }
@@ -88,6 +106,7 @@ extension Enrollment: Identifiable {}
 extension Enrollment: UnknownCaseCheckable {
     public var containsUnknownDefaultOpenApiCase: Bool {
         if status == .unknownDefaultOpenApi { return true }
+        if lastFailure == .unknownDefaultOpenApi { return true }
         return false
     }
 }
