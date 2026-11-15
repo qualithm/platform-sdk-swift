@@ -15,6 +15,13 @@ on:
       - "**/Package.swift"
       - "**/Package.resolved"
       - ".github/workflows/audit.yaml"
+  # A dependency change runs the advisory scan alone before it merges; it files no issue.
+  pull_request:
+    branches: [development, main]
+    paths:
+      - "**/Package.swift"
+      - "**/Package.resolved"
+      - ".github/workflows/audit.yaml"
   workflow_dispatch: {}
 
 # A newer push supersedes an older one; schedules queue apart from pushes.
@@ -33,6 +40,7 @@ jobs:
     timeout-minutes: 15
     steps:
       - name: Create app token for pm issue filing
+        if: github.event_name != 'pull_request'
         id: app-token
         uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
         with:
@@ -69,14 +77,14 @@ jobs:
           for f in "${lockfiles[@]}"; do args+=(--lockfile "$f"); done
           "$RUNNER_TEMP/osv-scanner" scan source "${args[@]}"
       - name: Report failure
-        if: steps.scan.outcome == 'failure'
+        if: github.event_name != 'pull_request' && (steps.scan.outcome == 'failure')
         uses: ./.github/actions/report-scan-failure
         with:
           mode: report
           title: "${{ github.event.repository.name }}: osv-scanner found an advisory"
           github-token: ${{ steps.app-token.outputs.token }}
       - name: Resolve stale failure issue
-        if: steps.scan.outcome == 'success'
+        if: github.event_name != 'pull_request' && (steps.scan.outcome == 'success')
         uses: ./.github/actions/report-scan-failure
         with:
           mode: resolve
@@ -88,6 +96,7 @@ jobs:
 
   gitleaks:
     name: Secret Scan
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
@@ -129,6 +138,7 @@ jobs:
         with:
           mode: report
           title: "${{ github.event.repository.name }}: gitleaks found a leaked secret"
+          severity: critical
           github-token: ${{ steps.app-token.outputs.token }}
       - name: Resolve stale failure issue
         if: steps.scan.outcome == 'success'
