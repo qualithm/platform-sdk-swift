@@ -17,13 +17,13 @@ public struct Invoice: Sendable, Codable, Hashable {
     /** A team ID: `tem_…`; also accepts the legacy `tm_…` */
     public var teamId: String
     public var status: String
-    /** The invoice total; null until Stripe sets it */
+    /** The invoice total; null until the billing provider sets it */
     public var total: Money?
-    /** The Stripe invoice this one mirrors; null when Stripe didn't send one */
+    /** Always null; removed in the next major release */
     public var stripeInvoiceId: String?
-    /** Stripe's page to view and pay the invoice; null until Stripe finalizes it */
+    /** Always null; removed in the next major release. Open an invoice with `createInvoiceDocument` */
     public var hostedUrl: String?
-    /** The invoice as a PDF; null until Stripe finalizes it */
+    /** Always null; removed in the next major release. Open an invoice with `createInvoiceDocument` */
     public var pdfUrl: String?
     /** UTC time, RFC 3339 */
     public var createdAt: Date

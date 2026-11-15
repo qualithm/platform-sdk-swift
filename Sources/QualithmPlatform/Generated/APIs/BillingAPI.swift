@@ -11,6 +11,56 @@ import Foundation
 open class BillingAPI {
 
     /**
+     Get the link to an invoice's document, generating it on first request
+     
+     - parameter teamId: (path) The team the request acts on 
+     - parameter invoiceId: (path) An invoice ID: &#x60;inv_…&#x60; 
+     - parameter idempotencyKey: (header) A unique key for this request. A retry with the same key and body returns the first response instead of acting again; keys last 24 hours. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: CreateInvoiceDocumentResponse
+     */
+    open class func createInvoiceDocument(teamId: String, invoiceId: String, idempotencyKey: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) -> CreateInvoiceDocumentResponse {
+        return try await createInvoiceDocumentWithRequestBuilder(teamId: teamId, invoiceId: invoiceId, idempotencyKey: idempotencyKey, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Get the link to an invoice's document, generating it on first request
+     - POST /v1/teams/{teamId}/invoices/{invoiceId}/document
+     - Bearer Token:
+       - type: http
+       - name: apiToken
+     - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
+     - parameter teamId: (path) The team the request acts on 
+     - parameter invoiceId: (path) An invoice ID: &#x60;inv_…&#x60; 
+     - parameter idempotencyKey: (header) A unique key for this request. A retry with the same key and body returns the first response instead of acting again; keys last 24 hours. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<CreateInvoiceDocumentResponse> 
+     */
+    open class func createInvoiceDocumentWithRequestBuilder(teamId: String, invoiceId: String, idempotencyKey: String? = nil, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) -> RequestBuilder<CreateInvoiceDocumentResponse> {
+        var localVariablePath = "/v1/teams/{teamId}/invoices/{invoiceId}/document"
+        let teamIdPreEscape = "\(APIHelper.mapValueToPathItem(teamId))"
+        let teamIdPostEscape = teamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{teamId}", with: teamIdPostEscape, options: .literal, range: nil)
+        let invoiceIdPreEscape = "\(APIHelper.mapValueToPathItem(invoiceId))"
+        let invoiceIdPostEscape = invoiceIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{invoiceId}", with: invoiceIdPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Idempotency-Key": idempotencyKey?.asParameter(codableHelper: apiConfiguration.codableHelper),
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<CreateInvoiceDocumentResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
      Get the workspace's plan, usage, next bill and add-ons
      
      - parameter teamId: (path) The team the request acts on 
