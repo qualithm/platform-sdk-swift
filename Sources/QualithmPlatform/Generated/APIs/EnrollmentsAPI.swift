@@ -11,7 +11,7 @@ import Foundation
 open class EnrollmentsAPI {
 
     /**
-     Create a claim code for a device to enroll into a scope
+     Create a claim code that lets a device add itself to a scope
      
      - parameter teamId: (path) The team the request acts on 
      - parameter createEnrollmentRequest: (body)  
@@ -24,7 +24,7 @@ open class EnrollmentsAPI {
     }
 
     /**
-     Create a claim code for a device to enroll into a scope
+     Create a claim code that lets a device add itself to a scope
      - POST /v1/teams/{teamId}/enrollments
      - Bearer Token:
        - type: http
@@ -59,10 +59,10 @@ open class EnrollmentsAPI {
     }
 
     /**
-     Revoke a pending enrollment
+     Revoke a pending claim code
      
      - parameter teamId: (path) The team the request acts on 
-     - parameter enrollmentId: (path) An enrollment ID: &#x60;enr_&lt;zone&gt;_…&#x60;; also accepts the legacy &#x60;enr_…&#x60; 
+     - parameter enrollmentId: (path) A claim code ID: &#x60;enr_&lt;zone&gt;_…&#x60;; also accepts the legacy &#x60;enr_…&#x60; 
      - parameter apiConfiguration: The configuration for the http request.
      */
     open class func deleteEnrollment(teamId: String, enrollmentId: String, apiConfiguration: QualithmPlatformAPIConfiguration = QualithmPlatformAPIConfiguration.shared) async throws(ErrorResponse) {
@@ -70,14 +70,14 @@ open class EnrollmentsAPI {
     }
 
     /**
-     Revoke a pending enrollment
+     Revoke a pending claim code
      - DELETE /v1/teams/{teamId}/enrollments/{enrollmentId}
      - Bearer Token:
        - type: http
        - name: apiToken
      - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter teamId: (path) The team the request acts on 
-     - parameter enrollmentId: (path) An enrollment ID: &#x60;enr_&lt;zone&gt;_…&#x60;; also accepts the legacy &#x60;enr_…&#x60; 
+     - parameter enrollmentId: (path) A claim code ID: &#x60;enr_&lt;zone&gt;_…&#x60;; also accepts the legacy &#x60;enr_…&#x60; 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
@@ -106,7 +106,7 @@ open class EnrollmentsAPI {
     }
 
     /**
-     List the workspace's enrollments
+     List the team's claim codes
      
      - parameter teamId: (path) The team the request acts on 
      - parameter page: (query) Page number, from 1. Default 1. Ignored with &#x60;cursor&#x60;. (optional)
@@ -120,7 +120,7 @@ open class EnrollmentsAPI {
     }
 
     /**
-     List the workspace's enrollments
+     List the team's claim codes
      - GET /v1/teams/{teamId}/enrollments
      - Newest first, by `createdAt` then `id`.
      - Bearer Token:

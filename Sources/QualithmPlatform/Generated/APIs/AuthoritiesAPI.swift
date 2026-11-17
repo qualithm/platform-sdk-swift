@@ -106,7 +106,7 @@ open class AuthoritiesAPI {
     }
 
     /**
-     List the workspace's certificate authorities
+     List the team's certificate authorities
      
      - parameter teamId: (path) The team the request acts on 
      - parameter page: (query) Page number, from 1. Default 1. Ignored with &#x60;cursor&#x60;. (optional)
@@ -120,7 +120,7 @@ open class AuthoritiesAPI {
     }
 
     /**
-     List the workspace's certificate authorities
+     List the team's certificate authorities
      - GET /v1/teams/{teamId}/authorities
      - Newest first, by `createdAt` then `id`.
      - Bearer Token:

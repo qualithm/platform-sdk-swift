@@ -11,7 +11,7 @@ import Foundation
 open class UsageAPI {
 
     /**
-     Get the workspace's device and space counts and its plan quota
+     Get the team's device and scope counts and its plan quota
      
      - parameter teamId: (path) The team the request acts on 
      - parameter apiConfiguration: The configuration for the http request.
@@ -22,7 +22,7 @@ open class UsageAPI {
     }
 
     /**
-     Get the workspace's device and space counts and its plan quota
+     Get the team's device and scope counts and its plan quota
      - GET /v1/teams/{teamId}/usage
      - Bearer Token:
        - type: http
