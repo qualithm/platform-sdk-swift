@@ -22,7 +22,7 @@ open class CapabilitiesAPI {
     }
 
     /**
-     List the capabilities of the workspace's devices
+     List the capabilities of the team's devices
      
      - parameter teamId: (path) The team the request acts on 
      - parameter scopeId: (query) Only the devices in this scope and every scope under it (optional)
@@ -40,7 +40,7 @@ open class CapabilitiesAPI {
     }
 
     /**
-     List the capabilities of the workspace's devices
+     List the capabilities of the team's devices
      - GET /v1/teams/{teamId}/capabilities
      - By `key`, then `id`, ascending.
      - Bearer Token:
