@@ -8,6 +8,7 @@
 
 import Foundation
 
+/** An automation&#39;s trigger and chain. */
 public struct AutomationPayload: Sendable, Codable, Hashable {
 
     public var trigger: AutomationTrigger

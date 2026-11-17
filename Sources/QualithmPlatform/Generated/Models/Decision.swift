@@ -8,6 +8,7 @@
 
 import Foundation
 
+/** One choice Qualithm made on the builder&#39;s behalf. */
 public struct Decision: Sendable, Codable, Hashable {
 
     /** Stable identifier for the decision, e.g. `zone` */

@@ -8,6 +8,7 @@
 
 import Foundation
 
+/** One result per address, in the order given */
 public struct TeamInviteResults: Sendable, Codable, Hashable {
 
     public var items: [TeamInviteResult]

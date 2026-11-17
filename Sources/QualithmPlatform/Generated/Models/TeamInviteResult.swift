@@ -8,6 +8,7 @@
 
 import Foundation
 
+/** What inviting one address did */
 public struct TeamInviteResult: Sendable, Codable, Hashable {
 
     public enum Result: String, Sendable, Codable, CaseIterable, CaseIterableDefaultsLast {

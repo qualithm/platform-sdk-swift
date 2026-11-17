@@ -8,6 +8,7 @@
 
 import Foundation
 
+/** A device&#39;s credential. The secret or key material is never returned after it is issued. */
 public struct Credential: Sendable, Codable, Hashable {
 
     public enum Kind: String, Sendable, Codable, CaseIterable, CaseIterableDefaultsLast {

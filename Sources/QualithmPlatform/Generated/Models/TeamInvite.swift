@@ -8,6 +8,7 @@
 
 import Foundation
 
+/** A pending invite to a team, addressed to an email */
 public struct TeamInvite: Sendable, Codable, Hashable {
 
     public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:ivt_)[0-9A-HJKMNP-TV-Z]{26}$")

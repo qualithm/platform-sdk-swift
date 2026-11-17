@@ -8,6 +8,7 @@
 
 import Foundation
 
+/** A device zone: where a scope&#39;s devices connect and their data lives. */
 public enum ZoneId: String, Sendable, Codable, CaseIterable, CaseIterableDefaultsLast {
     case deFraA = "de-fra-a"
     case sgSinA = "sg-sin-a"

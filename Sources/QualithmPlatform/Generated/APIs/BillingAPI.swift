@@ -61,7 +61,7 @@ open class BillingAPI {
     }
 
     /**
-     Get the team's plan, usage, next bill and add-ons
+     Get the team's plan, usage and next bill
      
      - parameter teamId: (path) The team the request acts on 
      - parameter apiConfiguration: The configuration for the http request.
@@ -72,7 +72,7 @@ open class BillingAPI {
     }
 
     /**
-     Get the team's plan, usage, next bill and add-ons
+     Get the team's plan, usage and next bill
      - GET /v1/teams/{teamId}/billing/summary
      - Bearer Token:
        - type: http

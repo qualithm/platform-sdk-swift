@@ -8,6 +8,7 @@
 
 import Foundation
 
+/** An action the automation would take; the test takes none. A signing secret is never shown. */
 public struct AutomationTestAction: Sendable, Codable, Hashable {
 
     public enum ModelType: String, Sendable, Codable, CaseIterable, CaseIterableDefaultsLast {

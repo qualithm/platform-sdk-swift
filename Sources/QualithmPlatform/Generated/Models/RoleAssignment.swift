@@ -8,6 +8,7 @@
 
 import Foundation
 
+/** One team the caller is an active member of, and their role in it. */
 public struct RoleAssignment: Sendable, Codable, Hashable {
 
     public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:mbr_|mem_)[0-9A-HJKMNP-TV-Z]{26}$")

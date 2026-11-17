@@ -8,6 +8,7 @@
 
 import Foundation
 
+/** One immutable audit-trail record. */
 public struct AuditEvent: Sendable, Codable, Hashable {
 
     public enum ActorKind: String, Sendable, Codable, CaseIterable, CaseIterableDefaultsLast {
