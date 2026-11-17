@@ -156,7 +156,7 @@ open class DashboardsAPI {
     }
 
     /**
-     List the workspace's dashboards
+     List the team's dashboards
      
      - parameter teamId: (path) The team the request acts on 
      - parameter page: (query) Page number, from 1. Default 1. Ignored with &#x60;cursor&#x60;. (optional)
@@ -170,7 +170,7 @@ open class DashboardsAPI {
     }
 
     /**
-     List the workspace's dashboards
+     List the team's dashboards
      - GET /v1/teams/{teamId}/dashboards
      - Newest first, by `createdAt` then `id`.
      - Bearer Token:

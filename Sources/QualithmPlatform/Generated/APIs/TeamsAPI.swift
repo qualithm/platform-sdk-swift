@@ -24,7 +24,7 @@ open class TeamsAPI {
     /**
      Create a team with the caller as owner
      - POST /v1/teams
-     - The platform names the team; rename it with `updateTeam`. The caller's workspace switches to the new team.
+     - The platform names the team; rename it with `updateTeam`. The caller switches to the new team.
      - Bearer Token:
        - type: http
        - name: apiToken

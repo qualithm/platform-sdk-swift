@@ -23,7 +23,7 @@ open class HealthAPI {
     /**
      Check that the platform can serve
      - GET /healthz
-     - Probes the datastore, the telemetry store and the event bus. Answers with a bare `HealthStatus`, not the envelope: 200 with `status: ok`, or 503 with `status: down` and the first failing `subsystem`.
+     - Probes the datastore, the readings store and the event bus. Answers with a bare `HealthStatus`, not the envelope: 200 with `status: ok`, or 503 with `status: down` and the first failing `subsystem`.
      - responseHeaders: [Request-Id(String), RateLimit(String), RateLimit-Policy(String)]
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<HealthStatus> 
