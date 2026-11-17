@@ -360,7 +360,7 @@ open class AutomationsAPI {
     }
 
     /**
-     List the workspace's automations
+     List the team's automations
      
      - parameter teamId: (path) The team the request acts on 
      - parameter page: (query) Page number, from 1. Default 1. Ignored with &#x60;cursor&#x60;. (optional)
@@ -374,7 +374,7 @@ open class AutomationsAPI {
     }
 
     /**
-     List the workspace's automations
+     List the team's automations
      - GET /v1/teams/{teamId}/automations
      - Newest first, by `createdAt` then `id`.
      - Bearer Token:

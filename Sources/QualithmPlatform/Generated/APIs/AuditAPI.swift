@@ -11,7 +11,7 @@ import Foundation
 open class AuditAPI {
 
     /**
-     List the workspace's audit trail, newest first
+     List the team's activity, newest first
      
      - parameter teamId: (path) The team the request acts on 
      - parameter page: (query) Page number, from 1. Default 1. Ignored with &#x60;cursor&#x60;. (optional)
@@ -25,7 +25,7 @@ open class AuditAPI {
     }
 
     /**
-     List the workspace's audit trail, newest first
+     List the team's activity, newest first
      - GET /v1/teams/{teamId}/audit-events
      - Newest first, by `occurredAt` then `id`.
      - Bearer Token:

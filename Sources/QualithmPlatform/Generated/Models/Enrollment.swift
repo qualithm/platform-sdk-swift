@@ -24,7 +24,7 @@ public struct Enrollment: Sendable, Codable, Hashable {
     public static let teamIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:tem_|tm_)[0-9A-HJKMNP-TV-Z]{26}$")
     public static let scopeIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:scp_(?:defraa|sgsina|usnyca)_|scp_|spc_)[0-9A-HJKMNP-TV-Z]{26}$")
     public static let claimedDeviceIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:dvc_(?:defraa|sgsina|usnyca)_|dvc_|dev_)[0-9A-HJKMNP-TV-Z]{26}$")
-    /** An enrollment ID: `enr_<zone>_…`; also accepts the legacy `enr_…` */
+    /** A claim code ID: `enr_<zone>_…`; also accepts the legacy `enr_…` */
     public var id: String
     /** A team ID: `tem_…`; also accepts the legacy `tm_…` */
     public var teamId: String

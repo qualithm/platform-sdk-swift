@@ -61,7 +61,7 @@ open class BillingAPI {
     }
 
     /**
-     Get the workspace's plan, usage, next bill and add-ons
+     Get the team's plan, usage, next bill and add-ons
      
      - parameter teamId: (path) The team the request acts on 
      - parameter apiConfiguration: The configuration for the http request.
@@ -72,7 +72,7 @@ open class BillingAPI {
     }
 
     /**
-     Get the workspace's plan, usage, next bill and add-ons
+     Get the team's plan, usage, next bill and add-ons
      - GET /v1/teams/{teamId}/billing/summary
      - Bearer Token:
        - type: http
@@ -104,7 +104,7 @@ open class BillingAPI {
     }
 
     /**
-     List the workspace's invoices
+     List the team's invoices
      
      - parameter teamId: (path) The team the request acts on 
      - parameter page: (query) Page number, from 1. Default 1. Ignored with &#x60;cursor&#x60;. (optional)
@@ -118,7 +118,7 @@ open class BillingAPI {
     }
 
     /**
-     List the workspace's invoices
+     List the team's invoices
      - GET /v1/teams/{teamId}/invoices
      - Newest first, by `createdAt` then `id`.
      - Bearer Token:
