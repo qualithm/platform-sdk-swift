@@ -8,9 +8,11 @@
 
 import Foundation
 
+/** The body of every error response. */
 public struct ApiError: Sendable, Codable, Hashable {
 
     public var message: String
+    /** A stable machine code. Branch on it, never on `message`; decode an unknown value to a fallback. */
     public var code: String
     /** The `Request-Id` this response carried; quote it */
     public var requestId: String

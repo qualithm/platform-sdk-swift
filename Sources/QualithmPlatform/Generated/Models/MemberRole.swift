@@ -8,6 +8,7 @@
 
 import Foundation
 
+/** A member&#39;s role in a team. */
 public enum MemberRole: String, Sendable, Codable, CaseIterable, CaseIterableDefaultsLast {
     case owner = "owner"
     case manager = "manager"

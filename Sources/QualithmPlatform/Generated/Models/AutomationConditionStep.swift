@@ -8,6 +8,7 @@
 
 import Foundation
 
+/** A chain step that halts the run when its condition does not hold. */
 public struct AutomationConditionStep: Sendable, Codable, Hashable {
 
     public enum Kind: String, Sendable, Codable, CaseIterable, CaseIterableDefaultsLast {

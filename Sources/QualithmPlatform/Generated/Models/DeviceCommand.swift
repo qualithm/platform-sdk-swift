@@ -8,6 +8,7 @@
 
 import Foundation
 
+/** One command delivery to a device. */
 public struct DeviceCommand: Sendable, Codable, Hashable {
 
     public enum Source: String, Sendable, Codable, CaseIterable, CaseIterableDefaultsLast {

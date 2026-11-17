@@ -8,6 +8,7 @@
 
 import Foundation
 
+/** A chain step that does something. */
 public struct AutomationActionStep: Sendable, Codable, Hashable {
 
     public enum Kind: String, Sendable, Codable, CaseIterable, CaseIterableDefaultsLast {

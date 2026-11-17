@@ -8,6 +8,7 @@
 
 import Foundation
 
+/** Which marketing emails the account receives. A preference never set reads as &#x60;true&#x60;. */
 public struct CommunicationPreferences: Sendable, Codable, Hashable {
 
     public var blogArticles: Bool

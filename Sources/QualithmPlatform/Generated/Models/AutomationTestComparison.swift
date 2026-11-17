@@ -8,6 +8,7 @@
 
 import Foundation
 
+/** One comparison the test made against the reading. */
 public struct AutomationTestComparison: Sendable, Codable, Hashable {
 
     public enum Op: String, Sendable, Codable, CaseIterable, CaseIterableDefaultsLast {

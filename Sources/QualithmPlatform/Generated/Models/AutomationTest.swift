@@ -8,6 +8,7 @@
 
 import Foundation
 
+/** What an automation would do with a reading. Nothing is run, recorded or counted. */
 public struct AutomationTest: Sendable, Codable, Hashable {
 
     public enum Reason: String, Sendable, Codable, CaseIterable, CaseIterableDefaultsLast {

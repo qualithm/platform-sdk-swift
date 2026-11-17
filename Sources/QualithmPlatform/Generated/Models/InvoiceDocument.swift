@@ -8,6 +8,7 @@
 
 import Foundation
 
+/** The link to an invoice&#39;s document. */
 public struct InvoiceDocument: Sendable, Codable, Hashable {
 
     public enum Status: String, Sendable, Codable, CaseIterable, CaseIterableDefaultsLast {

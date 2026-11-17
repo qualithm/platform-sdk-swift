@@ -8,6 +8,7 @@
 
 import Foundation
 
+/** The composite health verdict. Sent with 200 when &#x60;ok&#x60; and 503 when &#x60;down&#x60;. */
 public struct HealthStatus: Sendable, Codable, Hashable {
 
     public enum Status: String, Sendable, Codable, CaseIterable, CaseIterableDefaultsLast {

@@ -8,6 +8,7 @@
 
 import Foundation
 
+/** A one-time claim code a device exchanges for its first credential. */
 public struct Enrollment: Sendable, Codable, Hashable {
 
     public enum Status: String, Sendable, Codable, CaseIterable, CaseIterableDefaultsLast {
