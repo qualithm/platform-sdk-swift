@@ -8,6 +8,7 @@
 
 import Foundation
 
+/** A membership row, without the account and team context */
 public struct TeamMembership: Sendable, Codable, Hashable {
 
     public enum Status: String, Sendable, Codable, CaseIterable, CaseIterableDefaultsLast {

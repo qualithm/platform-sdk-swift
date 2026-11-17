@@ -8,6 +8,7 @@
 
 import Foundation
 
+/** A reading to test against in place of the device&#39;s latest. */
 public struct AutomationTestSample: Sendable, Codable, Hashable {
 
     public enum State: String, Sendable, Codable, CaseIterable, CaseIterableDefaultsLast {

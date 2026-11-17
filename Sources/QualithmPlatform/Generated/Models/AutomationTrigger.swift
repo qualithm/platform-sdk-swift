@@ -8,6 +8,7 @@
 
 import Foundation
 
+/** What starts the automation&#39;s chain. */
 public struct AutomationTrigger: Sendable, Codable, Hashable {
 
     public enum ModelType: String, Sendable, Codable, CaseIterable, CaseIterableDefaultsLast {

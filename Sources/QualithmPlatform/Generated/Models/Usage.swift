@@ -8,6 +8,7 @@
 
 import Foundation
 
+/** The team&#39;s device and scope counts, and its plan limits and usage this month. */
 public struct Usage: Sendable, Codable, Hashable {
 
     public enum Tier: String, Sendable, Codable, CaseIterable, CaseIterableDefaultsLast {
@@ -18,8 +19,6 @@ public struct Usage: Sendable, Codable, Hashable {
         case unknownDefaultOpenApi = "unknown_default_open_api"
     }
     public var deviceTotal: Int64
-    /** The tier's device limit */
-    public var deviceMax: Int64
     public var scopeTotal: Int64
     public var tier: Tier
     /** The month usage counts over: `YYYY-MM`, UTC */
@@ -29,9 +28,8 @@ public struct Usage: Sendable, Codable, Hashable {
     public var usage: BillingSummaryUsage
     public var paymentFailed: UsagePaymentFailed?
 
-    public init(deviceTotal: Int64, deviceMax: Int64, scopeTotal: Int64, tier: Tier, month: String, limitGrace: BillingSummaryLimitGrace?, limits: BillingSummaryLimits, usage: BillingSummaryUsage, paymentFailed: UsagePaymentFailed?) {
+    public init(deviceTotal: Int64, scopeTotal: Int64, tier: Tier, month: String, limitGrace: BillingSummaryLimitGrace?, limits: BillingSummaryLimits, usage: BillingSummaryUsage, paymentFailed: UsagePaymentFailed?) {
         self.deviceTotal = deviceTotal
-        self.deviceMax = deviceMax
         self.scopeTotal = scopeTotal
         self.tier = tier
         self.month = month
@@ -43,7 +41,6 @@ public struct Usage: Sendable, Codable, Hashable {
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case deviceTotal
-        case deviceMax
         case scopeTotal
         case tier
         case month
@@ -58,7 +55,6 @@ public struct Usage: Sendable, Codable, Hashable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(deviceTotal, forKey: .deviceTotal)
-        try container.encode(deviceMax, forKey: .deviceMax)
         try container.encode(scopeTotal, forKey: .scopeTotal)
         try container.encode(tier, forKey: .tier)
         try container.encode(month, forKey: .month)

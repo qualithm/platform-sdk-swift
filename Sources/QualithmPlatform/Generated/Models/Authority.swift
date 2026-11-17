@@ -8,6 +8,7 @@
 
 import Foundation
 
+/** A certificate authority device certificates chain to: platform-managed or brought by the team. */
 public struct Authority: Sendable, Codable, Hashable {
 
     public enum Kind: String, Sendable, Codable, CaseIterable, CaseIterableDefaultsLast {

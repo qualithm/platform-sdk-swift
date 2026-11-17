@@ -8,6 +8,7 @@
 
 import Foundation
 
+/** Where a device connects: a zone&#39;s MQTT gateway. */
 public struct GatewayEndpoint: Sendable, Codable, Hashable {
 
     public var host: String

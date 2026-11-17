@@ -14,7 +14,7 @@ public struct UpdateDeviceRequest: Sendable, Codable, Hashable {
     public var name: String?
     /** A scope in the device's zone; a device stays in the zone it was claimed in */
     public var scopeId: String?
-    /** A parked device can't connect and doesn't count against the plan; its credentials and history stay */
+    /** A parked device can't connect or write; its credentials and history stay, so unparking it brings it back */
     public var parked: Bool?
     /** Replaces the device's tags; `[]` clears them. Stored lowercased */
     public var tags: [String]?

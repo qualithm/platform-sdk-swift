@@ -8,6 +8,7 @@
 
 import Foundation
 
+/** What a tier change would cost, before it is confirmed. */
 public struct TierChangePreview: Sendable, Codable, Hashable {
 
     public enum From: String, Sendable, Codable, CaseIterable, CaseIterableDefaultsLast {

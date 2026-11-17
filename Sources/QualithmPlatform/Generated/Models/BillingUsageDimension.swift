@@ -8,27 +8,23 @@
 
 import Foundation
 
+/** One metered dimension&#39;s usage this month against its limit. */
 public struct BillingUsageDimension: Sendable, Codable, Hashable {
 
     public var used: Int64
     public var limit: Int64
-    /** Never set: usage past `limit` throttles with no buffer. Removed in the next major release */
-    @available(*, deprecated, message: "This property is deprecated.")
-    public var buffer: Int64?
-    /** True while this dimension is throttled: devices' new events are refused, or automation runs are recorded as `limited`, until the month resets. Read from the live count the platform enforces, so it can turn true before the hourly `used` reaches `limit`. Always false for devices */
+    /** True while this dimension is throttled: devices' new events are refused, or automation runs are recorded as `limited`, until the month resets. Read from the live count the platform enforces, so it can turn true before the hourly `used` reaches `limit` */
     public var throttled: Bool
 
-    public init(used: Int64, limit: Int64, buffer: Int64? = nil, throttled: Bool) {
+    public init(used: Int64, limit: Int64, throttled: Bool) {
         self.used = used
         self.limit = limit
-        self.buffer = buffer
         self.throttled = throttled
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case used
         case limit
-        case buffer
         case throttled
     }
 
@@ -38,7 +34,6 @@ public struct BillingUsageDimension: Sendable, Codable, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(used, forKey: .used)
         try container.encode(limit, forKey: .limit)
-        try container.encodeIfPresent(buffer, forKey: .buffer)
         try container.encode(throttled, forKey: .throttled)
     }
 }

@@ -8,7 +8,7 @@
 
 import Foundation
 
-/** Set while a post-downgrade over-limit grace period runs */
+/** Set while a downgrade&#39;s grace period keeps the previous plan&#39;s longer retention window. After &#x60;endsAt&#x60;, data older than the current plan&#39;s window is deleted */
 public struct BillingSummaryLimitGrace: Sendable, Codable, Hashable {
 
     /** ISO 8601 time */

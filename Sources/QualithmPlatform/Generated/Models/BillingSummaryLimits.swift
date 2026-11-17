@@ -10,22 +10,17 @@ import Foundation
 
 public struct BillingSummaryLimits: Sendable, Codable, Hashable {
 
-    public var devices: Int64
-    /** The ceiling on active plus parked devices */
-    public var registeredDevices: Int64
+    /** Events a month before new events throttle */
     public var events: Int64
+    /** Automation runs a month before runs are limited */
     public var automations: Int64
 
-    public init(devices: Int64, registeredDevices: Int64, events: Int64, automations: Int64) {
-        self.devices = devices
-        self.registeredDevices = registeredDevices
+    public init(events: Int64, automations: Int64) {
         self.events = events
         self.automations = automations
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
-        case devices
-        case registeredDevices
         case events
         case automations
     }
@@ -34,8 +29,6 @@ public struct BillingSummaryLimits: Sendable, Codable, Hashable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(devices, forKey: .devices)
-        try container.encode(registeredDevices, forKey: .registeredDevices)
         try container.encode(events, forKey: .events)
         try container.encode(automations, forKey: .automations)
     }

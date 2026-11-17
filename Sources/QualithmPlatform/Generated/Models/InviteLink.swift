@@ -8,6 +8,7 @@
 
 import Foundation
 
+/** The invite a link names, and whether the caller may accept it */
 public struct InviteLink: Sendable, Codable, Hashable {
 
     public var invite: TeamInvite

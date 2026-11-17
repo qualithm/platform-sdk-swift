@@ -8,6 +8,7 @@
 
 import Foundation
 
+/** A backend the platform needs to serve. */
 public enum HealthSubsystem: String, Sendable, Codable, CaseIterable, CaseIterableDefaultsLast {
     case datastore = "datastore"
     case telemetryStore = "telemetry-store"
