@@ -8,6 +8,7 @@
 
 import Foundation
 
+/** The environment&#39;s public endpoints. */
 public struct ZoneList: Sendable, Codable, Hashable {
 
     /** The global API host */

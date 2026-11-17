@@ -8,6 +8,7 @@
 
 import Foundation
 
+/** Something a device declares it can do or report. */
 public struct Capability: Sendable, Codable, Hashable {
 
     public enum ModelType: String, Sendable, Codable, CaseIterable, CaseIterableDefaultsLast {

@@ -10,21 +10,15 @@ import Foundation
 
 public struct BillingSummaryUsage: Sendable, Codable, Hashable {
 
-    public var devices: BillingUsageDimension
-    public var registered: BillingUsageDimension
     public var events: BillingUsageDimension
     public var automations: BillingUsageDimension
 
-    public init(devices: BillingUsageDimension, registered: BillingUsageDimension, events: BillingUsageDimension, automations: BillingUsageDimension) {
-        self.devices = devices
-        self.registered = registered
+    public init(events: BillingUsageDimension, automations: BillingUsageDimension) {
         self.events = events
         self.automations = automations
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
-        case devices
-        case registered
         case events
         case automations
     }
@@ -33,8 +27,6 @@ public struct BillingSummaryUsage: Sendable, Codable, Hashable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(devices, forKey: .devices)
-        try container.encode(registered, forKey: .registered)
         try container.encode(events, forKey: .events)
         try container.encode(automations, forKey: .automations)
     }

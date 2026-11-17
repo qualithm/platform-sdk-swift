@@ -8,6 +8,7 @@
 
 import Foundation
 
+/** An amount of money in a currency&#39;s minor units. */
 public struct Money: Sendable, Codable, Hashable {
 
     public static let currencyRule = StringRule(minLength: nil, maxLength: nil, pattern: "^[A-Z]{3}$")

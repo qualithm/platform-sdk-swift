@@ -8,6 +8,7 @@
 
 import Foundation
 
+/** An API token&#39;s metadata. The secret is never listed. */
 public struct ApiToken: Sendable, Codable, Hashable {
 
     public enum Status: String, Sendable, Codable, CaseIterable, CaseIterableDefaultsLast {

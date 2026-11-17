@@ -8,6 +8,7 @@
 
 import Foundation
 
+/** The template and slot values a template-built automation was expanded from. */
 public struct AutomationTemplateReference: Sendable, Codable, Hashable {
 
     public var id: String

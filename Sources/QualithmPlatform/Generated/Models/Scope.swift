@@ -8,6 +8,7 @@
 
 import Foundation
 
+/** A group of devices in one zone. Scopes nest; each device belongs to exactly one. */
 public struct Scope: Sendable, Codable, Hashable {
 
     public static let idRule = StringRule(minLength: nil, maxLength: nil, pattern: "^(?:scp_(?:defraa|sgsina|usnyca)_|scp_|spc_)[0-9A-HJKMNP-TV-Z]{26}$")

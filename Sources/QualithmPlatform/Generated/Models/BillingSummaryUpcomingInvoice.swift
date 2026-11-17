@@ -8,7 +8,7 @@
 
 import Foundation
 
-/** The next renewal from Polar, before tax and without add-ons, which Polar doesn&#39;t bill; null on the free plan, for a plan set to end, or when estimated */
+/** The next renewal from Polar, before tax; null on the free plan, for a plan set to end, or when estimated */
 public struct BillingSummaryUpcomingInvoice: Sendable, Codable, Hashable {
 
     public var lines: [BillingSummaryUpcomingInvoiceLinesInner]
