@@ -35,7 +35,7 @@ public struct Device: Sendable, Codable, Hashable {
     public var parkedAt: Date?
     /** Whether the device's latest session declared its capabilities before sending data; null until a session has done either */
     public var capabilitiesDeclared: Bool?
-    /** Whether the device declared itself virtual at claim: it runs on a host rather than a board, and counts as a device all the same */
+    /** Whether the device declared itself virtual at claim: it runs on a host rather than a board, and its readings count toward the team's monthly events like any device's */
     public var virtual: Bool?
     /** Operator-set tags, lowercased and sorted. A capability reference with this tag matches every capability on the device */
     public var tags: [String]?
