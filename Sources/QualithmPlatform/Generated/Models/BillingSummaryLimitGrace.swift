@@ -8,18 +8,22 @@
 
 import Foundation
 
-/** Set while a downgrade&#39;s grace period keeps the previous plan&#39;s longer retention window. After &#x60;endsAt&#x60;, data older than the current plan&#39;s window is deleted */
+/** Set while a downgrade&#39;s grace period keeps more history than the current plan does. After &#x60;endsAt&#x60;, history the current plan doesn&#39;t keep is deleted */
 public struct BillingSummaryLimitGrace: Sendable, Codable, Hashable {
 
     /** ISO 8601 time */
     public var endsAt: String
+    /** The days of history the grace keeps until `endsAt` */
+    public var retentionDays: Int64
 
-    public init(endsAt: String) {
+    public init(endsAt: String, retentionDays: Int64) {
         self.endsAt = endsAt
+        self.retentionDays = retentionDays
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case endsAt
+        case retentionDays
     }
 
     // Encodable protocol methods
@@ -27,6 +31,7 @@ public struct BillingSummaryLimitGrace: Sendable, Codable, Hashable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(endsAt, forKey: .endsAt)
+        try container.encode(retentionDays, forKey: .retentionDays)
     }
 }
 
