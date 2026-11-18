@@ -10,6 +10,11 @@ import Foundation
 
 public struct Device: Sendable, Codable, Hashable {
 
+    public enum ParkedReason: String, Sendable, Codable, CaseIterable, CaseIterableDefaultsLast {
+        case member = "member"
+        case idle = "idle"
+        case unknownDefaultOpenApi = "unknown_default_open_api"
+    }
     public enum Level: String, Sendable, Codable, CaseIterable, CaseIterableDefaultsLast {
         case development = "development"
         case production = "production"
@@ -33,6 +38,8 @@ public struct Device: Sendable, Codable, Hashable {
     public var updatedAt: Date
     /** UTC time, RFC 3339 */
     public var parkedAt: Date?
+    /** Why the device is parked: `member` for a park that holds until a member unparks the device, `idle` when it had no activity for 30 days. A development credential lives at most 30 days, so an idle-parked device usually needs a new credential before it can connect. Null while the device isn't parked */
+    public var parkedReason: ParkedReason?
     /** Whether the device's latest session declared its capabilities before sending data; null until a session has done either */
     public var capabilitiesDeclared: Bool?
     /** Whether the device declared itself virtual at claim: it runs on a host rather than a board, and its readings count toward the team's monthly events like any device's */
@@ -44,7 +51,7 @@ public struct Device: Sendable, Codable, Hashable {
     /** What Qualithm decided when the device was claimed: at most six, most consequential first. Returned by getDevice; empty for a device created without a claim. */
     public var decisions: [Decision]?
 
-    public init(id: String, scopeId: String, scopeName: String, teamId: String, name: String, createdAt: Date, updatedAt: Date, parkedAt: Date? = nil, capabilitiesDeclared: Bool? = nil, virtual: Bool? = nil, tags: [String]? = nil, level: Level? = nil, checks: [DeviceCheck]? = nil, decisions: [Decision]? = nil) {
+    public init(id: String, scopeId: String, scopeName: String, teamId: String, name: String, createdAt: Date, updatedAt: Date, parkedAt: Date? = nil, parkedReason: ParkedReason? = nil, capabilitiesDeclared: Bool? = nil, virtual: Bool? = nil, tags: [String]? = nil, level: Level? = nil, checks: [DeviceCheck]? = nil, decisions: [Decision]? = nil) {
         self.id = id
         self.scopeId = scopeId
         self.scopeName = scopeName
@@ -53,6 +60,7 @@ public struct Device: Sendable, Codable, Hashable {
         self.createdAt = createdAt
         self.updatedAt = updatedAt
         self.parkedAt = parkedAt
+        self.parkedReason = parkedReason
         self.capabilitiesDeclared = capabilitiesDeclared
         self.virtual = virtual
         self.tags = tags
@@ -70,6 +78,7 @@ public struct Device: Sendable, Codable, Hashable {
         case createdAt
         case updatedAt
         case parkedAt
+        case parkedReason
         case capabilitiesDeclared
         case virtual
         case tags
@@ -90,6 +99,7 @@ public struct Device: Sendable, Codable, Hashable {
         try container.encode(createdAt, forKey: .createdAt)
         try container.encode(updatedAt, forKey: .updatedAt)
         try container.encodeIfPresent(parkedAt, forKey: .parkedAt)
+        try container.encodeIfPresent(parkedReason, forKey: .parkedReason)
         try container.encodeIfPresent(capabilitiesDeclared, forKey: .capabilitiesDeclared)
         try container.encodeIfPresent(virtual, forKey: .virtual)
         try container.encodeIfPresent(tags, forKey: .tags)
@@ -104,6 +114,7 @@ extension Device: Identifiable {}
 
 extension Device: UnknownCaseCheckable {
     public var containsUnknownDefaultOpenApiCase: Bool {
+        if parkedReason == .unknownDefaultOpenApi { return true }
         if level == .unknownDefaultOpenApi { return true }
         return false
     }

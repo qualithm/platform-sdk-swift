@@ -15,17 +15,21 @@ public struct CredentialSecret: Sendable, Codable, Hashable {
     public var secret: String
     /** The gateway the device connects to now; returned when a device renews */
     public var broker: GatewayEndpoint?
+    /** The base URL of the device's zone API, where the device sends its renewals and certificate requests; returned when a device renews */
+    public var apiUrl: String?
 
-    public init(credential: Credential, secret: String, broker: GatewayEndpoint? = nil) {
+    public init(credential: Credential, secret: String, broker: GatewayEndpoint? = nil, apiUrl: String? = nil) {
         self.credential = credential
         self.secret = secret
         self.broker = broker
+        self.apiUrl = apiUrl
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case credential
         case secret
         case broker
+        case apiUrl
     }
 
     // Encodable protocol methods
@@ -35,6 +39,7 @@ public struct CredentialSecret: Sendable, Codable, Hashable {
         try container.encode(credential, forKey: .credential)
         try container.encode(secret, forKey: .secret)
         try container.encodeIfPresent(broker, forKey: .broker)
+        try container.encodeIfPresent(apiUrl, forKey: .apiUrl)
     }
 }
 

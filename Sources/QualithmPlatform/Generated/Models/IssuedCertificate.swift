@@ -16,12 +16,15 @@ public struct IssuedCertificate: Sendable, Codable, Hashable {
     /** The issuing CA's certificate */
     public var caCertificatePem: String
     public var broker: GatewayEndpoint
+    /** The base URL of the device's zone API, where the device sends its renewals and certificate requests */
+    public var apiUrl: String
 
-    public init(credential: Credential, certificatePem: String, caCertificatePem: String, broker: GatewayEndpoint) {
+    public init(credential: Credential, certificatePem: String, caCertificatePem: String, broker: GatewayEndpoint, apiUrl: String) {
         self.credential = credential
         self.certificatePem = certificatePem
         self.caCertificatePem = caCertificatePem
         self.broker = broker
+        self.apiUrl = apiUrl
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -29,6 +32,7 @@ public struct IssuedCertificate: Sendable, Codable, Hashable {
         case certificatePem
         case caCertificatePem
         case broker
+        case apiUrl
     }
 
     // Encodable protocol methods
@@ -39,6 +43,7 @@ public struct IssuedCertificate: Sendable, Codable, Hashable {
         try container.encode(certificatePem, forKey: .certificatePem)
         try container.encode(caCertificatePem, forKey: .caCertificatePem)
         try container.encode(broker, forKey: .broker)
+        try container.encode(apiUrl, forKey: .apiUrl)
     }
 }
 
