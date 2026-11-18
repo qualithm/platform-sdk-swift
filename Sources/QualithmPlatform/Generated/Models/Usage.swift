@@ -27,8 +27,9 @@ public struct Usage: Sendable, Codable, Hashable {
     public var limits: BillingSummaryLimits
     public var usage: BillingSummaryUsage
     public var paymentFailed: UsagePaymentFailed?
+    public var connectedDevices: UsageConnectedDevices?
 
-    public init(deviceTotal: Int64, scopeTotal: Int64, tier: Tier, month: String, limitGrace: BillingSummaryLimitGrace?, limits: BillingSummaryLimits, usage: BillingSummaryUsage, paymentFailed: UsagePaymentFailed?) {
+    public init(deviceTotal: Int64, scopeTotal: Int64, tier: Tier, month: String, limitGrace: BillingSummaryLimitGrace?, limits: BillingSummaryLimits, usage: BillingSummaryUsage, paymentFailed: UsagePaymentFailed?, connectedDevices: UsageConnectedDevices?) {
         self.deviceTotal = deviceTotal
         self.scopeTotal = scopeTotal
         self.tier = tier
@@ -37,6 +38,7 @@ public struct Usage: Sendable, Codable, Hashable {
         self.limits = limits
         self.usage = usage
         self.paymentFailed = paymentFailed
+        self.connectedDevices = connectedDevices
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -48,6 +50,7 @@ public struct Usage: Sendable, Codable, Hashable {
         case limits
         case usage
         case paymentFailed
+        case connectedDevices
     }
 
     // Encodable protocol methods
@@ -62,6 +65,7 @@ public struct Usage: Sendable, Codable, Hashable {
         try container.encode(limits, forKey: .limits)
         try container.encode(usage, forKey: .usage)
         try container.encode(paymentFailed, forKey: .paymentFailed)
+        try container.encode(connectedDevices, forKey: .connectedDevices)
     }
 }
 
