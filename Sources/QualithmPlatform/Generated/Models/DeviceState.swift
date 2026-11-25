@@ -22,13 +22,15 @@ public struct DeviceState: Sendable, Codable, Hashable {
     public var lastSeenAt: Date
     /** The device's current metrics */
     public var metrics: [String: Double]
+    public var primary: DeviceStatePrimary?
 
-    public init(deviceId: String, scopeId: String, online: Bool, lastSeenAt: Date, metrics: [String: Double]) {
+    public init(deviceId: String, scopeId: String, online: Bool, lastSeenAt: Date, metrics: [String: Double], primary: DeviceStatePrimary?) {
         self.deviceId = deviceId
         self.scopeId = scopeId
         self.online = online
         self.lastSeenAt = lastSeenAt
         self.metrics = metrics
+        self.primary = primary
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -37,6 +39,7 @@ public struct DeviceState: Sendable, Codable, Hashable {
         case online
         case lastSeenAt
         case metrics
+        case primary
     }
 
     // Encodable protocol methods
@@ -48,6 +51,7 @@ public struct DeviceState: Sendable, Codable, Hashable {
         try container.encode(online, forKey: .online)
         try container.encode(lastSeenAt, forKey: .lastSeenAt)
         try container.encode(metrics, forKey: .metrics)
+        try container.encode(primary, forKey: .primary)
     }
 }
 
