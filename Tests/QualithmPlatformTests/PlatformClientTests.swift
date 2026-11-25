@@ -25,16 +25,17 @@ struct PlatformClientTests {
     stubSession.respond(StubAnswer(body: json(#"{"data":{"current":1,"items":[],"last":1}}"#)))
 
     let page = try await platform.call {
-      try await DevicesAPI.listDevices(teamId: teamID, page: 2, limit: 10, apiConfiguration: $0)
+      try await DevicesAPI.listDevices(
+        teamId: teamID, limit: 10, cursor: "c1", apiConfiguration: $0)
     }
 
     #expect(page.data.items.isEmpty)
     let request = try #require(stubSession.requests.first)
     let devices = "https://api.qualithm.com/v1/teams/\(teamID)/devices"
     #expect(
-      request.url?.absoluteString.caseInsensitiveCompare("\(devices)?limit=10&page=2")
+      request.url?.absoluteString.caseInsensitiveCompare("\(devices)?limit=10&cursor=c1")
         == .orderedSame
-        || request.url?.absoluteString.caseInsensitiveCompare("\(devices)?page=2&limit=10")
+        || request.url?.absoluteString.caseInsensitiveCompare("\(devices)?cursor=c1&limit=10")
           == .orderedSame
     )
     #expect(request.value(forHTTPHeaderField: "Authorization") == "Bearer qmt_test")
