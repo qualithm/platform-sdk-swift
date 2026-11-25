@@ -48,10 +48,11 @@ public struct Device: Sendable, Codable, Hashable {
     public var tags: [String]?
     public var level: Level?
     public var checks: [DeviceCheck]?
+    public var attention: DeviceAttention?
     /** What Qualithm decided when the device was claimed: at most six, most consequential first. Returned by getDevice; empty for a device created without a claim. */
     public var decisions: [Decision]?
 
-    public init(id: String, scopeId: String, scopeName: String, teamId: String, name: String, createdAt: Date, updatedAt: Date, parkedAt: Date? = nil, parkedReason: ParkedReason? = nil, capabilitiesDeclared: Bool? = nil, virtual: Bool? = nil, tags: [String]? = nil, level: Level? = nil, checks: [DeviceCheck]? = nil, decisions: [Decision]? = nil) {
+    public init(id: String, scopeId: String, scopeName: String, teamId: String, name: String, createdAt: Date, updatedAt: Date, parkedAt: Date? = nil, parkedReason: ParkedReason? = nil, capabilitiesDeclared: Bool? = nil, virtual: Bool? = nil, tags: [String]? = nil, level: Level? = nil, checks: [DeviceCheck]? = nil, attention: DeviceAttention? = nil, decisions: [Decision]? = nil) {
         self.id = id
         self.scopeId = scopeId
         self.scopeName = scopeName
@@ -66,6 +67,7 @@ public struct Device: Sendable, Codable, Hashable {
         self.tags = tags
         self.level = level
         self.checks = checks
+        self.attention = attention
         self.decisions = decisions
     }
 
@@ -84,6 +86,7 @@ public struct Device: Sendable, Codable, Hashable {
         case tags
         case level
         case checks
+        case attention
         case decisions
     }
 
@@ -105,6 +108,7 @@ public struct Device: Sendable, Codable, Hashable {
         try container.encodeIfPresent(tags, forKey: .tags)
         try container.encodeIfPresent(level, forKey: .level)
         try container.encodeIfPresent(checks, forKey: .checks)
+        try container.encodeIfPresent(attention, forKey: .attention)
         try container.encodeIfPresent(decisions, forKey: .decisions)
     }
 }
