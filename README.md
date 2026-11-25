@@ -70,8 +70,26 @@ the API's envelope, so the result is in `data`. Operations on a team's resources
 
 ```swift
 let automations = try await platform.call {
-  try await AutomationsAPI.listAutomations(teamId: teamId, page: 1, limit: 50, apiConfiguration: $0)
+  try await AutomationsAPI.listAutomations(teamId: teamId, limit: 50, apiConfiguration: $0)
 }
+```
+
+### Page through a list
+
+A list returns `items` and a `nextCursor`. Pass the cursor back to read the next page. A `nil`
+cursor means you have every item:
+
+```swift
+var automations: [Automation] = []
+var cursor: String?
+repeat {
+  let page = try await platform.call {
+    try await AutomationsAPI.listAutomations(
+      teamId: teamId, limit: 50, cursor: cursor, apiConfiguration: $0)
+  }
+  automations += page.data.items
+  cursor = page.data.nextCursor
+} while cursor != nil
 ```
 
 ### Error Handling
