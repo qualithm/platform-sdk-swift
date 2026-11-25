@@ -178,7 +178,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     container:
-      image: swift:6.4.2-noble@sha256:23d9b28ad97fb1cf1999edc3a0cb265ee915ed42299a9344e7173d5a6d2b05f4
+      image: swift:6.4.2-noble@sha256:bca121f6eb59fd80340d1296887b2698ed8f3eb9eca7d80c181f8af769dc7ee0
     # The container runs steps under sh, and its root user doesn't own the
     # runner's checkout, so git refuses it. bash and safe.directory make the
     # steps behave as they do on a runner.
@@ -209,7 +209,7 @@ jobs:
       id-token: write
     timeout-minutes: 30
     container:
-      image: swift:6.4.2-noble@sha256:23d9b28ad97fb1cf1999edc3a0cb265ee915ed42299a9344e7173d5a6d2b05f4
+      image: swift:6.4.2-noble@sha256:bca121f6eb59fd80340d1296887b2698ed8f3eb9eca7d80c181f8af769dc7ee0
     # The container runs steps under sh, and its root user doesn't own the
     # runner's checkout, so git refuses it. bash and safe.directory make the
     # steps behave as they do on a runner.
@@ -478,7 +478,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     container:
-      image: swift:6.4.2-noble@sha256:23d9b28ad97fb1cf1999edc3a0cb265ee915ed42299a9344e7173d5a6d2b05f4
+      image: swift:6.4.2-noble@sha256:bca121f6eb59fd80340d1296887b2698ed8f3eb9eca7d80c181f8af769dc7ee0
     defaults:
       run:
         shell: bash
