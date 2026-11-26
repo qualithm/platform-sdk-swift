@@ -8,6 +8,7 @@ This repo's `ci.yaml` is generated from `dx/ci-templates/swift-lib.yaml` via `dx
 drift with `dx ci drift`). Run these before committing so CI passes on the first try:
 
 ```bash
+bash .claude/checks/images.sh
 git ls-files -z '*.swift' | xargs -0 swift format lint --strict   # `git ls-files -z '*.swift' | xargs -0 swift format --in-place` rewrites the files
 swift build
 python3 .claude/checks/ci-jobs.py --skip-ci-only coverage
@@ -19,8 +20,7 @@ CI's macOS job uses the Xcode the template pins (`XCODE_VERSION` in `ci.yaml`) a
 toolchain; `.swift-format` is its config.
 
 The `ci-jobs.py --skip-ci-only coverage` step runs CI's coverage job locally: the same tests and the
-same 80% line gate over `Sources/`, minus the Codecov upload. Tests and `examples/` are outside the
-gate.
+same 80% line gate over `Sources/`, minus Codecov. Tests and `examples/` are outside the gate.
 
 CI runs the lint and coverage jobs on Linux, in the `swift` image of the pinned version. Code that
 builds on macOS can still fail there: Foundation on Linux lacks some Apple-only API, and anything
